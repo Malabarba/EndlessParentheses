@@ -1,0 +1,84 @@
+---
+title: "init.org Without org-mode"
+date: 2014-06-26
+layout: post
+tags: emacs lisp org-mode init-el organization
+published: true
+---
+<p>
+When I decided to share my limited wisdom, I realized I'd
+need something better than a 4-year-old, thrown together,
+init file. The words "init dot org" had crossed my ears
+through one of <a href="http://sachachua.com/blog/emacs-chat/">Sacha Chua's previous videos</a>; however, due to
+63m of water above my head, internet searches weren't quite
+operating at top efficiency.
+</p>
+
+<p>
+Without a second thought, and armed with nothing but its
+name (init.org), I took to writing &#x2013;I thought at the
+moment&#x2013; the simplest way of implementing such a feature.
+</p>
+
+{% highlight cl %}
+;;; init.el
+(defvar endless/init.org-message-depth 3
+  "What depth of init.org headers to message at startup.")
+
+(with-temp-buffer
+  (insert-file "~/.emacs.d/init.org")
+  (goto-char (point-min))
+  (search-forward "\n* init.el")
+  (while (not (eobp))
+    (forward-line 1)
+    (cond
+     ;; Report Headers
+     ((looking-at
+       (format "\\*\\{2,%s\\} +.*$" 
+               endless/init.org-message-depth))
+      (message "%s" (match-string 0)))
+     ;; Evaluate Code Blocks
+     ((looking-at "^#\\+BEGIN_SRC +emacs-lisp.*$")
+      (let ((l (match-end 0)))
+        (search-forward "\n#+END_SRC")
+        (eval-region l (match-beginning 0))))
+     ;; Finish on the next level-1 header
+     ((looking-at "^\\* ")
+      (goto-char (point-max))))))
+{% endhighlight %}
+<p>
+Once back within the range of cell towers, a quick search
+revealed it could have been <a href="https://github.com/seth/my-emacs-dot-d/blob/master/emacs-init.org">slightly shorter</a>.
+</p>
+{% highlight cl %}
+(require 'org)
+(org-babel-load-file
+ (expand-file-name "emacs-init.org"
+                   user-emacs-directory))
+{% endhighlight %}
+
+<p>
+Nonetheless, I stuck with my guns and kept first version.
+Primarily for stubbornness, but also a few other reasons:
+</p>
+
+<dl class="org-dl">
+<dt> Fine grained control </dt><dd>I can choose exactly what gets
+evaluated. In this case, anything inside the
+<code>init.el</code> header. This is important because this blog
+<b>is</b> my init file, and I don't want to evaluate everything
+I post.
+</dd>
+<dt> Lots of messaging </dt><dd>It calls <a href="http://bruce-connor.github.io/emacs-online-documentation/Fun/message"><code>message</code></a> on each header it
+finds (up to a configurable level). Whenever something goes
+wrong, forget about restarting with <code>--debug-init</code>, the
+messages buffer tells me exactly where it happened.
+</dd>
+<dt> It doesn't <code>(require 'org)</code> </dt><dd>that might seem silly, but
+that inconspicuous line forms one of the most
+time-consuming statements you could possibly write. I'd
+challenge anyone to find a 14-character statement that
+takes longer than that (other than an empty loop or a
+sleep command, of course).
+</dd>
+</dl>

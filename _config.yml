@@ -19,9 +19,7 @@ author:
   email:          bruce.connor.am@gmail.com
 
 # Content
-excerpt_separator: "
-
-"
+excerpt_separator: "</p>"
 lsi:              true
   
 # Custom vars
