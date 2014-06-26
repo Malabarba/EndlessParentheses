@@ -1,0 +1,41 @@
+---
+title: "Syncing .emacs.d with Dropbox"
+date: 2014-06-30
+layout: post
+tags: emacs lisp init.el sync organization emacs.d
+published: false
+---
+<p>
+Despite the majority of our cult opting to keep their
+configs in version control, the best way I've found of
+syncing my configuration throughout machines is to simply
+link "~/.emacs.d" to "~/Dropbox/.emacs.d/". The only
+downside are the packages that automatically add files to
+the directory (abbrev, for instance). When you have two
+emacs instances open on different computers trying to edit
+the same file, it quickly leads to conflicts.
+</p>
+
+<p>
+The logical solution is to make these files local.
+</p>
+{% highlight cl %}
+(defvar emacs-auto-directory "~/.local-emacs.d/auto/")
+(defun auto-subdir (file) (concat emacs-auto-directory file))
+(mapc
+ (lambda (x) (set (car x) (auto-subdir (cadr x))))
+ '((bookmark-default-file      "bookmarks")
+   (auto-save-list-file-prefix "auto-save-list/.saves-")
+   (server-auth-dir            "server")
+   (abbrev-file-name           "abbrev_defs")
+   (eshell-directory-name      "eshell/")
+   (ac-comphist-file           "ac-comphist.dat")
+   (url-cookie-file            "cookie")
+   (image-dired-dir            "image-dired/")
+   (org/temp-download-newname  "org-temp-download")
+   (org-id-locations-file      ".org-id-locations")
+   (mc/list-file               ".mc-lists.el")
+   (savehist-file              "minibuffer-history")
+   (save-place-file            "places")
+   (newsticker-dir             "newsticker/")))
+{% endhighlight %}
