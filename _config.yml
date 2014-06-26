@@ -26,3 +26,8 @@ lsi:              true
 version:          1.0.0
 github:
   repo:           https://github.com/Bruce-Connor/bruce-connor.github.io
+
+pages_list:       
+  About: '/about.html'
+  Archive: '/archive.html'
+  Feed: '/atom.xml'
