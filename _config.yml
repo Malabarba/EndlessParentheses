@@ -8,7 +8,7 @@ permalink:        none
 
 # Setup
 title:            Endless Parentheses
-tagline:          'Concise ramblings on Emacs productivity.'
+tagline:          'Concise ramblings on Emacs productivity, by Artur Malabarba'
 url:              'http://endlessparentheses.com'
 paginate:         10
 
@@ -28,6 +28,6 @@ github:
   repo:           https://github.com/Bruce-Connor/bruce-connor.github.io
 
 pages_list:       
-  About: '/about.html'
+  Startup Screen: '/about.html'
   Archive: '/archive.html'
-  Feed: '/atom.xml'
+  RSS Feed: '/atom.xml'
