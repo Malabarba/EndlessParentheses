@@ -1,22 +1,30 @@
 # Dependencies
 markdown:         redcarpet
-pygments:         true
+highlighter:      pygments
+
 
 # Permalinks
-permalink:        pretty
+permalink:        none
 
 # Setup
-title:            Poole
-tagline:          The Jekyll Butler
-url:              http://getpoole.com
-paginate:         1
-baseurl:          /
-author:
-  name:           Mark Otto
-  url:            https://twitter.com/mdo
-  email:          markdotto@gmail.com
+title:            Endless Parentheses
+tagline:          'Concise ramblings on Emacs productivity.'
+url:              'http://endlessparentheses.com'
+paginate:         10
 
+baseurl:          
+author:
+  name:           Artur Malabarba
+  url:            https://github.com/Bruce-Connor
+  email:          bruce.connor.am@gmail.com
+
+# Content
+excerpt_separator: "
+
+"
+lsi:              true
+  
 # Custom vars
 version:          1.0.0
 github:
-  repo:           https://github.com/poole/poole
+  repo:           https://github.com/Bruce-Connor/bruce-connor.github.io
