@@ -65,6 +65,46 @@ body {
     -ms-text-size-adjust: 100%;
 }
 
+/* Code */
+code,
+pre {
+    font-family: Menlo, Monaco, "Courier New", monospace;
+}
+code {
+    padding: .25em .5em;
+    font-size: 85%;
+    color: #5f313a;
+    -moz-border-radius:4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    background-color: #d0d0d0;
+}
+code a {
+    color: #3a31ff !important;
+}
+pre {
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    border-radius:8px;
+    background-color: #222;
+    display: block;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding: 0.3rem;
+    font-size: .9rem;
+    line-height: 1.4;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+pre code {
+    padding: 0;
+    font-size: 100%;
+    color: inherit;
+    background-color: transparent;
+}
+
 /* No `:visited` state is required by default (browsers will use `a`) */
 a {
     color: #268bd2;
@@ -145,41 +185,6 @@ abbr {
 abbr[title] {
     cursor: help;
     border-bottom: 1px dotted #e5e5e5;
-}
-
-/* Code */
-code,
-pre {
-    font-family: Menlo, Monaco, "Courier New", monospace;
-    background-color: #f9f0f0;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
-    /* border:1px solid #ccc; */
-    border-radius:4px;
-}
-code {
-    padding: .25em .5em;
-    font-size: 85%;
-    color: #bf616a;
-    border-radius: 3px;
-}
-pre {
-    display: block;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    padding: 0.3rem;
-    font-size: .9rem;
-    line-height: 1.4;
-    white-space: pre;
-    white-space: pre-wrap;
-    word-break: break-all;
-    word-wrap: break-word;
-}
-pre code {
-    padding: 0;
-    font-size: 100%;
-    color: inherit;
-    background-color: transparent;
 }
 
 /* Pygments via Jekyll */
