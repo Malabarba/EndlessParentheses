@@ -1,0 +1,54 @@
+---
+title: "Meta Binds Part 2: A peeve with paragraphs"
+date: 2014-07-07
+layout: post
+tags: emacs lisp init.el keybind optimization meta navigation paragraph
+published: false
+---
+<p>
+Emacs is a very intelligent editor in more ways than one.
+Instead of hardcoding many of its movement functions (such
+as <a href="http://bruce-connor.github.io/emacs-online-documentation/Fun/end-of-defun"><code>end-of-defun</code></a> or <a href="http://bruce-connor.github.io/emacs-online-documentation/Fun/forward-paragraph"><code>forward-paragraph</code></a>), they're
+implemented in terms of delimiters which are configured by
+each major-mode.
+It works beautifully with the functions, but I've never
+liked how it works with paragraphs.
+</p>
+
+<p>
+For me, a paragraph delimiter is a blank line. Whichever
+mode I'm in, that's where I expect to go when I hit
+<kbd>M-e</kbd> and it annoys me to no end when some
+major-mode changes that.
+</p>
+{% highlight cl %}
+(global-set-key "\M-a" #'endless/backward-paragraph)
+(global-set-key "\M-e" #'endless/forward-paragraph)
+
+(defun endless/forward-paragraph (&optional p)
+  "Advance until next blank line."
+  (interactive "p")
+  (let ((m mark-active)
+        (n (or p 1)))
+    (unless m (push-mark))
+    (when (and (< n 0) (looking-back "^\\s-*"))
+      (forward-line -1))
+    (while (and (looking-at "[ ]*$") (looking-back "^[ ]*"))
+      (forward-line (cl-signum n)))
+    (if (search-forward-regexp "[\n ]*\n[ ]*\n[\n ]*" nil t n)
+        (backward-char (cl-signum n))
+      (if (< n 0)
+          (goto-char (point-min))
+        (goto-char (point-max))))
+    (when (and (< n 0) (looking-at "\\s-*$"))
+      (forward-line 1))
+    (unless m
+      (if (looking-at "\\s-*$")
+          (indent-according-to-mode)
+        (back-to-indentation)))))
+
+(defun endless/backward-paragraph (&optional p)
+  "Go back until previous blank line."
+  (interactive "p")
+  (endless/forward-paragraph (- (or p 1))))
+{% endhighlight %}
