@@ -56,7 +56,7 @@ html {
 }
 @media (min-width: 38em) {
     html {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 
@@ -344,7 +344,11 @@ tbody tr:nth-child(odd) th {
     border:2px solid #ccc;
     border-radius:10px;
     background-color: #eee;
-    padding: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: .8em;
+    padding-bottom: 0em;
+    margin: 1em;
 }
 
 /* Blog post or page title */
@@ -376,8 +380,13 @@ tbody tr:nth-child(odd) th {
     padding-left: 0;
     list-style: none;
 }
+
+.related h3 {
+    margin-top: 1em;
+}
 .related-posts h3 {
     margin-top: 0;
+    font-size: 100%;
 }
 .related-posts li small {
     font-size: 75%;
