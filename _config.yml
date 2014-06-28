@@ -31,3 +31,4 @@ pages_list:
   Startup Screen: '/about.html'
   Archive: '/archive.html'
   RSS Feed: '/atom.xml'
+# Follow Me: 'https://twitter.com/bruceconnor'
