@@ -348,12 +348,16 @@ tbody tr:nth-child(odd) th {
  * page is wrapped in `.page` and is only used on the page layout.
  */
 
+.post-with-comments {
+    margin:.3rem
+}
 .page,
 .post {
     color: #333333;
     -moz-border-radius:10px;
     -webkit-border-radius:10px;
-    border:2px solid #ccc;
+    box-shadow: .2rem .2rem .2rem #888888;
+    border:2px solid #ddd;
     border-radius:10px;
     background-color: #eee;
     padding-left: 1em;
