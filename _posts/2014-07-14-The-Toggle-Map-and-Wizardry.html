@@ -1,0 +1,41 @@
+---
+title: "The Toggle-Map and Wizardry"
+date: 2014-07-14
+layout: post
+tags: emacs lisp init.el keybind optimization keymap intuitive
+published: false
+---
+<p>
+I love intuitive keymaps. Some are so perfect, you just can't avoid
+mouthing the words every time you hit that blissful combo. A wizard
+murmuring an incantation under his breath as his fingers draw the
+arcane patterns.
+</p>
+
+<p>
+Here's a keymap that toggles some options which tend to be useful
+throughout a session.
+</p>
+{% highlight cl %}
+(define-prefix-command 'toggle-map)
+(define-key ctl-x-map "t"  #'toggle-map)
+(define-key toggle-map "c" 'column-number-mode)
+(define-key toggle-map "d" 'toggle-debug-on-error)
+(define-key toggle-map "e" 'toggle-debug-on-error)
+(define-key toggle-map "f" 'auto-fill-mode)
+(define-key toggle-map "l" 'toggle-truncate-lines)
+(define-key toggle-map "q" 'toggle-debug-on-quit)
+(define-key toggle-map "r" 'read-only-mode)
+(define-key toggle-map "t" 'tt/toggle-theme)
+{% endhighlight %}
+<p>
+There are eight keys being defined there, most of which aren't even
+used every day, but I know I'll never forget a single one. That is the
+beauty of intuitiveness. 
+</p>
+
+<p>
+Doesn't <i>"Emacs toggle column"</i> just roll off your tongue as you're
+typing <kbd>C-x t c</kbd>? I feel like I'm commanding the
+strands of reality, but that could just be my D&amp;D past taking the
+better of me.</p>
