@@ -5,14 +5,14 @@
   <!-- Enable responsiveness on mobile devices-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>
-    {% if page.title == "Home" %}
-      {{ site.title }} &middot; {{ site.tagline }}
-    {% else %}
-      {{ page.title }} &middot; {{ site.title }}
-    {% endif %}
-  </title>
-
+  {% if page.title == "Home" %}
+  <title>{{ site.title }} &middot; {{ site.tagline }}</title>
+  <meta name="description" content="Endless Parentheses is a blog about Emacs. It features concise posts on improving your productivity and making Emacs life easier in general.">
+  {% else %}
+  <title>{{ page.title }}</title>
+  <meta name="description" content="{{ page.excerpt | strip_html | newline_to_br | replace: '<br />', ' ' | strip_newlines }}">
+  {% endif %}
+  
   <!-- CSS -->
   <link rel="stylesheet" href="{{ site.baseurl }}public/css/endless.css">
   <link rel="stylesheet" href="{{ site.baseurl }}public/css/syntax.css">
