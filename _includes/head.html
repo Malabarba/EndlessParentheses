@@ -5,12 +5,14 @@
   <!-- Enable responsiveness on mobile devices-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  {% if page.title == "Home" %}
+  {% if ((page.title == "Home") || (page.title == "Archive") || (page.title == "Startup Screen")) %}
   <title>{{ site.title }} &middot; {{ site.tagline }}</title>
-  <meta name="description" content="Endless Parentheses is a blog about Emacs. It features concise posts on improving your productivity and making Emacs life easier in general.">
+  <meta name="description" content="Short and consistent weekly posts on improving your Emacs productivity. Code included is emacs-lisp, lying anywhere in the complexity spectrum with little explanations or tutorials. Posts read quickly and pleasantly for experienced Emacsers, while new enthusiasts are invited to ask questions in the comments.">
   {% else %}
-  <title>{{ page.title }}</title>
-  <meta name="description" content="{{ page.excerpt | strip_html | newline_to_br | replace: '<br />', ' ' | strip_newlines }}">
+  <title>{{ page.title }}</title>{% endif %}{% if (page.description == nil || page.description == "") %}
+  <meta name="description" content="{{ page.excerpt | strip_html | newline_to_br | replace: '<br />', ' ' | strip_newlines | replace: '  ', ' ' | replace: '  ', ' ' }}">
+  {% else %}
+  <meta name="description" content="{{ page.description }}">
   {% endif %}
   
   <!-- CSS -->
