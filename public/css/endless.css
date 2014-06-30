@@ -319,8 +319,16 @@ tbody tr:nth-child(odd) th {
 }
 
 .masthead-links {
-    text-align: justify;
+    text-align: center;
     width: inherit;
+    margin-top:1em;
+}
+
+.masthead-links small:first-child {
+    float: left;
+}
+.masthead-links small:last-child {
+    float: right;
 }
 
 .masthead-title, .masthead-tagline,
@@ -333,14 +341,24 @@ tbody tr:nth-child(odd) th {
 .masthead a {
     color: #505050;
 }
+
 .masthead small {
+    vertical-align: text-top;
     font-size: 75%;
     font-weight: 400;
     color: #909090;
     letter-spacing: 0;
 }
 
+/* Read-more and Comment links at the index page. */
 
+.index-bottom-links a {
+    color: #3a3199;
+}
+
+.comment-link {
+    float:right;
+}
 /*
  * Posts and pages
  *
@@ -450,32 +468,17 @@ a.pagination-item:hover {
 }
 
 @media (max-width: 30em) {
-
-    .masthead-links > small {
-        margin-right: 4em;
-        /* display: inline-block; */
-        /* min-width: 10em; */
+    .masthead-links {
+        margin-top: .3rem;
     }
-    
-    /* .masthead-links { */
-    /*     content: ''; */
-    /*     width: 0; /\* Ensures there are at least 2 lines of text, so justification works *\/ */
-    
-    /* } */
-    
+    .masthead-links small {
+        font-size:80%;
+    }
+    .masthead-links small, .masthead-links a {
+        width:10em;
+    }
 }
 @media (min-width: 30em) {
-    .masthead-links > small {
-        margin-right: 1em;
-        display: inline-block;
-        /* min-width: 10em; */
-    }
-    .masthead-links:after {
-        content: '';
-        width: 100%; /* Ensures there are at least 2 lines of text, so justification works */
-        display: inline-block;
-    }
-    
     .pagination {
         margin: 3rem 0;
     }
