@@ -68,7 +68,7 @@ body {
 /* Code */
 code,
 pre {
-    font-family: Menlo, Monaco, "Courier New", monospace;
+    font-family: "Courier New", Menlo, Monaco, monospace;
 }
 code {
     padding: .25em .5em;
@@ -83,7 +83,6 @@ code a {
     color: #3a31ff !important;
 }
 pre {
-    overflow: auto;
     -moz-border-radius:8px;
     -webkit-border-radius:8px;
     border-radius:8px;
@@ -95,10 +94,9 @@ pre {
     font-size: .9rem;
     line-height: 1.4;
     white-space: pre;
-    white-space: pre-wrap;
-    word-break: break-all;
-    word-wrap: break-word;
+    overflow: auto;
 }
+
 pre code {
     padding: 0;
     font-size: 100%;
