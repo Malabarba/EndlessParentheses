@@ -1,0 +1,29 @@
+---
+layout: nil
+---
+
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>{{ site.title }}/test</title>
+ <link href="{{ site.url }}{{ site.baseurl }}/atom.xml" rel="self"/>
+ <link href="{{ site.url }}{{ site.baseurl }}?source=rss"/>
+ <updated>{{ site.time | date_to_xmlschema }}</updated>
+ <id>{{ site.url }}/test</id>
+ <author>
+   <name>{{ site.author.name }}</name>
+   <email>{{ site.author.email }}</email>
+ </author>
+
+ {% for post in site.posts %}
+ <entry>
+   <title>{{ post.title }}</title>
+   <link href="{{ site.url }}{{ site.baseurl }}{{ post.url }}?source=rss"/>
+   <updated>{{ post.date | date_to_xmlschema }}</updated>
+   <id>{{ site.url }}{{ post.id }}</id>
+   <content type="html">{{ post.content | xml_escape }}
+   &lt;div id=&quot;textDiv&quot;&gt;&lt;/div&gt; &lt;script type=&quot;text/javascript&quot;&gt; var div = document.getElementById(&quot;textDiv&quot;); div.textContent = &quot;my text&quot;; var text = div.textContent; &lt;/script&gt;&lt;script&gt; (function(i,s,o,g,r,a,m){i[&apos;GoogleAnalyticsObject&apos;]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,&apos;script&apos;,&apos;//www.google-analytics.com/analytics.js&apos;,&apos;ga&apos;); ga(&apos;create&apos;, &apos;UA-42656294-3&apos;, &apos;auto&apos;); ga(&apos;send&apos;, &apos;pageview&apos;); &lt;/script&gt; </content>
+ </entry>
+ {% endfor %}
+
+</feed>
