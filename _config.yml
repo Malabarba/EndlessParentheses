@@ -1,7 +1,10 @@
+##########
+### Start
+##########
+
 # Dependencies
 markdown:         redcarpet
 highlighter:      pygments
-
 
 # Permalinks
 permalink:        none
@@ -17,6 +20,7 @@ author:
   name:           Artur Malabarba
   url:            https://github.com/Bruce-Connor
   email:          bruce.connor.am@gmail.com
+  twitter:        https://twitter.com/bruceconnor
 
 # Content
 excerpt_separator: "</p>"
@@ -31,4 +35,6 @@ pages_list:
   Startup Screen: '/about.html'
   Archive: '/archive.html'
   RSS Feed: '/atom.xml'
-# Follow Me: 'https://twitter.com/bruceconnor'
+
+gems:
+  - jekyll-sitemap
