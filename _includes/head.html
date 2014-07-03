@@ -9,10 +9,12 @@
   <title>{{ site.title }} &middot; {{ site.tagline }}</title>
   <meta name="description" content="Short and consistent weekly posts on improving your Emacs productivity. Code included is emacs-lisp, lying anywhere in the complexity spectrum with little explanations or tutorials. Posts read quickly and pleasantly for experienced Emacsers, while new enthusiasts are invited to ask questions in the comments.">
   {% else %}
-  <title>{{ page.title }}</title>{% endif %}{% if (page.description == nil || page.description == "") %}
-  <meta name="description" content="{{ page.excerpt | strip_html | newline_to_br | replace: '<br />', ' ' | strip_newlines | replace: '  ', ' ' | replace: '  ', ' ' }}">
+  <title>{{ page.title }}</title>
+  {% if (page.description == nil || page.description == "") %}
+  <meta name="description" content="{{ page.excerpt | strip_html | truncate: 400 | newline_to_br | replace: '<br />', ' ' | strip_newlines | replace: '  ', ' ' | replace: '"', '' | replace: '  ', ' ' }}">
   {% else %}
   <meta name="description" content="{{ page.description }}">
+  {% endif %}
   {% endif %}
   
   <!-- CSS -->
