@@ -19,6 +19,7 @@ title: Home
     <p class="index-bottom-links">
       <a href="{{ post.url }}" class="read-more">Read more</a>
       <a href="{{ site.url }}{{ post.url }}#disqus_thread"
+         data-disqus-identifier="{{ site.url }}{{ post.url }}{{ post.commentsID }}"
          class="comment-link">Comment</a></p>
   </div>
   {% endfor %}
