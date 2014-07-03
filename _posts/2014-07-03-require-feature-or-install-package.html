@@ -1,0 +1,55 @@
+---
+title: "Require Feature or Install Package"
+date: 2014-07-03
+layout: post
+tags: emacs lisp paradox convenience package elpa
+published: false
+---
+<p>
+A gentleman (or woman) by the name of baam_waak <a href="http://www.reddit.com/r/emacs/comments/29duxk/require_or_install_package/">recently asked</a> on
+<a href="http://www.reddit.com/r/emacs/">/r/emacs</a> how can one make sure a package gets installed in case
+<a href="http://bruce-connor.github.io/emacs-online-documentation/Fun/require"><code>require</code></a>ing it fails. Sadly, this predicament has no perfect
+solution, for you require features, not packages. Fortunately, it has
+plenty of solutions that are good enough, since features commonly
+share the name of their package.
+</p>
+
+<p>
+Motivated by the question, I saw it fit to add this
+functionality to <a href="https://github.com/Bruce-Connor/paradox/">paradox's arsenal</a>.
+</p>
+
+{% highlight cl %}
+(defun paradox-require (feature &optional filename noerror package refresh)
+  "A replacement for `require' which also installs the feature if it is absent.
+- If FEATURE is present, `require' it and return t.
+
+- If FEATURE is not present, install PACKAGE with `package-install'.
+If PACKAGE is nil, assume FEATURE is the package name.
+After installation, `require' FEATURE.
+
+FILENAME is passed to `require'.
+
+If NOERROR is non-nil, don't complain if the feature couldn't be
+installed, just return nil.
+
+By default, the current package database (stored in
+`package-archive-contents') is only updated if it is empty.
+Passing a non-nil REFRESH argument forces this update."
+  (or (require feature filename t)
+      (require 'package)
+      (let ((package (or package
+                         (if (stringp feature)
+                             (intern feature)
+                           feature))))
+        (unless (and package-archive-contents (null refresh))
+          (package-refresh-contents))
+        (and (condition-case e
+                 (package-install 'oi)
+               (error (if noerror nil (error (cadr e)))))
+             (require feature filename noerror)))))
+{% endhighlight %}
+
+<p>
+Just use <code>(paradox-require 'dash)</code> instead of <code>(require 'dash)</code> and
+the package will be installed if necessary.</p>
