@@ -1,0 +1,56 @@
+---
+title: "Ispell and Abbrev, the Perfect Auto-Correct"
+date: 2014-07-05
+layout: post
+tags: emacs lisp init.el keybind autocorrect abbrev optimization
+published: false
+---
+<p>
+I am not a fantastic typist. My speed is acceptable, but I make a great
+deal of mistakes. The following snippet has turned me into the Messi
+of keyboards. 
+</p>
+
+<p>
+Whenever I make a typo:
+</p>
+
+<ol class="org-ol">
+<li>Hit <kbd>C-x C-i</kbd>, instead of erasing the mistake;
+</li>
+<li>Select the appropriate correction (thanks to ispell);
+</li>
+<li>Sleep easier at night knowing I'll never see that mistake again (thanks to abbrev).
+</li>
+</ol>
+
+{% highlight cl %}
+(define-key ctl-x-map "\C-i" 'endless/ispell-word-then-abbrev)
+
+(defun endless/ispell-word-then-abbrev (p)
+  "Call `ispell-word'. Then create an abbrev for the correction made.
+With prefix P, create local abbrev. Otherwise it will be global."
+  (interactive "P")
+  (let ((bef (downcase (or (thing-at-point 'word) ""))) aft)
+    (call-interactively 'ispell-word)
+    (setq aft (downcase (or (thing-at-point 'word) "")))
+    (unless (string= aft bef)
+      (message "\"%s\" now expands to \"%s\" %sally"
+               bef aft (if p "loc" "glob"))
+      (define-abbrev
+        (if p global-abbrev-table local-abbrev-table)
+        bef aft))))
+
+(setq save-abbrevs t)
+(setq-default abbrev-mode t)
+{% endhighlight %}
+<p>
+In my innocence, I had initially assigned the following command to a
+3-key sequence. It took me less then a month to realise it needed a
+shorter bind, I'd been using it 30 times a day.
+</p>
+
+<p>
+Auto correction with abbrev is <a href="http://www.emacswiki.org/emacs/autocorrection_abbrev_defs">far from a new concept</a>. Do you use
+anything similar?
+</p>
