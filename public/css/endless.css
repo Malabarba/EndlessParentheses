@@ -505,6 +505,9 @@ a.pagination-item:hover {
     .masthead-links small, .masthead-links a {
         width:10em;
     }
+    .masthead-title, .masthead-tagline {
+        margin-left: 0.3rem;
+    }
     .pagination {
         width: 99%;
     }
