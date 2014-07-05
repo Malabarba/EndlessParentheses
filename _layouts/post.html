@@ -8,6 +8,12 @@ layout: default
   {{ content }}
 </div>
 
+<div class="tags-line">
+  <p>Tags:
+    {% for tag in page.tags limit:4 %} <span class="tag">{{ tag }}</span>, {% endfor %}
+    <span class="tag">emacs</span></p>
+</div>
+
 {% include twitter.html %}
 
 <div class="related">

@@ -403,6 +403,16 @@ tbody tr:nth-child(odd) th {
     color: #9a9a9a;
 }
 
+/* Tags */
+@media (min-width: 30em) {
+    .tags-line {
+        float: right;
+    }
+}
+.tag {
+    color: black;
+}
+
 /* Related posts */
 .related {
     padding-top: 0rem;
