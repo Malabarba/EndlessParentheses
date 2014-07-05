@@ -444,9 +444,24 @@ tbody tr:nth-child(odd) th {
 }
 
 /* Archive */
+ul.archive {
+    list-style: none;
+    padding-left: 3em;
+}
+.archive li {
+    padding-bottom: .6em;
+}
 .archive-date {
-    color: #777777;
-    text-align: right;
+    margin-left: -2em;
+    font-size: 85%;
+    font-family: "Courier New", Menlo, Monaco, monospace;
+    color: #666666;
+}
+
+@media (max-width: 30em) {
+    ul.archive {
+        padding-left: 2em;
+    }
 }
 
 /*
