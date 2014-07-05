@@ -15,7 +15,7 @@ tagline:          'Concise ramblings on Emacs productivity.'
 url:              'http://endlessparentheses.com'
 paginate:         5
 
-baseurl:          
+baseurl:          /
 author:
   name:           Artur Malabarba
   url:            https://github.com/Bruce-Connor
