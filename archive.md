@@ -3,8 +3,9 @@ layout: page
 title: Archive
 ---
 
-## Blog Posts
-
+<table class="archive">
 {% for post in site.posts %}
-  * {{ post.date | date_to_string }} &raquo; [ {{ post.title }} ]({{ post.url }})
+<tr><td class="archive-date">{{ post.date | date_to_string }}</td>
+  <td><a href="{{ post.url }}">{{ post.title }}</a></td></tr>
 {% endfor %}
+</table>
