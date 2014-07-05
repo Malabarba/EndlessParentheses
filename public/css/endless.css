@@ -490,6 +490,9 @@ a.pagination-item:hover {
     .masthead-links small, .masthead-links a {
         width:10em;
     }
+    .pagination {
+        width: 98%;    
+    }
 }
 @media (min-width: 30em) {
     .pagination {
