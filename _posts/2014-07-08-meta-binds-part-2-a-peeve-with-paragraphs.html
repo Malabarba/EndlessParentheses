@@ -1,14 +1,14 @@
 ---
 title: "Meta Binds Part 2: A peeve with paragraphs"
-date: 2014-07-07
+date: 2014-07-08
 layout: post
-tags: lisp init.el keybind meta navigation
+tags: init.el keybind meta navigation paragraph
 published: false
 ---
 <p>
 Emacs is a very intelligent editor in more ways than one.
-Instead of hardcoding many of its movement functions (such
-as <a href="http://bruce-connor.github.io/emacs-online-documentation/Fun/end-of-defun"><code>end-of-defun</code></a> or <a href="http://bruce-connor.github.io/emacs-online-documentation/Fun/forward-paragraph"><code>forward-paragraph</code></a>), they're
+Instead of hardcoding its movement functions (such
+as <a href="http://doc.endlessparentheses.com/Fun/end-of-defun"><code>end-of-defun</code></a> or <a href="http://doc.endlessparentheses.com/Fun/forward-paragraph"><code>forward-paragraph</code></a>), they're
 implemented in terms of delimiters which are configured by
 each major-mode.
 It works beautifully with the functions, but I've never
@@ -54,6 +54,7 @@ major-mode changes that.
 {% endhighlight %}
 
 <p>
-I'm certainly not the first to be bothered by this, <a href="http://whattheemacsd.com/setup-html-mode.el-01.html">Magnar Sveen</a> also
-complains about this in <a href="http://bruce-connor.github.io/emacs-online-documentation/Fun/html-mode"><code>html-mode</code></a>. Does paragraph navigation ever
+I'm certainly not the first to be bothered by this Magnar Sveen, also
+<a href="http://whattheemacsd.com/setup-html-mode.el-01.html">complains about this</a>
+in <a href="http://doc.endlessparentheses.com/Fun/html-mode"><code>html-mode</code></a>. Does paragraph navigation ever
 get on your nerves?</p>
