@@ -1,0 +1,31 @@
+---
+title: "Hungry Delete Mode"
+date: 2014-07-22
+layout: post
+tags: init.el
+published: false
+---
+<p>
+<code>hungry-delete-mode</code> is what I like to call a <i>"free feature"</i>, it
+asks nothing of you. In contrast, most other worthwhile features
+charge you a price. The cheapest novelties charge some mental effort on
+your part to fit into your workflow, the moderate ones ask for some space on
+your ever-diminishing set of free keys, and a few holy relics demand
+that you adopt a completely new state of mind (paredit, I'm looking at you). 
+</p>
+
+<p>
+<code>hungry-delete-mode</code> doesn't steal a key and takes absolutely no
+effort to master. It isn't big and flashy, but it is one of features I
+miss the <b>most</b> when I'm not in Emacs.
+</p>
+
+<p>
+Use it everywhere.
+</p>
+{% highlight cl %}
+(unless (fboundp 'hungry-delete-mode)
+  (package-install 'hungry-delete))
+(require 'hungry-delete)
+(global-hungry-delete-mode)
+{% endhighlight %}
