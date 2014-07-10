@@ -1,0 +1,66 @@
+---
+title: "Meta Binds Part 2: A peeve with paragraphs"
+date: 2014-07-12
+layout: post
+tags: init.el keybind meta navigation paragraph
+published: false
+---
+<p>
+Emacs is an intelligent editor in more ways than one. Instead of
+hardcoding its movement functions (such as <a href="http://doc.endlessparentheses.com/Fun/end-of-defun"><code>end-of-defun</code></a> or
+<a href="http://doc.endlessparentheses.com/Fun/forward-paragraph"><code>forward-paragraph</code></a>), they're implemented in terms of delimiters which
+are configured by each major-mode. It works beautifully for functions,
+but it feels like a stone in my shoe for paragraphs.
+</p>
+
+<p>
+Say what you will, but a paragraph delimiter is a blank line. 
+Whichever mode I'm in, that's where I expect to go when I hit
+<kbd>M-e</kbd> and it annoys me to no end when some
+major-mode changes that.
+</p>
+{% highlight cl %}
+(global-set-key "\M-a" 'endless/backward-paragraph)
+(global-set-key "\M-e" 'endless/forward-paragraph)
+
+(defun endless/forward-paragraph (&optional n)
+  "Advance just past next blank line."
+  (interactive "p")
+  (let ((m (use-region-p))
+        (para-commands
+         '(endless/forward-paragraph endless/backward-paragraph)))
+    ;; Only push mark if it's not active and we're not repeating.
+    (or m 
+        (not (member this-command para-commands))
+        (member last-command para-commands)
+        (push-mark))
+    ;; The actual movement.
+    (dotimes (_ (abs n))
+      (if (> n 0)
+          (skip-chars-forward "\n[:blank:]")
+        (skip-chars-backward "\n[:blank:]"))
+      (if (search-forward-regexp
+           "\n[[:blank:]]*\n[[:blank:]]*" nil t (cl-signum n))
+          (goto-char (match-end 0))
+        (goto-char (if (> n 0) (point-max) (point-min)))))
+    ;; If mark wasn't active, I like to indent the line too.
+    (unless m
+      (indent-according-to-mode)
+      ;; This looks redundant, but it's surprisingly necessary.
+      (back-to-indentation))))
+
+(defun endless/backward-paragraph (&optional n)
+  "Go back up to previous blank line."
+  (interactive "p")
+  (endless/forward-paragraph (- n)))
+{% endhighlight %}
+
+<p>
+By no means am I the first to be bothered by this. Both <a href="http://ergoemacs.org/emacs/emacs_move_by_paragraph.html">Xah Lee</a> and
+<a href="http://whattheemacsd.com/setup-html-mode.el-01.html">Magnar Sveen</a>, for instance, also complain about this in <a href="http://doc.endlessparentheses.com/Fun/html-mode"><code>html-mode</code></a>.
+Had I the bravery to delve into the mailing lists, I'd no doubt
+find posts on this that are older than me.
+</p>
+
+<p>
+Does paragraph navigation ever get on <i>your</i> nerves?</p>
