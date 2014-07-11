@@ -348,6 +348,16 @@ tbody tr:nth-child(odd) th {
     letter-spacing: 0;
 }
 
+a.author {
+    text-decoration: underline;
+    color: inherit;
+}
+a.author:hover,
+a.author:focus {
+    color: black;
+}
+
+
 /* Read-more and Comment links at the index page. */
 
 .index-bottom-links a {
