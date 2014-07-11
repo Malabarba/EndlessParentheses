@@ -127,7 +127,10 @@ h1, h2, h3, h4, h5, h6 {
     text-rendering: optimizeLegibility;
 }
 h1 {
-    font-size: 2rem;
+    font-size: 1.7rem;
+}
+.posts h1 {
+    font-size: 1.5rem;
 }
 h2 {
     margin-top: 1rem;
@@ -310,6 +313,8 @@ tbody tr:nth-child(odd) th {
     padding-top: 1rem;
     padding-bottom: 0;
     margin-bottom: 0;
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
 }
 
 .masthead-title {
@@ -508,15 +513,14 @@ a.pagination-item:hover {
 @media (max-width: 30em) {
     .masthead-links {
         margin-top: .3rem;
+        margin-left: 0rem;
+        margin-right: 0rem;
     }
     .masthead-links small {
         font-size:80%;
     }
     .masthead-links small, .masthead-links a {
         width:10em;
-    }
-    .masthead-title, .masthead-tagline {
-        margin-left: 0.3rem;
     }
     .pagination {
         width: 99%;
