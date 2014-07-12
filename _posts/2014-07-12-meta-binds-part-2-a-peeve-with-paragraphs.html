@@ -14,7 +14,7 @@ but it feels like a stone in my shoe for paragraphs.
 </p>
 
 <p>
-Say what you will, but a paragraph delimiter is a blank line. 
+Say what you will, but a paragraph delimiter is a blank line.
 Whichever mode I'm in, that's where I expect to go when I hit
 <kbd>M-e</kbd> and it annoys me to no end when some
 major-mode changes that.
@@ -30,7 +30,7 @@ major-mode changes that.
         (para-commands
          '(endless/forward-paragraph endless/backward-paragraph)))
     ;; Only push mark if it's not active and we're not repeating.
-    (or m 
+    (or m
         (not (member this-command para-commands))
         (member last-command para-commands)
         (push-mark))
@@ -54,7 +54,6 @@ major-mode changes that.
   (interactive "p")
   (endless/forward-paragraph (- n)))
 {% endhighlight %}
-
 <p>
 By no means am I the first to be bothered by this. Both <a href="http://ergoemacs.org/emacs/emacs_move_by_paragraph.html">Xah Lee</a> and
 <a href="http://whattheemacsd.com/setup-html-mode.el-01.html">Magnar Sveen</a>, for instance, also complain about this in <a href="http://doc.endlessparentheses.com/Fun/html-mode"><code>html-mode</code></a>.
