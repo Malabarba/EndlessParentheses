@@ -1,9 +1,9 @@
 ---
 title: "The Toggle-Map and Wizardry"
-date: 2014-07-15
+date: 2014-07-19
 layout: post
 tags: init.el keybind keymap intuitive
-published: false
+published: true
 ---
 <p>
 I love intuitive keymaps. Some are so perfect, you just can't avoid
@@ -14,10 +14,11 @@ arcane patterns.
 
 <p>
 The following keymap toggles some options which tend to be useful
-throughout a session.
+throughout a session. 
 </p>
 {% highlight cl %}
 (define-prefix-command 'endless/toggle-map)
+;; The manual recommends C-c for user keys, but I like using C-x for global keys and using C-c for mode-specific keys.
 (define-key ctl-x-map "t" 'endless/toggle-map)
 (define-key endless/toggle-map "c" 'column-number-mode)
 (define-key endless/toggle-map "d" 'toggle-debug-on-error)
@@ -39,3 +40,5 @@ Doesn't <i>"Emacs, toggle column"</i> just roll off your tongue as you're
 typing <kbd>C-x t c</kbd>? I feel like I'm commanding the
 strands of reality, but that could just be my D&amp;D past taking the
 better of me.</p>
+
+<p><i>Also note: The manual recommends C-c for user keys, but I like using C-x for global keys and using C-c for mode-specific keys. </i></p>

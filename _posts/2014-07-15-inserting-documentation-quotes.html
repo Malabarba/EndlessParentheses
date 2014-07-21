@@ -1,0 +1,21 @@
+---
+title: "Inserting Documentation Quotes"
+date: 2014-07-15
+layout: post
+tags: init.el lisp keybind programming
+published: true
+---
+<p>
+Hopefully I'm not the only one who obsessively tries to abide by the
+high codes of good practice and writes descriptive documentation on
+every last <a href="http://bruce-connor.github.io/emacs-online-documentation/Fun/defun"><code>defun</code></a> or <a href="http://bruce-connor.github.io/emacs-online-documentation/Fun/defcustom"><code>defcustom</code></a>. If so, I can't be the only one who
+has grown tired of typing ` then ' inside Emacs doc strings.
+</p>
+{% highlight cl %}
+(define-key emacs-lisp-mode-map "\C-cm" "`'\C-b")
+{% endhighlight %}
+<p>
+The <kbd>m</kbd> key feels natural to me here, because I also
+use <kbd>C-c m</kbd> in LaTeX for quoting math, but you might
+find some other key more intuitive.
+</p>
