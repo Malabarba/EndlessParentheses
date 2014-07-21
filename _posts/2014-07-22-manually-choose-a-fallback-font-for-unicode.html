@@ -1,0 +1,45 @@
+---
+title: "Manually Choose a Fallback Font for Unicode"
+date: 2014-07-22
+layout: post
+tags: init.el unicode
+published: false
+---
+<p>
+Jon Snader <a href="http://irreal.org/blog/?p=2828">over at Irreal</a> mentioned that Trey Harris shared on G+ how
+to use a fallback font for Unicode Symbols. I won't repeat what they
+said here, you've probably seen it already (and if you haven't then
+go). I merely come to offer my own solution to this predicament, which
+doesn't require any package installation and is pretty configurable to boot.
+</p>
+
+<p>
+I ran into this a few months ago, while optimising my jabber+gtalk
+setup, and the answer turns out to be remarkably simple. After
+installing <i>Symbola</i> on your system, it's a 1-line solution.
+</p>
+{% highlight cl %}
+(set-fontset-font "fontset-default" nil 
+                  (font-spec :size 20 :name "Symbola"))
+{% endhighlight %}
+
+<p>
+Some remarks:
+</p>
+
+<ul class="org-ul">
+<li>If you just glanced over that, go back and read the first
+function's name. Now try to say it 3 times quickly.
+</li>
+<li>The <a href="http://doc.endlessparentheses.com/Fun/set-fontset-font">documentation</a> of <a href="http://doc.endlessparentheses.com/Fun/set-fontset-font"><code>set-fontset-font</code></a> doesn't even remotely allude
+to the fact it can be used for setting a fallback fonts. Makes me
+wonder its intended purpose.
+</li>
+<li>The <code>:size 20</code> argument (which you're free to remove) increases the
+size of this font only. It's useful because some complex unicode
+symbols are hard to see in small font.
+</li>
+<li>The <code>nil</code> would allow you to restrict the range of glyphs affected
+by this font. Setting it to <code>nil</code> makes it the fallback font.
+</li>
+</ul>
