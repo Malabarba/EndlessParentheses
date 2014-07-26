@@ -16,16 +16,19 @@ that you adopt a completely new state of mind (paredit, I'm looking at you).
 
 <p>
 <code>hungry-delete-mode</code> doesn't steal a key and takes absolutely no
-effort to master. It isn't big and flashy, but it is one of the features I
-miss the <b>most</b> when I'm not in Emacs.
+effort to master. It isn't big and flashy, but it is one of the
+features I miss the <b>most</b> when I'm not in Emacs.
 </p>
 
 <p>
-Plain and simple, it makes backspace and C-d erase all consecutive white space (instead of just one). Use it everywhere.
+Plain and simple, it makes <kbd>backspace</kbd> and
+<kbd>C-d</kbd> erase <i>all</i> consecutive white space (instead
+of just one). Use it everywhere.
 </p>
 {% highlight cl %}
 (unless (fboundp 'hungry-delete-mode)
   (package-install 'hungry-delete))
+
 (require 'hungry-delete)
 (global-hungry-delete-mode)
 {% endhighlight %}
