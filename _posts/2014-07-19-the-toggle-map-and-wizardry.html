@@ -2,7 +2,7 @@
 title: "The Toggle-Map and Wizardry"
 date: 2014-07-19
 layout: post
-tags: init.el keybind keymap intuitive
+tags: intuitive keymap keybind init.el
 published: true
 ---
 <p>
@@ -14,11 +14,12 @@ arcane patterns.
 
 <p>
 The following keymap toggles some options which tend to be useful
-throughout a session. 
+throughout a session.
 </p>
 {% highlight cl %}
 (define-prefix-command 'endless/toggle-map)
-;; The manual recommends C-c for user keys, but I like using C-x for global keys and using C-c for mode-specific keys.
+;; The manual recommends C-c for user keys, but C-x t is
+;; always free, whereas C-c t is used by some modes.
 (define-key ctl-x-map "t" 'endless/toggle-map)
 (define-key endless/toggle-map "c" 'column-number-mode)
 (define-key endless/toggle-map "d" 'toggle-debug-on-error)
@@ -26,19 +27,23 @@ throughout a session.
 (define-key endless/toggle-map "f" 'auto-fill-mode)
 (define-key endless/toggle-map "l" 'toggle-truncate-lines)
 (define-key endless/toggle-map "q" 'toggle-debug-on-quit)
-(define-key endless/toggle-map "r" 'read-only-mode)
 (define-key endless/toggle-map "t" 'endless/toggle-theme)
+;;; Generalized version of `read-only-mode'.
+(define-key endless/toggle-map "r" 'dired-toggle-read-only)
+(autoload 'dired-toggle-read-only "dired" nil t)
 {% endhighlight %}
 <p>
 There are eight keys being defined there, most of which aren't even
 used every day, but I know I'll never forget a single one. That is the
-beauty of intuitiveness. 
+beauty of mnemonics.
 </p>
 
 <p>
 Doesn't <i>"Emacs, toggle column"</i> just roll off your tongue as you're
 typing <kbd>C-x t c</kbd>? I feel like I'm commanding the
 strands of reality, but that could just be my D&amp;D past taking the
-better of me.</p>
+better of me. 
+</p>
 
-<p><i>Also note: The manual recommends C-c for user keys, but I like using C-x for global keys and using C-c for mode-specific keys. </i></p>
+<p>
+<i>Also note: The manual recommends <kbd>C-c</kbd> for user keys, but I like using <kbd>C-x</kbd> for global keys and using <kbd>C-c</kbd> for mode-specific keys.</i></p>
