@@ -24,13 +24,19 @@ author:
 
 # Content
 excerpt_separator: "</p>"
-lsi:              true
+# This doesn't work, had to implement my own solution.
+# lsi:              true
   
 # Custom vars
 version:          1.0.0
 github:
   repo:           https://github.com/Bruce-Connor/bruce-connor.github.io
 
+# Related pages
+related:
+  excluded_tags:  ['init.el', 'emacs']
+  max_number:     3
+  
 pages_list:       
   Startup Screen: '/about.html'
   Archive: '/archive.html'
