@@ -1,7 +1,7 @@
 <div class="related">
   {% assign number_so_far = 0 %}
   {% for post in site.posts %}
-  {% unless post.title == page.title %}
+  {% unless post.title == page.title or (page.series != null and page.series == post.series)%}
   {% assign already_used = false %}
   {% unless number_so_far >= site.related.max_number %}
   {% for tag in page.tags %}
