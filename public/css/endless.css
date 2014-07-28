@@ -442,12 +442,14 @@ a.author:focus {
 .related h3 {
     margin-top: 1em;
 }
-.related-posts h3 {
+.related-posts h4 {
     margin-top: 0;
+    font-weight: normal;
     font-size: 100%;
 }
-.related-posts li small {
+.related-posts li .date {
     font-size: 75%;
+    font-weight: bold;
     color: #999;
 }
 .related-posts li a:hover {
