@@ -8,12 +8,12 @@
 {% if series_number > 1 %}
 <div class="series">
   <h4>Posts in the <i>{{ page.series }}</i> series</h4>
-  <ul class="series-posts">
+  <ul>
     {% assign series_number = 0 %}
     {% for post in site.posts reversed %}
     {% if post.series == page.series %}
     {% assign series_number = series_number | plus:1 %}
-    <li>
+    <li class="series-post">
       {% if post.title == page.title %}
       {{ post.title }}
       {% else %}

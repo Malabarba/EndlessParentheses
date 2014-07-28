@@ -198,6 +198,19 @@ abbr[title] {
     margin-bottom: 0;
 }
 
+/* Series List */
+.series ul {
+    /* list-style: none; */
+    padding-left: 1.5em;
+    margin-bottom: 0;
+}
+.series h4 {
+    margin-top: 0;
+}
+.series-post {
+    margin-top: .2em;
+}
+
 div.series {
     font-size: 85%;
     -moz-border-radius:8px;
@@ -208,7 +221,7 @@ div.series {
     display: inline-block;
     /* margin-top: 0; */
     margin-bottom: 1rem;
-    padding: 0.1em 1rem 0rem 1rem;
+    padding: 0.5rem;
 }
 
 /* Gist via GitHub Pages */
