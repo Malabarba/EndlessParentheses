@@ -6,6 +6,9 @@ layout: default
   <h1 class="post-title">{{ page.title }}</h1>
   <span class="post-date">{{ page.date | date_to_string }}{% include artur.html %}.
   </span>
+  
+  {% include series.html %}
+
   {{ content }}
 </div>
 
