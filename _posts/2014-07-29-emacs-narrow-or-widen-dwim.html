@@ -3,14 +3,15 @@ title: "Emacs narrow-or-widen-dwim"
 date: 2014-07-29
 layout: post
 tags: narrow keymap keybind init.el
-published: false
+published: true
 series: "Mnemonic Keymaps"
 ---
 <p>
 Narrowing is one of those features you won't even hear about in a more
 mundane editor, but Emacs has an entire keymap for it. While I
 wouldn't want to be without this feature, I'm all for simplification.
-<a href="https://github.com/mwfogleman">Michael Fogleman</a> mentioned this little gem on the <a href="http://endlessparentheses.com/the-toggle-map-and-wizardry.html">Toggle-Map</a> post.
+<a href="https://github.com/mwfogleman">Michael Fogleman</a> (the same justicier who took matters to his own hands on <a href="http://endlessparentheses.com/hungry-delete-mode.html">Hungry-Delete-Mode</a>)
+mentioned the following gem on the <a href="http://endlessparentheses.com/the-toggle-map-and-wizardry.html">Toggle-Map</a> post.
 I took the liberty of adding a bit of functionality.
 </p>
 {% highlight cl %}
@@ -23,7 +24,7 @@ With prefix P, don't widen, just narrow even if buffer is already
 narrowed."
   (interactive "P")
   (declare (interactive-only))
-  (cond ((buffer-narrowed-p) (widen))
+  (cond ((and (buffer-narrowed-p) (not p)) (widen))
         ((region-active-p)
          (narrow-to-region (region-beginning) (region-end)))
         ((derived-mode-p 'org-mode) (org-narrow-to-subtree))
