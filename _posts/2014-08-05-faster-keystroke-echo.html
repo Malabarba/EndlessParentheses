@@ -1,0 +1,23 @@
+---
+title: "Faster Keystroke Echo"
+date: 2014-08-05
+layout: post
+tags: tip init.el
+published: false
+---
+<p>
+My laptop is old it is almost getting out-performed by my smartphone.
+The principal consequence being that the keyboard has started to give
+up on life. Occasionally, a key won't register when I hit it, and
+occasionally I'll get paranoid and hit a key twice without knowing it
+actually had registered the first time.
+</p>
+
+<p>
+Emacs' keystroke echoing is a fantastic aid in this regard, informing
+me whether the key worked or not. I only need to make it faster so
+that I don't have to wait for it.
+</p>
+{% highlight cl %}
+(setq echo-keystrokes 0.1)
+{% endhighlight %}
