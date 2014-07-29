@@ -4,7 +4,7 @@ layout: default
 
 <div class="post">
   <h1 class="post-title">{{ page.title }}</h1>
-  <span class="post-date">{{ page.date | date_to_string }}{% include artur.html %}.
+  <span class="post-date">{{ page.date | date_to_string }}{% include artur.html %}
   </span>
   
   {% include series.html %}
@@ -14,7 +14,7 @@ layout: default
 
 <div class="tags-line">
   <p>Tags:
-    {% for tag in page.tags %} <span class="tag">{{ tag }}</span>, {% endfor %}
+    {% for tag in page.tags %} <span class="tag"><a href="/tags.html#{{ tag }}">{{ tag }}</a></span>, {% endfor %}
     <span class="tag">emacs</span></p>
 </div>
 
