@@ -1,0 +1,39 @@
+---
+title: "Banishing the Shift Key with Key Chord in Emacs"
+date: 2014-08-02
+layout: post
+tags: optimization keybind key-chord init.el
+published: false
+---
+<p>
+Take a minute now and be honest with yourself. Do you like the shift
+key, or do you just put up with it? Perhaps it's just because my hands
+are the size of basketballs, but I've always found the
+<kbd>Shift</kbd> key hard to reach.
+</p>
+
+<p>
+<a href="http://emacsrocks.com/e07.html">Keychord</a> has allowed me to ban my shift use at least when it comes to
+inputting symbols.
+</p>
+{% highlight cl %}
+(key-chord-define-global "0o" ")")
+;; Sadly, "1q" is impossible to hit on my keyboard.
+(key-chord-define-global "1q" "!")
+(key-chord-define-global "2w" "@")
+(key-chord-define-global "3e" "#")
+(key-chord-define-global "4r" "$")
+(key-chord-define-global "5t" "%")
+(key-chord-define-global "7y" "&")
+(key-chord-define-global "8u" "*")
+(key-chord-define-global "9i" "(")
+(key-chord-define-global "-p" "_")
+
+(key-chord-define emacs-lisp-mode-map
+                  "7y" "&optional ")
+
+(key-chord-mode 1)
+{% endhighlight %}
+
+<p>
+Anyone know of a way to get rid of shift for capitalization?</p>
