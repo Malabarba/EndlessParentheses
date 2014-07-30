@@ -329,6 +329,12 @@ tbody tr:nth-child(odd) th {
     margin-right: auto;
 }
 
+@media (min-width: 60rem) {
+    .container {
+        max-width: 60rem;
+    }
+}
+
 /*
  * Masthead
  *
@@ -343,7 +349,13 @@ tbody tr:nth-child(odd) th {
     margin-left: 0.3rem;
     margin-right: 0.3rem;
 }
-
+@media (min-width: 60rem) {
+    .masthead {
+        float:left;
+        display:inline-block;
+        width:13rem;
+    }
+}
 .masthead-title {
     font-size: 200%;
 }
@@ -407,7 +419,14 @@ a.author:focus {
  */
 
 .post-with-comments {
-    margin:.3rem
+    margin:.3rem;
+}
+@media (min-width: 60rem) {
+    .post-with-comments {
+        float:left;
+        width:38rem;
+        display:inline-block;
+    }
 }
 .page,
 .post {
