@@ -24,6 +24,9 @@ author:
 
 # Content
 excerpt_separator: "</p>"
+timezone:         UTC
+future:           false
+
 # This doesn't work, had to implement my own solution.
 # lsi:              true
   
@@ -44,3 +47,4 @@ pages_list:
 
 gems:
   - jekyll-sitemap
+
