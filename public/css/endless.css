@@ -61,10 +61,22 @@ html {
 }
 
 body {
+    padding-top: 1rem;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
 }
 
+/* @media (min-width:60em) { */
+/*     body { */
+/*         position:fixed; */
+/*     } */
+/*     html, */
+/*     body { */
+/*         height:100%; */
+/*         width:100%; */
+/*         overflow:hidden !important; */
+/*     } */
+/* } */
 /* Code */
 code,
 pre {
@@ -322,11 +334,19 @@ tbody tr:nth-child(odd) th {
  */
 
 .container {
+    /* position:relative; */
     max-width: 38rem;
     padding-left: 0;
     padding-right:0;
     margin-left:  auto;
     margin-right: auto;
+}
+
+@media (min-width: 60rem) {
+    .container {
+        /* overflow:hidden; */
+        max-width: 60rem;
+    }
 }
 
 /*
@@ -337,28 +357,33 @@ tbody tr:nth-child(odd) th {
 
 .masthead {
     width: inherit;
-    padding-top: 1rem;
     padding-bottom: 0;
     margin-bottom: 0;
     margin-left: 0.3rem;
     margin-right: 0.3rem;
 }
-
+@media (min-width: 60rem) {
+    .masthead {
+        margin-top:1rem;
+        margin-right:18rem;
+        position:fixed;
+        top:0;
+        right:50%;
+        display:inline-block;
+        width:13rem;
+    }
+}
 .masthead-title {
     font-size: 200%;
 }
 
-.masthead-links {
-    text-align: center;
+ul.masthead-links {
+    list-style: none;
+    padding-left: 0;
+}
+.masthead-links li {
     width: inherit;
     margin-top:1em;
-}
-
-.masthead-links small:first-child {
-    float: left;
-}
-.masthead-links small:last-child {
-    float: right;
 }
 
 .masthead-title, .masthead-tagline,
@@ -378,6 +403,26 @@ tbody tr:nth-child(odd) th {
     font-weight: 400;
     color: #909090;
     letter-spacing: 0;
+}
+
+@media (max-width: 59.9em) {
+
+    .masthead-links {
+        margin-top: .3rem;
+        margin-left: 0rem;
+        margin-right: 0rem;
+    }
+    .masthead-links li {
+        margin:0;
+        margin-bottom:.3rem;
+        text-align: center;
+        font-size:100%;
+        width:32%;
+        display:inline-block;
+    }
+    .pagination {
+        width: 99%;
+    }
 }
 
 a.author {
@@ -407,7 +452,16 @@ a.author:focus {
  */
 
 .post-with-comments {
-    margin:.3rem
+    margin:.3rem;
+}
+@media (min-width: 60rem) {
+    .post-with-comments {
+        float:left;
+        margin-left:14rem;
+        width:38rem;
+        display:inline-block;
+        /* overflow:scroll; */
+    }
 }
 .page,
 .post {
@@ -545,22 +599,6 @@ a.pagination-item:hover {
     background-color: #f5f5f5;
 }
 
-@media (max-width: 30em) {
-    .masthead-links {
-        margin-top: .3rem;
-        margin-left: 0rem;
-        margin-right: 0rem;
-    }
-    .masthead-links small {
-        font-size:80%;
-    }
-    .masthead-links small, .masthead-links a {
-        width:10em;
-    }
-    .pagination {
-        width: 99%;
-    }
-}
 @media (min-width: 30em) {
     .pagination {
         margin: 3rem 0;

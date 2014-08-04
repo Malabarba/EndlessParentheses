@@ -12,20 +12,19 @@
           <a href="{{ site.url }}" title="Home">{{ site.title }}</a>
         </h3>
         <h3 class="masthead-tagline"><small>{{ site.tagline }}</small></h3>
-        <h3 class="masthead-links">
+        <ul class="masthead-links"> 
           {% for page in site.pages_list %}
-          <small><a href="{{ page[1]  }}">{{page[0]}}</a></small>
+          <li><a href="{{ page[1]  }}">{{page[0]}}</a></li>
           {% endfor %}
-        </h3>
+        </ul>
       </div>
       
-      <div class="post-with-comments">{{ content }}</div>
-
-      <div class="footer">
-        <p>
-          &copy; {{ site.time | date: '%Y' }}. All rights reserved.
-        </p>
-      </div>
+      <div class="post-with-comments">{{ content }}
+        <div class="footer">
+          <p>
+            &copy; {{ site.time | date: '%Y' }}. All rights reserved.
+          </p>
+      </div></div>
     </div>
 
     {% include google_analytics.html %}
