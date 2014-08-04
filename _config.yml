@@ -44,6 +44,7 @@ pages_list:
   Startup Screen: '/about.html'
   Archive: '/archive.html'
   RSS Feed: '/atom.xml'
+  Tag List: '/tags.html'
 
 gems:
   - jekyll-sitemap
