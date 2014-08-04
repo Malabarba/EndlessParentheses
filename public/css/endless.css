@@ -118,7 +118,8 @@ pre code {
 
 /* No `:visited` state is required by default (browsers will use `a`) */
 a {
-    color: #134bb2;
+    color: #3a3199;
+    /* color: #134bb2; */
     text-decoration: none;
 }
 a strong {
@@ -435,15 +436,6 @@ a.author:focus {
 }
 
 
-/* Read-more and Comment links at the index page. */
-
-.index-bottom-links a {
-    color: #3a3199;
-}
-
-.comment-link {
-    float:right;
-}
 /*
  * Posts and pages
  *
@@ -496,6 +488,10 @@ a.author:focus {
     display: block;
     margin-top: -.5rem;
     margin-bottom: 1rem;
+    color: #9a9a9a;
+}
+.post-date .comment-link {
+    float:right;
     color: #9a9a9a;
 }
 

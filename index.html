@@ -12,15 +12,13 @@ title: Home
       </a>
     </h1>
 
-    <span class="post-date">{{ post.date | date_to_string }}</span>
-
-    {{ post.excerpt }}
-
-    <p class="index-bottom-links">
-      <a href="{{ post.url }}" class="read-more">Read more</a>
-      <a href="{{ site.url }}{{ post.url }}#disqus_thread"
+    <span class="post-date">{{ post.date | date_to_string }}
+      <a href="{{ post.url }}#disqus_thread"
          data-disqus-identifier="{{ site.url }}{{ post.url }}{{ post.commentsID }}"
-         class="comment-link">Comment</a></p>
+         class="comment-link">Comment</a></span>
+
+    <p>{{ post.excerpt | remove: '<p>' | remove: '</p>' }}
+    <a href="{{ post.url }}" class="read-more"> [...]</a></p>
   </div>
   {% endfor %}
 </div>
