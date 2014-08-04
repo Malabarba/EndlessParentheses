@@ -395,12 +395,12 @@ ul.masthead-links {
 }
 
 .masthead a {
-    color: #505050;
+    color: #202020;
 }
 
 .masthead small {
     vertical-align: text-top;
-    font-size: 75%;
+    font-size: 80%;
     font-weight: 400;
     color: #909090;
     letter-spacing: 0;
@@ -419,8 +419,15 @@ ul.masthead-links {
         text-align: center;
         font-size:100%;
         width:32%;
+        display:none;
+    }
+    /* Only 3 links fit in mobile. */
+    .masthead-links li:nth-child(1),
+    .masthead-links li:nth-child(2),
+    .masthead-links li:nth-child(3) {
         display:inline-block;
     }
+
     .pagination {
         width: 99%;
     }
