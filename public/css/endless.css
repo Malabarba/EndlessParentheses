@@ -57,6 +57,7 @@ html {
 @media (min-width: 38em) {
     html {
         font-size: 18px;
+        padding-top: 1rem;
     }
 }
 
@@ -66,17 +67,6 @@ body {
     -ms-text-size-adjust: 100%;
 }
 
-/* @media (min-width:60em) { */
-/*     body { */
-/*         position:fixed; */
-/*     } */
-/*     html, */
-/*     body { */
-/*         height:100%; */
-/*         width:100%; */
-/*         overflow:hidden !important; */
-/*     } */
-/* } */
 /* Code */
 code,
 pre {
@@ -343,7 +333,7 @@ tbody tr:nth-child(odd) th {
 }
 @media (min-width: 60rem) {
     .masthead {
-        margin-top:1rem;
+        margin-top:2rem;
         margin-right:18rem;
         position:fixed;
         top:0;
