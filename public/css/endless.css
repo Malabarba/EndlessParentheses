@@ -443,11 +443,11 @@ a.author:focus {
 .page,
 .post {
     color: #333333;
-    -moz-border-radius:10px;
-    -webkit-border-radius:10px;
-    box-shadow: .2rem .2rem .2rem #888888;
-    border:2px solid #ddd;
-    border-radius:10px;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    box-shadow: .1rem .1rem .1rem #666;
+    border:2px solid #333;
+    border-radius:6px;
     background-color: #eee;
     padding-left: 1em;
     padding-right: 1em;
