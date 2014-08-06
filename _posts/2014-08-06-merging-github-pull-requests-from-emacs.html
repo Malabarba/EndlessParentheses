@@ -1,0 +1,42 @@
+---
+title: "Merging Github Pull Requests from Emacs"
+date: 2014-08-06
+layout: post
+tags: github magit init.el
+---
+<p>
+Last week, Bin Chen shared his workflow for <a href="http://blog.binchen.org/posts/how-to-accept-the-github-pull-request-efficiently.html">merging github pull
+requests</a>. Other than the use of Firefox instead of Conkeror, it was
+identical to mine. Now I gadly come to admit that Alexander Yakushev
+has outsmarted us both by writing the <a href="https://github.com/sigma/magit-gh-pulls">magit-gh-pulls-mode</a> package that
+does it all from within Magit.
+</p>
+
+<p>
+You can find the keybinds on the <a href="https://github.com/sigma/magit-gh-pulls#usage">Readme</a> page.
+</p>
+
+<p>
+It bothers me very slightly that it immediately queries for
+pull-requests when I first call <code>magit-status</code>, even if I'm not
+interested in pull-requests at the moment. So we change the suggested
+setup in order to fix that.
+</p>
+{% highlight cl %}
+(unless (fboundp 'magit-gh-pulls-mode)
+  (package-install 'magit-gh-pulls))
+
+(eval-after-load 'magit
+  '(define-key magit-mode-map "#gg" 
+     (defun endless/load-gh-pulls-mode ()
+       "Start `magit-gh-pulls-mode' only after a manual request."
+       (interactive)
+       (require 'magit-gh-pulls)
+       (add-hook 'magit-mode-hook 'turn-on-magit-gh-pulls)
+       (magit-gh-pulls-mode 1)
+       (magit-gh-pulls-reload))))
+{% endhighlight %}
+<p>
+With this setup it'll only activate <code>magit-gh-pulls-mode</code> after you
+try to update the list of pull-requests.
+</p>
