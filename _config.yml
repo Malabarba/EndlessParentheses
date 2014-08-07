@@ -33,7 +33,7 @@ future:           false
 # Custom vars
 version:          1.0.0
 github:
-  repo:           https://github.com/Bruce-Connor/bruce-connor.github.io
+  repo:           'https://github.com/Bruce-Connor/EndlessParentheses'
 
 # Related pages
 related:

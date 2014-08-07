@@ -4,12 +4,31 @@ title: "404: Page not found"
 permalink: 404.html
 ---
 
-<div class="page">
+<!-- Make a bug report with the broken link. -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+$.ajax
+  ({
+    type: "POST",
+    url: "https://api.github.com/repos/Bruce-Connor/EndlessParentheses/issues/1/comments",
+    dataType: 'json',
+    async: false,
+    data: '{"body": "' + document.URL + '"}',
+    beforeSend: function (xhr) {xhr.setRequestHeader ("Authorization", "token be53ffead522774220390a1898e7bccb04d7d48c");}
+}); 
+</script>
+<div class="page border-box">
   <h1 class="page-title">404: Page not found</h1>
-  <p class="lead">Sorry, that URL has been lost in the forest of
-      parentheses. <a href="{{ site.baseurl }}">Head back home</a> to
-      try finding it again.</p>
-
-  <p>If you feel like helping, <a href="{{ github.repo }}/issues/new">make a bug report</a> to let me know how this
-  happened.</p>
+  <p></p>
+  <p></p>
+  <script>post('https://api.github.com/repos/Bruce-Connor/EndlessParentheses/issues/1/comments/', {body: 'hi'});</script>
+  <!-- document.write(window.location.href)  -->
+  <p class="lead">Sorry, that page has been lost in the forest of
+      parentheses. <a href="{{ site.baseurl }}">Head back home</a> or
+      try finding it in the <a href="{{ site.baseurl }}archive.html">archive</a>.</p>
+  
+  <p>If you feel like helping,
+    <a href="{{ site.github.repo }}/issues/new">make a bug report</a> 
+    to let me know how this happened.</p>
 </div>
+
