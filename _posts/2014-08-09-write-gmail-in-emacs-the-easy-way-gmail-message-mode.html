@@ -1,0 +1,80 @@
+---
+title: "Write Gmail in Emacs the Easy Way: gmail-message-mode"
+date: 2014-08-09
+layout: post
+tags: gmail email
+---
+<p>
+Trying out the myriad of Emacs mail clients is no less than an
+odyssey. I am proud to say I dove into this sea of protocols and
+credentials and emerged from it a better man, albeit empty handed.
+</p>
+
+<p>
+I do not blame the clients available. Gnus and Mew, in particular, are
+both Herculean beasts of coding prowess. It was I who failed,
+regrettably, to fit them into my workflow.
+Thus I designed my own solution.
+</p>
+
+<p>
+<a href="https://github.com/Bruce-Connor/gmail-mode/">gmail-message-mode</a> combines all the features of Gmail's web interface,
+with the editing prowess we all love about Emacs. How does it work?
+</p>
+
+<ul class="org-ul">
+<li>First of all, it is <b>not</b> a mail client.
+</li>
+<li>In you browser, when composing a message, you invoke a hotkey that sends you to Emacs.
+</li>
+<li>In Emacs, you can use plain text or the full power of Markdown to write your email.
+</li>
+<li><code>gmail-message-mode</code> seamlessly converts the message back to Gmail's
+format (html).
+</li>
+</ul>
+
+<p>
+The installation process is as follows.
+</p>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Install the mode</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Good old <code>(package-install 'gmail-message-mode)</code> will do. If you'd
+like to install manually, see <a href="https://github.com/Bruce-Connor/gmail-mode/#activation">the Readme</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Configure your browser</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Chrome requires an extra add-on for editing text-fields in Emacs.
+</p>
+<ol class="org-ol">
+<li><b>Google-Chrome or Chromium</b> - <a href="http://ww.emacswiki.org/emacs/Edit_with_Emacs">Edit with emacs</a>
+</li>
+<li><b>Conkeror</b> - <a href="http://conkeror.org/ConkerorSpawnHelper">Spawn Helper (built-in)</a>
+</li>
+<li><b>Firefox</b> - It used to work with <a href="https://addons.mozilla.org/en-US/firefox/addon/its-all-text/">It's all text</a>, see <a href="https://github.com/docwhat/itsalltext/issues/36">this thread</a> on
+a hacky workaround if you're feeling adventurous.
+</li>
+<li><b>Others</b> - Tried it in another browser? Let me know!
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Install a Markdown converter</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+You need an executable so that Emacs can convert the Markdown to HTML.
+I personally recommend <a href="http://johnmacfarlane.net/pandoc/installing.html">Pandoc</a>. Many distros also have a <code>markdown</code>
+package.
+</p>
+
+<p>
+If you choose something else, see the <code>ham-mode-markdown-command</code> variable.</p>
+</div>
+</div>
