@@ -25,15 +25,15 @@ title: Home
 
 <div class="pagination">
   {% if paginator.next_page %}
-    <a class="border-box pagination-item older" href="{{ site.baseurl }}page{{paginator.next_page}}">Older</a>
+    <a class="border-box pagination-item older" href="{{ site.baseurl }}page{{paginator.next_page}}">Previous</a>
   {% else %}
-    <span class="pagination-item older">Older</span>
+    <span class="pagination-item older">Previous</span>
   {% endif %}
   {% if paginator.previous_page %}
     {% if paginator.page == 2 %}
-      <a class="border-box pagination-item newer" href="{{ site.baseurl }}">Newer</a>
+      <a class="border-box pagination-item newer" href="{{ site.baseurl }}">Next</a>
     {% else %}
-      <a class="border-box pagination-item newer" href="{{ site.baseurl }}page{{paginator.previous_page}}">Newer</a>
+      <a class="border-box pagination-item newer" href="{{ site.baseurl }}page{{paginator.previous_page}}">Next</a>
     {% endif %}
   {% else %}
     <span class="pagination-item newer">Newer</span>
@@ -41,8 +41,8 @@ title: Home
 </div>
 
 <script type="text/javascript">
-	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-	var disqus_shortname = 'endlessparentheses'; // required: replace example with your forum shortname
+	/* * * DISQUS CONFIGURATION VARIABLES * * */
+	var disqus_shortname = 'endlessparentheses';
 	
 	/* * * DON'T EDIT BELOW THIS LINE * * */
 	(function () {
