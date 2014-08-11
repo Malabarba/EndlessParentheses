@@ -3,7 +3,8 @@ layout: page
 title: Tags
 ---
 <ul>
-{% for tag in site.tags reversed %}
-<li id="{{ tag[0] }}"><a href="/tags-expanded.html#{{ tag[0] }}">{{ tag[0] }}</a></li>
-{% endfor %}
+  {% assign sorted_tags = (site.tags | sort:0) %}
+  {% for tag in sorted_tags  %}
+  <li id="{{ tag[0] }}"><a href="/tags-expanded.html#{{ tag[0] }}">{{ tag[0] }}</a></li>
+  {% endfor %}
 </ul>

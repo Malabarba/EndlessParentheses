@@ -3,7 +3,8 @@ layout: page
 title: Tags Expanded
 ---
 
-{% for tag in site.tags reversed %}
+{% assign sorted_tags = (site.tags | sort:0) %}
+{% for tag in sorted_tags  %}
 <h3 id="{{ tag[0] }}">{{ tag[0] }}</h3>
 <ul class="archive">
 {% for post in tag[1] %}
