@@ -135,15 +135,16 @@ h1 {
 .posts h1 {
     font-size: 1.5rem;
 }
-h2 {
-    margin-top: 1rem;
-    font-size: 1.5rem;
-}
-h3 {
+
+.post-with-comments h2 {
     margin-top: 1.5rem;
     font-size: 1.25rem;
 }
-h4, h5, h6 {
+
+.post-with-comments h3, 
+.post-with-comments h4, 
+.post-with-comments h5, 
+.post-with-comments h6 {
     margin-top: 1rem;
     font-size: 1rem;
 }
@@ -352,7 +353,7 @@ ul.masthead-links {
 }
 .masthead-links li {
     width: inherit;
-    margin-top:1em;
+    margin-top:.5em;
 }
 
 .masthead-links form,
@@ -366,6 +367,9 @@ ul.masthead-links {
     color: #505050;
 }
 
+.masthead-links {
+    margin-top: 1rem;
+}
 .masthead a {
     color: #202020;
 }
