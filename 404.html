@@ -13,16 +13,12 @@ $.ajax
     url: "https://api.github.com/repos/Bruce-Connor/EndlessParentheses/issues/1/comments",
     dataType: 'json',
     async: false,
-    data: '{"body": "' + document.URL + '"}',
+    data: '{"body": "URL: ' + document.URL + ' REFERRER: ' + document.referrer + '"}',
     beforeSend: function (xhr) {xhr.setRequestHeader ("Authorization", "token be53ffead522774220390a1898e7bccb04d7d48c");}
 }); 
 </script>
 <div class="page border-box">
   <h1 class="page-title">404: Page not found</h1>
-  <p></p>
-  <p></p>
-  <script>post('https://api.github.com/repos/Bruce-Connor/EndlessParentheses/issues/1/comments/', {body: 'hi'});</script>
-  <!-- document.write(window.location.href)  -->
   <p class="lead">Sorry, that page has been lost in the forest of
       parentheses. <a href="{{ site.baseurl }}">Head back home</a> or
       try finding it in the <a href="{{ site.baseurl }}archive.html">archive</a>.</p>
