@@ -16,6 +16,9 @@
           {% for page in site.pages_list %}
           <li><a href="{{ page[1]  }}">{{page[0]}}</a></li>
           {% endfor %}
+          <li><form name="input" action="search.html" method="get">
+	          <input type="text" placeholder="Search Posts" name="q">
+          </form></li>
         </ul>
       </div>
       

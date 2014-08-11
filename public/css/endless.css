@@ -355,6 +355,10 @@ ul.masthead-links {
     margin-top:1em;
 }
 
+.masthead-links form,
+.masthead-links input {
+    width: inherit;
+}
 .masthead-title, .masthead-tagline,
 .masthead-links {
     margin-top: 0;
