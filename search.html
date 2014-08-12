@@ -15,14 +15,14 @@ var matched = false;
 </script>
 <ul class="archive">
   <script>
-    document.write("<p>Posts whose titles match <code>"+queryRegexp+"</code>:</p>");
+    document.write("<p>Posts whose titles match <code>"+queryRegexp+"</code> regular expression:</p>");
     {% for post in site.posts %}
-    if ("{{ post.title }}".match(queryRegexp)) {
-    document.write("<li><span class='archive-date'>{{ post.date | date_to_string }}</span> - <a href='{{ post.url }}'> {{ post.title }}</a></li>");
-    matched = true;
-    }
+        if ("{{ post.title }}".match(queryRegexp)) {
+            document.write("<li><span class='archive-date'>{{ post.date | date_to_string }}</span> - <a href='{{ post.url }}'>{{ post.title }}</a></li>");
+            matched = true;
+        }
     {% endfor %}
-    if (! matched)
-    document.write("No results.");
+    if (!matched)
+        document.write("No results.");
   </script>
 </ul>
