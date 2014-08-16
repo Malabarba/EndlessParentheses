@@ -1,0 +1,54 @@
+---
+layout: default
+title: Home-test
+---
+
+<div class="posts">
+  {% for post in paginator.posts %}
+  <div class="border-box post">
+    <h1 class="post-title">
+      <a href="{{ post.url }}">
+        {{ post.title }}
+      </a>
+    </h1>
+
+    <span class="post-date">{{ post.date | date_to_string }}
+      <a href="{{ post.url }}#disqus_thread"
+         data-disqus-identifier="{{ site.url }}{{ post.url }}{{ post.commentsID }}"
+         class="comment-link">Comment</a></span>
+
+    <p>{{ post.excerpt | remove: '<p>' | remove: '</p>' }}
+    <a href="{{ post.url }}" class="read-more"> [...]</a></p>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="pagination">
+  {% if paginator.next_page %}
+    <a class="border-box pagination-item older" href="{{ site.baseurl }}page{{paginator.next_page}}">Previous</a>
+  {% else %}
+    <span class="pagination-item older">Previous</span>
+  {% endif %}
+  {% if paginator.previous_page %}
+    {% if paginator.page == 2 %}
+      <a class="border-box pagination-item newer" href="{{ site.baseurl }}">Next</a>
+    {% else %}
+      <a class="border-box pagination-item newer" href="{{ site.baseurl }}page{{paginator.previous_page}}">Next</a>
+    {% endif %}
+  {% else %}
+    <span class="pagination-item newer">Next</span>
+  {% endif %}
+</div>
+
+<script type="text/javascript">
+	/* * * DISQUS CONFIGURATION VARIABLES * * */
+	var disqus_shortname = 'endlessparentheses';
+	
+	/* * * DON'T EDIT BELOW THIS LINE * * */
+	(function () {
+	var s = document.createElement('script'); s.async = true;
+	s.type = 'text/javascript';
+	s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+	(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+	}());
+</script> 

@@ -18,7 +18,11 @@
   {% endif %}
   
   <!-- CSS -->
+  {% if (page.title == "Home-test") %}
+  <link rel="stylesheet" href="{{ site.baseurl }}public/css/test-endless.css">
+  {% else %}
   <link rel="stylesheet" href="{{ site.baseurl }}public/css/endless.css">
+  {% endif %}
   <link rel="stylesheet" href="{{ site.baseurl }}public/css/syntax.css">
   <link rel="stylesheet" href="{{ site.baseurl }}public/css/my-style.css">
 
