@@ -3,26 +3,28 @@ layout: page
 title: Search Posts
 ---
 
-<script>
-function getQueryParameter() {
-    var regex = new RegExp("[\\?&]" + 'q' + "=([^&#]*)"),
-    results = regex.exec(location.search);
-    return results == null ? /./ : new RegExp( decodeURIComponent(results[1].replace(/\+/g, " ")), "i");
-}
+<p>{% include search-box.html %}</p>
 
-var queryRegexp = getQueryParameter();
-var matched = false;
+<script>
+ function getQueryParameter() {
+   var regex = new RegExp("[\\?&]" + 'q' + "=([^&#]*)"),
+   results = regex.exec(location.search);
+   return results == null ? /./ : new RegExp( decodeURIComponent(results[1].replace(/\+/g, " ")), "i");
+ }
+
+ var queryRegexp = getQueryParameter();
+ var matched = false;
 </script>
 <ul class="archive">
   <script>
-    document.write("<p>Posts whose titles match the regular expression <code>"+queryRegexp+"</code>:</p>");
-    {% for post in site.posts %}
-        if ("{{ post.title }}".match(queryRegexp)) {
-            document.write("<li><span class='archive-date'>{{ post.date | date_to_string }}</span> - <a href='{{ post.url }}'>{{ post.title }}</a></li>");
-            matched = true;
-        }
-    {% endfor %}
-    if (!matched)
-        document.write("No results.");
+   document.write("<p>Posts whose titles match the regular expression <code>"+queryRegexp+"</code>:</p>");
+   {% for post in site.posts %}
+   if ("{{ post.title }}".match(queryRegexp)) {
+     document.write("<li><span class='archive-date'>{{ post.date | date_to_string }}</span> - <a href='{{ post.url }}'>{{ post.title }}</a></li>");
+     matched = true;
+   }
+   {% endfor %}
+   if (!matched)
+     document.write("No results.");
   </script>
 </ul>
