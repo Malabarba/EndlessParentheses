@@ -7,24 +7,30 @@ permalink: 404.html
 <!-- Make a bug report with the broken link. -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
-$.ajax
-  ({
-    type: "POST",
-    url: "https://api.github.com/repos/Bruce-Connor/EndlessParentheses/issues/1/comments",
-    dataType: 'json',
-    async: false,
-    data: '{"body": "URL: ' + document.URL + ' REFERRER: ' + document.referrer + '"}',
-    beforeSend: function (xhr) {xhr.setRequestHeader ("Authorization", "token be53ffead522774220390a1898e7bccb04d7d48c");}
-}); 
+ function report404 (thread) { 
+   $.ajax
+   ({
+     type: "POST",
+     url: "https://api.github.com/repos/Bruce-Connor/EndlessParentheses/issues/" + thread + "/comments",
+     dataType: 'json',
+     async: false,
+     data: '{"body": "URL: ' + document.URL + ' REFERRER: ' + document.referrer + '"}',
+     beforeSend: function (xhr) {
+       xhr.setRequestHeader ("Authorization", "token be53ffead522774220390a1898e7bccb04d7d48c");
+     }
+   });
+ }
+
+ var eodRegex = new RegExp(".*/emacs-online-documentation/(.*)");
+ var results = eodRegex.exec(document.URL);
+ 
+ if (results == null) {
+   report404("1");
+   window.location.replace("not-found.html");
+ } else {
+   document.write("Old domain name detected. Redirecting...");
+   report404("3");
+   window.location.replace("http://doc.endlessparentheses.com/"+results[1]);
+ }
 </script>
-<div class="page border-box">
-  <h1 class="page-title">404: Page not found</h1>
-  <p class="lead">Sorry, that page has been lost in the forest of
-      parentheses. <a href="{{ site.baseurl }}">Head back home</a> or
-      try finding it in the <a href="{{ site.baseurl }}archive.html">archive</a>.</p>
-  
-  <p>If you feel like helping,
-    <a href="{{ site.github.repo }}/issues/new">make a bug report</a> 
-    to let me know how this happened.</p>
-</div>
 
