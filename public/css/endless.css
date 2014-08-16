@@ -312,10 +312,12 @@ tbody tr:nth-child(odd) th {
     margin-right: auto;
 }
 
-@media (min-width: 60rem) {
+@media (min-width: 64rem) {
     .container {
         /* overflow:hidden; */
         max-width: 60rem;
+        margin-left:  auto;
+        margin-right: auto;
     }
 }
 
@@ -332,10 +334,10 @@ tbody tr:nth-child(odd) th {
     margin-left: 0.3rem;
     margin-right: 0.3rem;
 }
-@media (min-width: 60rem) {
+@media (min-width: 64rem) {
     .masthead {
         margin-top:2rem;
-        margin-right:18rem;
+        margin-right:12rem;
         position:fixed;
         top:0;
         right:50%;
@@ -382,7 +384,7 @@ ul.masthead-links {
     letter-spacing: 0;
 }
 
-@media (max-width: 59.9em) {
+@media (max-width: 64rem) {
 
     .masthead-links {
         margin-top: .3rem;
@@ -429,10 +431,10 @@ a.author:focus {
 .post-with-comments {
     margin:.3rem;
 }
-@media (min-width: 60rem) {
+@media (min-width: 64rem) {
     .post-with-comments {
-        float:left;
-        margin-left:14rem;
+        /* float:left; */
+        margin-left:18rem;
         width:38rem;
         display:inline-block;
         /* overflow:scroll; */
