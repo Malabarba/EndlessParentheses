@@ -1,0 +1,46 @@
+---
+title: "Meta Binds Part 3: Smart string insertion"
+date: 2014-08-17
+layout: post
+tags: insertion meta keybind init.el
+series: "Meta Binds"
+---
+<p>
+Have you ever stopped to consider what is the string you type most
+often?
+In my case the answer is two-fold: <code>“~/”</code> and <code>“.emacs.d/”</code>.
+</p>
+
+<p>
+Minibuffer completion helps, but we can always make things better.
+The following snippet intelligently inserts both of these with a
+single key, and it's smart enough to know which one you want.
+</p>
+
+<p>
+Besides its use in writing configurations, it's great for going
+straight to one of these directories inside the <a href="http://doc.endlessparentheses.com/Fun/find-file"><code>find-file</code></a> prompt<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup>.
+</p>
+{% highlight cl %}
+(global-set-key (kbd "M-ç") #'endless/~-or-emacs.d)
+(defun endless/~-or-emacs.d ()
+  "Insert '~/', then '.emacs.d/'."
+  (interactive)
+  (if (looking-back "~/")
+      (insert ".emacs.d/")
+    (insert "~/")))
+{% endhighlight %}
+<p>
+The <kbd>ç</kbd> key is right under my right pinky, but find
+one that fits your need.
+</p>
+<div id="footnotes">
+<div id="text-footnotes">
+
+<div class="footdef"> <p><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup>Some will note it won't work inside <a href="http://doc.endlessparentheses.com/Fun/ido-find-file"><code>ido-find-file</code></a>'s prompt. I just
+find the regular prompt much more natural when it comes to files,
+though not buffers.</p></div>
+
+
+</div>
+</div>
