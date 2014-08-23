@@ -8,10 +8,10 @@ series: "Meta Binds"
 <p>
 Have you ever stopped to consider what is the string you type most
 often?
-In my case the answer is two-fold: <code>“~/”</code> and <code>“.emacs.d/”</code>.
 </p>
 
 <p>
+In my case the answer is two-fold: <code>“~/”</code> and <code>“.emacs.d/”</code>.
 Minibuffer completion helps, but we can always make things better.
 The following snippet intelligently inserts both of these with a
 single key, and it's smart enough to know which one you want.
@@ -19,7 +19,7 @@ single key, and it's smart enough to know which one you want.
 
 <p>
 Besides its use in writing configurations, it's great for going
-straight to one of these directories inside the <a href="http://doc.endlessparentheses.com/Fun/find-file"><code>find-file</code></a> .
+straight to one of these directories inside the <a href="http://doc.endlessparentheses.com/Fun/find-file"><code>find-file</code></a> prompt.
 </p>
 {% highlight cl %}
 (global-set-key (kbd "M-ç") #'endless/~-or-emacs.d)
