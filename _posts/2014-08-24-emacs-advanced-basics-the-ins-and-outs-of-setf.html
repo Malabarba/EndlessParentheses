@@ -1,0 +1,67 @@
+---
+title: "Emacs Advanced Basics: The ins and outs of setf"
+date: 2014-08-24
+layout: post
+tags: lisp
+series: "Advanced Basics"
+---
+<p>
+<a href="http://doc.endlessparentheses.com/Fun/setf"><code>setf</code></a> is a modest name for a macro that does much more work than it
+gets paid for. Quoting the doc page:
+</p>
+<blockquote><p class="verse">
+This is a generalized version of `setq'; the PLACEs may be symbolic<br  />
+references such as (car x) or (aref x i), as well as plain symbols.<br  />
+For example, (setf (cadr x) y) is equivalent to (setcar (cdr x) y).<br  />
+The return value is the last VAL in the list.<br  />
+</p></blockquote>
+
+<p>
+Upon reading that, you'd be excused for thinking something mediocre
+such as <i>“That's neat!”</i> or <i>“I'll try to remember that”</i>. That
+understatement of a doc page merely touches on the power that lies
+beneath the surface.
+</p>
+
+<p>
+Let's start with an example from the <a href="http://www.gnu.org/software/emacs/manual/html_mono/cl.html#Generalized-Variables">manual</a>, depending on your Emacs
+version you may need to <code>(require 'cl)</code> first.
+</p>
+{% highlight cl %}
+(let ((world "world"))
+  (setf (substring world 2 4) "o"))
+;; world is now "wood"
+{% endhighlight %}
+
+<p>
+Now say you want to replace the entire contents of a buffer, instead
+of the manual <a href="http://doc.endlessparentheses.com/Fun/erase-buffer"><code>erase-buffer</code></a> then <a href="http://doc.endlessparentheses.com/Fun/insert"><code>insert</code></a>, you could do
+</p>
+{% highlight cl %}
+(setf (buffer-string) "replacement")
+{% endhighlight %}
+
+<p>
+Let's get slightly more practical. Do you know which function changes
+the buffer being displayed by a given window? How about changing the
+height of a window? You don't need to!
+</p>
+{% highlight cl %}
+(setf (window-buffer given-window) (get-buffer "*scratch*"))
+(setf (window-height) 10)
+{% endhighlight %}
+
+<p>
+And finally, if we just want to get cute,
+</p>
+{% highlight cl %}
+(setf (mark) 10
+      (point) 20)
+{% endhighlight %}
+
+<p>
+For a wider list, have a look at cl package <a href="http://www.gnu.org/software/emacs/manual/html_mono/cl.html#Generalized-Variables">manual page</a>, which lists what you
+get by requiring <code>cl</code> or <code>cl-lib</code>, or see the elisp <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Setting-Generalized-Variables.html">manual page</a>, which lists
+what's loaded by default on recent versions of Emacs. My thanks to <a href="http://nullprogram.com/blog/2014/05/27/#comment-1555848160">Christopher
+Wellons</a> and <a href="http://www.reddit.com/r/emacs/comments/2eg87a/emacs_advanced_basics_the_ins_and_outs_of_setf/cjzfgae">Rob Thorpe</a> for the links, and it was <a href="http://nullprogram.com/blog/2014/05/27/">Wellons' post on string
+mutability</a> which inspired this post.</p>
