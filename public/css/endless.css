@@ -234,18 +234,23 @@ div.series {
 }
 
 /* Quotes */
+/* blockquote {white-space:pre-line;} */
 blockquote {
     padding: .5rem 1rem;
     margin: .8rem 0;
-    color: #7a7a7a;
-    border-left: .25rem solid #e5e5e5;
+    color: #555;
+    border-left: .25rem solid #ccc;
+}
+.verse {
+    font-family: monospace;
+    font-size: 80%;
 }
 blockquote p:last-child {
     margin-bottom: 0;
 }
 @media (min-width: 30em) {
     blockquote {
-        padding-right: 5rem;
+        padding-right: 1.5rem;
         padding-left: 1.25rem;
     }
 }
