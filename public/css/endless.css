@@ -73,14 +73,14 @@ pre {
     font-family: Monaco, "Courier New", Menlo, monospace;
 }
 code {
-    padding: .1em .25em;
+    padding: .1em;
     font-size: 88%;
     color: #5f313a;
     font-weight:bold;
-    -moz-border-radius:4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
-    background-color: #dddddd;
+    /* -moz-border-radius:4px; */
+    /* -webkit-border-radius: 4px; */
+    /* border-radius: 4px; */
+    /* background-color: #dddddd; */
 }
 
 pre {
