@@ -74,8 +74,12 @@ blocks, I also need a better key to finish editing code blocks, and
 <kbd>C-x C-s</kbd> makes perfect sense.
 </p>
 {% highlight cl %}
-(define-key org-src-mode-map "\C-c\C-c" #'org-edit-src-exit)
-(define-key org-src-mode-map "\C-x\C-s" #'org-edit-src-exit)
+(eval-after-load 'org-src
+  '(progn
+     (define-key org-src-mode-map
+       "\C-c\C-c" #'org-edit-src-exit)
+     (define-key org-src-mode-map
+       "\C-x\C-s" #'org-edit-src-exit)))
 {% endhighlight %}
 </div>
 </div>
