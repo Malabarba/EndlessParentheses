@@ -20,8 +20,9 @@ of functionality.
 {% highlight cl %}
 (defun narrow-or-widen-dwim (p)
   "If the buffer is narrowed, it widens. Otherwise, it narrows intelligently.
-Intelligently means: region, subtree, or defun, whichever applies
-first.
+Intelligently means: region, org-src-block, org-subtree, or defun,
+whichever applies first.
+Narrowing to org-src-block actually calls `org-edit-src-code'.
 
 With prefix P, don't widen, just narrow even if buffer is already
 narrowed."
@@ -30,13 +31,51 @@ narrowed."
   (cond ((and (buffer-narrowed-p) (not p)) (widen))
         ((region-active-p)
          (narrow-to-region (region-beginning) (region-end)))
-        ((derived-mode-p 'org-mode) (org-narrow-to-subtree))
+        ((derived-mode-p 'org-mode)
+         ;; `org-edit-src-code' is not a real narrowing command.
+         ;; Remove this first conditional if you don't want it.
+         (cond ((org-in-src-block-p)
+                (org-edit-src-code)
+                (delete-other-windows))
+               ((org-at-block-p)
+                (org-narrow-to-block))
+               (t (org-narrow-to-subtree))))
         (t (narrow-to-defun))))
 
-(define-key endless/toggle-map "n" 'narrow-or-widen-dwim)
+(define-key endless/toggle-map "n" #'narrow-or-widen-dwim)
+;; This line actually replaces Emacs' entire narrowing keymap, that's
+;; how much I like this command. Only copy it if that's what you want.
+(define-key ctl-x-map "n" #'narrow-or-widen-dwim)
 {% endhighlight %}
 <p>
 If you're the kind of person who knowns how to use <a href="http://doc.endlessparentheses.com/Fun/narrow-to-page"><code>narrow-to-page</code></a>,
 this command might not be for you. Meanwhile, for us mortals, it more
 than fits the bill.
 </p>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-09-05 Fri&gt;</span></span></h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Sacha Chua's comment below gave me a glimpse of inspiration. 
+</p>
+
+<p>
+I've never liked org's default keybind for editing a source code
+block, <kbd>C-c '</kbd>, and have been looking for a better
+one. But if you medidate on it for a minute, the effect of
+<kbd>C-c '</kbd> is a narrow command with some bells
+attached. So it fits perfectly into <code>narrow-or-widen-dwim</code> (updated
+above).
+</p>
+
+<p>
+Now that I'm no longer using <kbd>C-c '</kbd> to edit code
+blocks, I also need a better key to finish editing code blocks, and
+<kbd>C-x C-s</kbd> makes perfect sense.
+</p>
+{% highlight cl %}
+(define-key org-src-mode-map "\C-c\C-c" #'org-edit-src-exit)
+(define-key org-src-mode-map "\C-x\C-s" #'org-edit-src-exit)
+{% endhighlight %}
+</div>
+</div>
