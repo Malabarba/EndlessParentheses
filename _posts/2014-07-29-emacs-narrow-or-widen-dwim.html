@@ -2,7 +2,7 @@
 title: "Emacs narrow-or-widen-dwim"
 date: 2014-07-29
 layout: post
-tags: narrow intuitive keybind init.el
+tags: org-mode narrow intuitive keybind init.el
 series: "Mnemonic Keymaps"
 ---
 <p>
@@ -53,7 +53,7 @@ this command might not be for you. Meanwhile, for us mortals, it more
 than fits the bill.
 </p>
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-09-05 Fri&gt;</span></span></h2>
+<h2 id="sec-1"><a id="ID-629511b6-fc25-4a8e-914d-939d5908a801" name="ID-629511b6-fc25-4a8e-914d-939d5908a801"></a>Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-09-05 Fri&gt;</span></span></h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Sacha Chua's comment below gave me a glimpse of inspiration. 
@@ -75,11 +75,8 @@ blocks, I also need a better key to finish editing code blocks, and
 </p>
 {% highlight cl %}
 (eval-after-load 'org-src
-  '(progn
-     (define-key org-src-mode-map
-       "\C-c\C-c" #'org-edit-src-exit)
-     (define-key org-src-mode-map
-       "\C-x\C-s" #'org-edit-src-exit)))
+  '(define-key org-src-mode-map
+     "\C-x\C-s" #'org-edit-src-exit))
 {% endhighlight %}
 </div>
 </div>
