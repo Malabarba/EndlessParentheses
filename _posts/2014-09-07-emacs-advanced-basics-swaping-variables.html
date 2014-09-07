@@ -1,0 +1,26 @@
+---
+title: "Swaping Variables with cl-lib"
+date: 2014-09-07
+layout: post
+tags: lisp
+series: "Advanced Basics"
+---
+<p>
+On today's episode, we again find ourselves admiring the <code>cl</code> package
+and focus on a very little-known feature of Emacs, <a href="http://doc.endlessparentheses.com/Fun/psetq"><code>psetq</code></a>. Short for
+<i>“parallel-setq”</i>, it takes the same syntax as <a href="http://doc.endlessparentheses.com/Fun/setq"><code>setq</code></a>, but saves all
+values before assigning.
+</p>
+
+<p>
+For instance, if one needs to swap the variables <code>old</code> and <code>new</code>,
+assuming you've required <code>cl-lib</code>, you can simply do the following.
+</p>
+{% highlight cl %}
+(cl-psetq old new
+          new old)
+{% endhighlight %}
+
+<p>
+And, of course, it has also been generalized to <a href="http://doc.endlessparentheses.com/Fun/psetf"><code>psetf</code></a> for assigning
+generalized places.</p>
