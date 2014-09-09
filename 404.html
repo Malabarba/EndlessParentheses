@@ -7,7 +7,7 @@ permalink: 404.html
 <!-- Make a bug report with the broken link. -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
- function report404 (thread) { 
+ function report404 (thread) {
    $.ajax
    ({
      type: "POST",
@@ -23,14 +23,16 @@ permalink: 404.html
 
  var eodRegex = new RegExp(".*/emacs-online-documentation/(.*)");
  var results = eodRegex.exec(document.URL);
- 
- if (results == null) {
+
+ var redirectRegex = new RegExp(".*?(wasRedirected).*");
+ var wasRedirected = redirectRegex.exec(document.URL);
+
+ if ((results == null) || (wasRedirected != null)) {
    report404("1");
    window.location.replace("not-found.html");
  } else {
    document.write("Old domain name detected. Redirecting...");
    report404("3");
-   window.location.replace("http://doc.endlessparentheses.com/"+results[1]);
+   window.location.replace("http://doc.endlessparentheses.com/"+results[1]+"?wasRedirected=1");
  }
 </script>
-
