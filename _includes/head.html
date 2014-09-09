@@ -16,7 +16,7 @@
   <meta name="description" content="{{ page.description }}">
   {% endif %}
   {% endif %}
-  
+
   <!-- CSS -->
   {% if (page.title == "Home-test") %}
   <link rel="stylesheet" href="{{ site.baseurl }}public/css/test-endless.css">
@@ -37,4 +37,7 @@
 
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ site.baseurl }}atom.xml">
+
+  {% if paginator.page > 1 %} {% include no_index.html %} {% endif %}
+  {% if page.noIndex %} {% include no_index.html %} {% endif %}
 </head>
