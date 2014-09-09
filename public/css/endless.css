@@ -422,7 +422,6 @@ ul.masthead-links {
 }
 
 a.author {
-    text-decoration: underline;
     color: inherit;
 }
 a.author:hover,
