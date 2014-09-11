@@ -18,7 +18,10 @@
           {% endfor %}
           <li>{% include search-box.html %}</li>
         </ul>
-        <div class="flair">{% include stack_exchange.html %}</div>
+        <ul class="flair">
+          <li>{% include twitter_follow.html %}</li>
+          <li>{% include stack_exchange.html %}</li>
+        </ul>
       </div>
       
       <div class="post-with-comments">{{ content }}

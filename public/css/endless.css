@@ -364,7 +364,8 @@ tbody tr:nth-child(odd) th {
     font-size: 200%;
 }
 
-ul.masthead-links {
+ul.masthead-links,
+ul.flair {
     list-style: none;
     padding-left: 0;
 }
