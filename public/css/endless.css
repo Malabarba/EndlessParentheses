@@ -400,6 +400,12 @@ ul.flair {
     letter-spacing: 0;
 }
 
+@media (max-height: 31rem) {
+    .flair {display:none;}
+}
+@media (min-height: 30.9rem) {
+    .flair {display:initial;}
+}
 @media (max-width: 64rem) {
     .flair {display:none;}
 
