@@ -354,6 +354,11 @@ tbody tr:nth-child(odd) th {
         display:inline-block;
         width:13rem;
     }
+    .flair {
+        position:fixed;
+        bottom:0;
+        margin-bottom:1rem;
+    }
 }
 .masthead-title {
     font-size: 200%;
@@ -395,6 +400,7 @@ ul.masthead-links {
 }
 
 @media (max-width: 64rem) {
+    .flair {display:none;}
 
     .masthead-links {
         margin-top: .3rem;
@@ -626,3 +632,5 @@ a.pagination-item:hover {
         border-bottom-right-radius: 0px;
     }
 }
+
+
