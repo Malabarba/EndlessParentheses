@@ -29,7 +29,7 @@ future:           false
 
 # This doesn't work, had to implement my own solution.
 # lsi:              true
-  
+
 # Custom vars
 version:          1.0.0
 github:
@@ -39,13 +39,24 @@ github:
 related:
   excluded_tags:  ['init.el', 'emacs']
   max_number:     3
-  
-pages_list:       
+
+pages_list:
   About: ['/about.html', '/icons/favicon-bw.png']
   Archive: ['/archive.html', '/icons/envelope.png']
   RSS Feed: ['/atom.xml', '/icons/rss.png']
   Tag List: ['/tags.html', '/icons/tag.png']
 
+media_list:
+  twitter:
+    url: 'https://twitter.com/intent/tweet?via=BruceConnor&hashtags=emacs&url='
+    icon: '/icons/twitter.png'
+    title: '&text='
+  facebook:
+    url: 'http://facebook.com/sharer.php?url='
+    icon: '/icons/facebook.png'
+  plus:
+    url: 'https://plus.google.com/share?hl=en&url='
+    icon: '/icons/gplus.png'
+
 gems:
   - jekyll-sitemap
-

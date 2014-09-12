@@ -515,6 +515,15 @@ a.author:focus {
     color: #9a9a9a;
 }
 
+/* Share Buttons */
+.share-buttons {
+    margin-bottom:0;
+}
+.share-buttons img {
+    display:inline;
+    width:2.5em;
+    margin-right:0.8em;
+}
 /* Tags */
 @media (min-width: 30em) {
     .tags-line {
@@ -529,7 +538,6 @@ a.author:focus {
 .related {
     padding-top: 0rem;
     padding-bottom: 1.3rem;
-    border-top: 2px solid #ddd;
 }
 .related-posts {
     padding-left: 0;
