@@ -14,7 +14,7 @@
         <h3 class="masthead-tagline"><small>{{ site.tagline }}</small></h3>
         <ul class="masthead-links"> 
           {% for page in site.pages_list %}
-          <li><a href="{{ page[1]  }}">{{page[0]}}</a></li>
+            <li><a href="{{ page[1][0]  }}"><img src="{{ page[1][1]  }}" class="masthead-icon" /><span class="link-name">{{page[0]}}</span></a></li>
           {% endfor %}
           <li>{% include search-box.html %}</li>
         </ul>
@@ -25,13 +25,7 @@
       </div>
       
       <div class="post-with-comments">{{ content }}
-        <div class="footer">
-          <p>
-            &copy; {{ site.time | date: '%Y' }}. All rights reserved.
-          </p>
-      </div></div>
+        {% include copyright.html %}</div>
     </div>
-
-    {% include google_analytics.html %}
   </body>
 </html>

@@ -369,14 +369,24 @@ ul.flair {
     list-style: none;
     padding-left: 0;
 }
+.masthead-icon {
+    width: 1em;
+    display:inline;
+    margin:0 .5em 0 0;
+    padding:0;
+    position:relative;
+    bottom:-0.15em;
+}
 .masthead-links li {
+    font-size:110%;
     width: inherit;
-    margin-top:.5em;
+    margin-top:.8em;
 }
 
 .masthead-links form,
 .masthead-links input {
-    width: inherit;
+    font-size:inherit;
+    width: 90%;
 }
 .masthead-title, .masthead-tagline,
 .masthead-links {
