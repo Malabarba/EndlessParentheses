@@ -47,14 +47,14 @@ pages_list:
   Tag List: ['/tags.html', '/icons/tag.png']
 
 media_list:
-  twitter:
+  Twitter:
     url: 'https://twitter.com/intent/tweet?via=BruceConnor&hashtags=emacs&url='
     icon: '/icons/twitter.png'
     title: '&text='
-  facebook:
+  Facebook:
     url: 'http://facebook.com/sharer.php?url='
     icon: '/icons/facebook.png'
-  plus:
+  Google Plus:
     url: 'https://plus.google.com/share?hl=en&url='
     icon: '/icons/gplus.png'
 
