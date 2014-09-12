@@ -41,7 +41,7 @@ related:
   max_number:     3
   
 pages_list:       
-  About: ['/about.html', '/icons/favicon-bw.ico']
+  About: ['/about.html', '/icons/favicon-bw.png']
   Archive: ['/archive.html', '/icons/envelope.png']
   RSS Feed: ['/atom.xml', '/icons/rss.png']
   Tag List: ['/tags.html', '/icons/tag.png']
