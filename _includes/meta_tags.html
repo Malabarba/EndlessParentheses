@@ -1,0 +1,40 @@
+{% capture meta_icon %}{{ site.url }}/favicon-196x196.png{% endcapture %}
+<!-- Home and similar  -->
+{% if page.isPost %}
+  {% capture meta_title %}{{ page.title }} &middot; {{ site.title }}{% endcapture %}
+  {% capture meta_url %}{{ site.url }}{{ page.url }}{% endcapture %}
+  {% if (page.description == nil || page.description == "") %}
+    {% capture meta_description %}{{ page.excerpt | strip_html | truncate: 400 | newline_to_br | replace: '<br />', ' ' | strip_newlines | replace: '  ', ' ' | replace: '"', '' | replace: '  ', ' ' }}{% endcapture %}
+  {% else %}
+    {% capture meta_description %}{{ page.description }}{% endcapture %}
+  {% endif %}
+{% else %} <!-- Other pages -->
+  {% capture meta_title %}{{ site.title }} &middot; {{ site.tagline }}{% endcapture %}
+  {% assign meta_description = "Short and consistent weekly posts on improving your Emacs productivity. Code included is emacs-lisp, lying anywhere in the complexity spectrum with little explanations or tutorials. Posts read quickly and pleasantly for experienced Emacsers, while new enthusiasts are invited to ask questions in the comments." %}
+  {% capture meta_url %}{{ site.url }}{% endcapture %}
+{% endif %}
+
+<title>{{ meta_title }}</title>
+<meta name="description" content="{{ meta_description }}">
+<meta name="keywords" content="Emacs, {{ page.tags | join: ', ' }}, elisp, emacs-lisp" />
+
+<!-- Google -->
+<link rel="author" href="https://plus.google.com/+ArturMalabarba"/>
+<meta name="author" content="{{ site.author.name }}" />
+
+<!-- Facebook -->
+<meta property="og:title" content="{{ meta_title }}"/>
+<meta property="og:type" content="post"/>
+<meta property="og:image" content="{{ meta_icon }}"/>
+<meta property="og:url" content="{{ meta_url }}"/>
+<meta property="og:description" content="{{ meta_description }}"/>
+<meta property="fb:admins" content="100004099477249" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:url" content="{{ meta_url }}">
+<meta name="twitter:title" content="{{ meta_title }}">
+<meta name="twitter:description" content="{{ meta_description }}">
+<meta name="twitter:image" content="{{ meta_icon }}">
+
+

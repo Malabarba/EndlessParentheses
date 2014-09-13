@@ -5,18 +5,8 @@
   <!-- Enable responsiveness on mobile devices-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  {% if ((page.title == "Home") || (page.title == "Archive") || (page.title == "Startup Screen")) %}
-  <title>{{ site.title }} &middot; {{ site.tagline }}</title>
-  <meta name="description" content="Short and consistent weekly posts on improving your Emacs productivity. Code included is emacs-lisp, lying anywhere in the complexity spectrum with little explanations or tutorials. Posts read quickly and pleasantly for experienced Emacsers, while new enthusiasts are invited to ask questions in the comments.">
-  {% else %}
-  <title>{{ page.title }}</title>
-  {% if (page.description == nil || page.description == "") %}
-  <meta name="description" content="{{ page.excerpt | strip_html | truncate: 400 | newline_to_br | replace: '<br />', ' ' | strip_newlines | replace: '  ', ' ' | replace: '"', '' | replace: '  ', ' ' }}"> <!-- " -->
-  {% else %}
-  <meta name="description" content="{{ page.description }}">
-  {% endif %}
-  {% endif %}
-
+  {% include meta_tags.html %}
+  
   <!-- CSS -->
   {% if (page.title == "Home-test") %}
   <link rel="stylesheet" href="{{ site.baseurl }}public/css/test-endless.css">
@@ -26,18 +16,10 @@
   <link rel="stylesheet" href="{{ site.baseurl }}public/css/syntax.css">
   <link rel="stylesheet" href="{{ site.baseurl }}public/css/my-style.css">
 
-  <!-- Icons -->
-  <link rel="apple-touch-icon" sizes="57x57" href="{{ site.baseurl }}apple-touch-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="{{ site.baseurl }}apple-touch-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="{{ site.baseurl }}apple-touch-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="{{ site.baseurl }}apple-touch-icon-76x76.png">
-  <link rel="icon" type="image/png" href="{{ site.baseurl }}favicon-16x16.png" sizes="16x16">
-  <link rel="icon" type="image/png" href="{{ site.baseurl }}favicon-32x32.png" sizes="32x32">
-  <meta name="msapplication-TileColor" content="#da532c">
+  {% include meta_icons.html %}
 
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ site.baseurl }}atom.xml">
-
-  {% if paginator.page > 1 %} {% include no_index.html %} {% endif %}
-  {% if page.noIndex %} {% include no_index.html %} {% endif %}
+  
+  {% if paginator.page > 1 %}{% include no_index.html %}{% endif %}{% if page.noIndex %}{% include no_index.html %}{% endif %}
 </head>
