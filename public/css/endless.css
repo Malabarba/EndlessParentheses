@@ -633,37 +633,22 @@ a.pagination-item:hover {
     background-color: #fff;
 }
 
-@media (max-width: 29.9em) {
-    .pagination-item:last-child {
-        border-top-left-radius:  0px;
-        border-top-right-radius: 0px;
-        margin-top:-3px;
-    }
-    .pagination-item:first-child {
-        margin-bottom:0;
-        border-bottom-left-radius:  0px;
-        border-bottom-right-radius: 0px;
-    }
+.pagination {
+    margin: 3rem 0;
 }
-
-@media (min-width: 30em) {
-    .pagination {
-        margin: 3rem 0;
-    }
-    .pagination-item {
-        float: left;
-        width: 50%;
-        margin-bottom: 2px;
-    }
-    .pagination-item:last-child {
-        margin-left: -1px;
-        border-top-left-radius:    0px;
-        border-bottom-left-radius: 0px;
-    }
-    .pagination-item:first-child {
-        border-top-right-radius:    0px;
-        border-bottom-right-radius: 0px;
-    }
+.pagination-item {
+    float: left;
+    width: 50%;
+    margin-bottom: 2px;
+}
+.pagination-item:last-child {
+    margin-left: -1px;
+    border-top-left-radius:    0px;
+    border-bottom-left-radius: 0px;
+}
+.pagination-item:first-child {
+    border-top-right-radius:    0px;
+    border-bottom-right-radius: 0px;
 }
 
 
