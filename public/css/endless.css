@@ -424,6 +424,12 @@ ul.flair {
 @media (min-height: 32.9rem) {
     .flair {display:initial;}
 }
+@media (max-height: 35rem) {
+    .bonus-flair {display:none;}
+}
+@media (min-height: 34.9rem) {
+    .bonus-flair {display:initial;}
+}
 @media (max-width: 64.2rem) {
     .flair {display:none;}
 
