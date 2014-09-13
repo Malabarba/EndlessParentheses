@@ -6,13 +6,13 @@
   <body>
 
     <div class="container content">
-      
+
       <div class="masthead">
         <h3 class="masthead-title">
           <a href="{{ site.url }}" title="Home">{{ site.title }}</a>
         </h3>
         <h3 class="masthead-tagline"><small>{{ site.tagline }}</small></h3>
-        <ul class="masthead-links"> 
+        <ul class="masthead-links">
           {% for page in site.pages_list %}
             <li><a href="{{ page[1][0]  }}"><img src="{{ page[1][1]  }}" class="masthead-icon" /><span class="link-name">{{page[0]}}</span></a></li>
           {% endfor %}
@@ -24,9 +24,10 @@
           <li class="bonus-flair">{% include emacs_stack_exchange.html %}</li>
         </ul>
       </div>
-      
+
       <div class="post-with-comments">{{ content }}
         {% include copyright.html %}</div>
     </div>
   </body>
+  {% include google_analytics.html %}
 </html>
