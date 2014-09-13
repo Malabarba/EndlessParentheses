@@ -1,0 +1,42 @@
+---
+title: "Launcher Keymap for Standalone Features"
+date: 2014-09-13
+layout: post
+tags: keymap intuitive keybind init.el
+series: "Mnemonic Keymaps"
+meta_title: "Emacs Launcher Keymap for Standalone Features"
+---
+<p>
+Following on our series of mnemonic keymaps, we arrive on the
+<b>launcher-map</b>. Where the <a href="/the-toggle-map-and-wizardry.html">toggle-map</a> was designed for toggling values
+and minor-modes we only use every once in a while, the launcher-map
+runs those <i>“standalone”</i> features of Emacs that also don't always see
+the light of day.
+</p>
+
+<p>
+To remember the keybinds, think of <i>“Emacs lauch calc”</i> for instance.
+</p>
+{% highlight cl %}
+(define-prefix-command 'launcher-map)
+;; The manual recommends C-c for user keys, but C-x l is
+;; always free and is natural to remember.
+(define-key ctl-x-map "l" 'launcher-map)
+(global-set-key (kbd "s-l") 'launcher-map)
+(define-key launcher-map "c" #'calc)
+(define-key launcher-map "d" #'ediff-buffers)
+(define-key launcher-map "f" #'find-dired)
+(define-key launcher-map "g" #'lgrep)
+(define-key launcher-map "G" #'rgrep)
+(define-key launcher-map "h" #'man) ; Help
+(define-key launcher-map "i" #'package-install-from-buffer)
+(define-key launcher-map "n" #'nethack)
+(define-key launcher-map "p" #'paradox-list-packages)
+(define-key launcher-map "s" #'shell)
+(define-key launcher-map "t" #'proced) ; top
+{% endhighlight %}
+<p>
+<code>calc</code>, <code>man</code>, <code>list-packages</code>&#x2026; I use these features, on average,
+once or twice every other moon. An intuitive keymap is exactly what I
+need to always remember their keybinds.
+</p>
