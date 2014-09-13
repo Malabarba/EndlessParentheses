@@ -52,7 +52,7 @@ media_list:
     icon: '/icons/twitter.png'
     title: '&text='
   Facebook:
-    url: 'http://facebook.com/sharer.php?url='
+    url: 'http://facebook.com/sharer.php?u='
     icon: '/icons/facebook.png'
   Google Plus:
     url: 'https://plus.google.com/share?hl=en&url='

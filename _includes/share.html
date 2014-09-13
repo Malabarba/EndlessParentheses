@@ -1,5 +1,5 @@
 <div class="share-buttons">
   {% for media in site.media_list %}
-    <a href="{{ media[1].url  }}{{ site.url }}{{ page.url | uri_escape }}{% if media[1].title %}{{ media[1].title }}{{ page.title }}{% endif %}" onclick="javascript:ga('send', 'event', 'Button', 'Click', '{{media[0]}} Share');window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><img src="{{ media[1].icon }}" /></a>
+    <a href="{{ media[1].url  }}{{ site.url }}{{ page.url | uri_escape }}{% if media[1].title %}{{ media[1].title }}{{ page.title }}{% endif %}" target="_blank" onclick="javascript:ga('send', 'event', 'Button', 'Click', '{{media[0]}} Share');window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><img src="{{ media[1].icon }}" /></a>
   {% endfor %}
 </div>
