@@ -321,7 +321,7 @@ tbody tr:nth-child(odd) th {
     margin-right: auto;
 }
 
-@media (min-width: 64rem) {
+@media (min-width: 64.3rem) {
     .container {
         /* overflow:hidden; */
         max-width: 60rem;
@@ -344,7 +344,7 @@ tbody tr:nth-child(odd) th {
     margin-left: 0.3rem;
     margin-right: 0.3rem;
 }
-@media (min-width: 64rem) {
+@media (min-width: 64.3rem) {
     .masthead {
         margin-top:2rem;
         margin-right:12rem;
@@ -353,11 +353,6 @@ tbody tr:nth-child(odd) th {
         right:50%;
         display:inline-block;
         width:13rem;
-    }
-    .flair {
-        position:fixed;
-        bottom:0;
-        margin-bottom:1rem;
     }
 }
 .masthead-title {
@@ -368,6 +363,8 @@ ul.masthead-links,
 ul.flair {
     list-style: none;
     padding-left: 0;
+    padding-right: 1rem;    
+    width:inherit;
 }
 .masthead-icon {
     width: 1em;
@@ -410,13 +407,24 @@ ul.flair {
     letter-spacing: 0;
 }
 
-@media (max-height: 31rem) {
+.flair {
+    position:fixed;
+    bottom:0;
+    padding-bottom:0;
+    margin-bottom:1rem;
+}
+.flair p, .flair li, .flair img {
+    margin:0;
+    padding:0;
+}
+
+@media (max-height: 33rem) {
     .flair {display:none;}
 }
-@media (min-height: 30.9rem) {
+@media (min-height: 32.9rem) {
     .flair {display:initial;}
 }
-@media (max-width: 64rem) {
+@media (max-width: 64.2rem) {
     .flair {display:none;}
 
     .masthead-links {
@@ -463,7 +471,7 @@ a.author:focus {
 .post-with-comments {
     margin:.3rem;
 }
-@media (min-width: 64rem) {
+@media (min-width: 64.3rem) {
     .post-with-comments {
         /* float:left; */
         margin-left:18rem;
