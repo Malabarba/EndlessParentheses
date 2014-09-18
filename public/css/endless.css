@@ -324,10 +324,10 @@ tbody tr:nth-child(odd) th {
     margin-right: auto;
 }
 
-@media (min-width: 64.3rem) {
+@media (min-width: 62.3rem) {
     .container {
         /* overflow:hidden; */
-        max-width: 60rem;
+        max-width: 58rem;
         margin-left:  auto;
         margin-right: auto;
     }
@@ -347,10 +347,11 @@ tbody tr:nth-child(odd) th {
     margin-left: 0.3rem;
     margin-right: 0.3rem;
 }
-@media (min-width: 64.3rem) {
+@media (min-width: 62.3rem) {
     .masthead {
         margin-top:2rem;
-        margin-right:12rem;
+        margin-right:11rem;
+        /* text-align:right; */
         position:fixed;
         top:0;
         right:50%;
@@ -413,8 +414,11 @@ ul.flair {
 .flair {
     position:fixed;
     bottom:0;
+    right:inherit;
+    text-align:left;
     padding-bottom:0;
     margin-bottom:1rem;
+    margin-right:inherit;
 }
 .flair p, .flair li, .flair img {
     margin:0;
@@ -433,7 +437,7 @@ ul.flair {
 @media (min-height: 34.9rem) {
     .bonus-flair {display:initial;}
 }
-@media (max-width: 64.2rem) {
+@media (max-width: 62.2rem) {
     .flair {display:none;}
 
     .masthead-links {
@@ -480,10 +484,10 @@ a.author:focus {
 .post-with-comments {
     margin:.3rem;
 }
-@media (min-width: 64.3rem) {
+@media (min-width: 62.3rem) {
     .post-with-comments {
         /* float:left; */
-        margin-left:18rem;
+        margin-left:20rem;
         width:34rem;
         display:inline-block;
         /* overflow:scroll; */
