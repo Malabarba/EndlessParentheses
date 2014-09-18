@@ -496,6 +496,7 @@ a.author:focus {
 
 .post, .page {
     width:inherit;
+    margin-bottom:2.5rem;
 }
 .border-box {
     padding-left: 1em;
