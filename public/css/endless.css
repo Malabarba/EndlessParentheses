@@ -481,7 +481,7 @@ a.author:focus {
     .post-with-comments {
         /* float:left; */
         margin-left:18rem;
-        width:38rem;
+        width:34rem;
         display:inline-block;
         /* overflow:scroll; */
     }
