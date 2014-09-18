@@ -10,8 +10,8 @@ meta_title: "Emacs Launcher Keymap for Standalone Features"
 Following on our series of mnemonic keymaps, we arrive on the
 <b>launcher-map</b>. Where the <a href="/the-toggle-map-and-wizardry.html">toggle-map</a> was designed for toggling values
 and minor-modes we only use every once in a while, the launcher-map
-runs those <i>“standalone”</i> features of Emacs that also don't always see
-the light of day.
+runs those standalone features of Emacs that also don't always see the
+light of day.
 </p>
 
 <p>
@@ -19,8 +19,8 @@ To remember the keybinds, think of <i>“Emacs launch calc”</i> for instance.
 </p>
 {% highlight cl %}
 (define-prefix-command 'launcher-map)
-;; The manual recommends C-c for user keys, but C-x l is
-;; always free and is natural to remember.
+;; C-x l is `count-lines-page' by default. If you
+;; use that, you can try s-l or <C-return>.
 (define-key ctl-x-map "l" 'launcher-map)
 (global-set-key (kbd "s-l") 'launcher-map)
 (define-key launcher-map "c" #'calc)
