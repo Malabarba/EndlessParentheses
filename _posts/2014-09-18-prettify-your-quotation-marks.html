@@ -1,0 +1,39 @@
+---
+title: "Prettify your Quotation Marks"
+date: 2014-09-18
+layout: post
+tags: writing keybind org-mode init.el
+meta_title: "Prettify your Quotation Marks in Emacs"
+---
+<p>
+Typography is a long and blurry road, of which I know very little.
+There are, still, some simple lessons that take you a long a way.
+Round (unicode) quotation marks is one of them.
+</p>
+
+<p>
+LaTeX already does that for you, but many other prose environments
+don't. This snippet inserts “round” quotes for you, bind it to your
+text-modes.
+</p>
+{% highlight cl %}
+(eval-after-load 'org
+  '(define-key org-mode-map
+     "\"" #'endless/round-quotes))
+
+(defun endless/round-quotes (italicize)
+  "Insert “” and leave point in the middle.
+With prefix argument ITALICIZE, insert /“”/ instead (meant for
+org-mode).
+If inside a code-block, simply calls `self-insert-command'."
+  (interactive "P")
+  (if (and (derived-mode-p 'org-mode) (org-in-src-block-p))
+      (call-interactively 'self-insert-command)
+    (if (looking-at "”[/=_\\*]?")
+        (goto-char (match-end 0))
+      (when italicize
+        (insert "//")
+        (forward-char -1))
+      (insert "“”")
+      (forward-char -1))))
+{% endhighlight %}
