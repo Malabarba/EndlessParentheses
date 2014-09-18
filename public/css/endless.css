@@ -220,7 +220,7 @@ abbr[title] {
     margin-top: .2em;
 }
 
-div.series {
+.series {
     font-size: 85%;
     -moz-border-radius:8px;
     -webkit-border-radius:8px;
@@ -233,6 +233,9 @@ div.series {
     padding: 0.5rem;
 }
 
+p.series {
+    padding:0.3rem !important;
+}
 /* Quotes */
 /* blockquote {white-space:pre-line;} */
 blockquote {
