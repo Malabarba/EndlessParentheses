@@ -486,17 +486,18 @@ a.author:focus {
         /* overflow:scroll; */
     }
 }
-.page,
-.post {
+
+.post, .page {
+    width:inherit;
+}
+.border-box {
     padding-left: 1em;
     padding-right: 1em;
     padding-top: .8em;
     padding-bottom: 0em;
     margin: 0;
     margin-bottom: 1em;
-}
 
-.border-box {
     color: #333;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
@@ -555,6 +556,7 @@ a.author:focus {
 }
 .related-posts {
     padding-left: 0;
+    padding-right: 0;
     list-style: none;
 }
 
