@@ -147,9 +147,9 @@ h1 {
     font-size: 1.25rem;
 }
 
-.post-with-comments h3, 
-.post-with-comments h4, 
-.post-with-comments h5, 
+.post-with-comments h3,
+.post-with-comments h4,
+.post-with-comments h5,
 .post-with-comments h6 {
     margin-top: 1rem;
     font-size: 1rem;
@@ -447,8 +447,8 @@ ul.flair {
 
     .masthead-links {
         margin-top: .3rem;
-        margin-left: 0rem;
-        margin-right: 0rem;
+        margin-left: 0;
+        margin-right: 0;
     }
     .masthead-links li {
         margin:0;
@@ -504,10 +504,7 @@ a.author:focus {
     margin-bottom:2.5rem;
 }
 .border-box {
-    padding-left: 1em;
-    padding-right: 1em;
-    padding-top: .8em;
-    padding-bottom: 0em;
+    padding: .8em 1em 0 1em;
     margin: 0;
     margin-bottom: 1em;
 
@@ -564,7 +561,7 @@ a.author:focus {
 
 /* Related posts */
 .related {
-    padding-top: 0rem;
+    padding-top: 0;
     padding-bottom: 1.3rem;
 }
 .related-posts {
