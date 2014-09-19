@@ -367,7 +367,7 @@ ul.masthead-links,
 ul.flair {
     list-style: none;
     padding-left: 0;
-    padding-right: 1rem;    
+    padding-right: 1rem;
     width:inherit;
 }
 .masthead-icon {
@@ -425,6 +425,9 @@ ul.flair {
     padding:0;
 }
 
+.flair p {
+    margin-top:0.5em;
+}
 @media (max-height: 33rem) {
     .flair {display:none;}
 }
