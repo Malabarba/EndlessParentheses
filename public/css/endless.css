@@ -512,9 +512,16 @@ a.author:focus {
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
     box-shadow: .1rem .1rem .1rem #666;
-    border:2px solid #333;
+    border:2px solid #e7e7e7;
     border-radius:6px;
-    background-color: #eee;
+    background-color: #e7e7e7;
+}
+
+.border-box:active {
+    box-shadow: 0 0 .1rem #666;
+    position:relative;
+    left:.2em;
+    top:.2em;
 }
 
 /* Blog post or page title */
@@ -655,18 +662,17 @@ a.pagination-item:hover {
     margin: 3rem 0;
 }
 .pagination-item {
-    float: left;
-    width: 50%;
-    margin-bottom: 2px;
+    /* float: right; */
+    display:inline-block;
+    width: 40%;
+    margin: 4px;
+    border-radius:15px;
 }
 .pagination-item:last-child {
-    margin-left: -1px;
-    border-top-left-radius:    0px;
-    border-bottom-left-radius: 0px;
+    border-top-left-radius:    0;
+    border-bottom-left-radius: 0;
 }
 .pagination-item:first-child {
-    border-top-right-radius:    0px;
-    border-bottom-right-radius: 0px;
+    border-top-right-radius:    0;
+    border-bottom-right-radius: 0;
 }
-
-
