@@ -11,7 +11,7 @@ permalink: 404.html
    $.ajax
    ({
      type: "POST",
-     url: "https://api.github.com/repos/Bruce-Connor/EndlessParentheses/issues/" + thread + "/comments",
+     url: "{{ site.github.api_url }}/repos/{{ site.github.repository_nwo }}/issues/" + thread + "/comments",
      dataType: 'json',
      async: false,
      data: '{"body": "URL: ' + document.URL + ' REFERRER: ' + document.referrer + '"}',

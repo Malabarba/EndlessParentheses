@@ -30,11 +30,6 @@ future:           false
 # This doesn't work, had to implement my own solution.
 # lsi:              true
 
-# Custom vars
-version:          1.0.0
-github:
-  repo:           'https://github.com/Bruce-Connor/EndlessParentheses'
-
 # Related pages
 related:
   excluded_tags:  ['init.el', 'emacs']
