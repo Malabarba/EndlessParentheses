@@ -35,10 +35,17 @@
  * Update the foundational and global aspects of the page.
  */
 
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
+html {
+    font-family: "Helvetica Neue", Helvetica, serif;
+    font-size: 14px;
+    line-height: 1.3;
     box-sizing: border-box;
+}
+
+* {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 html,
@@ -49,11 +56,6 @@ body {
     background-color: #f3f3f3;
 }
 
-html {
-    font-family: "Helvetica Neue", Helvetica, serif;
-    font-size: 14px;
-    line-height: 1.3;
-}
 @media (min-width: 38em) {
     html {
         font-size: 18px;
