@@ -345,7 +345,7 @@ tbody tr:nth-child(odd) th {
     font-family: "Helvetica Neue", Helvetica, sans-serif;
     width: inherit;
     padding-bottom: 0;
-    margin-bottom: 0;
+    margin-bottom: 1.5em;
     margin-left: 0.3rem;
     margin-right: 0.3rem;
 }
@@ -353,6 +353,7 @@ tbody tr:nth-child(odd) th {
     .masthead {
         margin-top:2rem;
         margin-right:11rem;
+        margin-bottom: 0;
         /* text-align:right; */
         position:fixed;
         top:0;
