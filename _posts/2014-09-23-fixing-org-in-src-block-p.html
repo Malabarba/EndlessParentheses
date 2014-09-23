@@ -7,28 +7,12 @@ meta_title: "Fixing org-in-src-block-p in Emacs org-mode"
 ---
 <p>
 For reasons which ellude me, the <a href="http://doc.endlessparentheses.com/Fun/org-in-src-block-p"><code>org-in-src-block-p</code></a> function is
-disappointingly inconsistent for me. This frequently led to
-<a href="http://doc.endlessparentheses.com/Fun/org-edit-src-code"><code>org-edit-src-code</code></a> not getting called when point was inside a code
-block. Given its major role in <a href="/emacs-narrow-or-widen-dwim.html">narrow-or-widen-dwim</a>, I’ve coded a
-short replacement. 
+disappointingly inconsistent for me. Given its major role in
+<a href="/emacs-narrow-or-widen-dwim.html">narrow-or-widen-dwim</a>, this frequently led to <a href="http://doc.endlessparentheses.com/Fun/org-edit-src-code"><code>org-edit-src-code</code></a> not
+getting called when point was inside a code block.
 </p>
 
 <p>
-The <a href="/emacs-narrow-or-widen-dwim.html">narrow-or-widen-dwim</a> function has been updated accordingly, so go
-copy it again if you’re using it.
+I’ve edited the <a href="/emacs-narrow-or-widen-dwim.html">narrow-or-widen-dwim</a> to not need that function. Go
+copy it again if you were using it.
 </p>
-{% highlight cl %}
-(defun endless/inside-org-code-block-p (&optional lang)
-  "Non-nil if point is inside an org code block.
-If LANG is given, restrict to that language."
-  (save-match-data
-    (save-excursion
-      (let ((case-fold-search t))
-        (when (search-backward-regexp
-               "^#\\+\\(begin\\|end\\)_src\\b" nil 'noerror)
-          (looking-at-p
-           (concat "^#\\+begin_src *"
-                   (if lang
-                       (format "\\_<%s\\_>" (regexp-quote lang))
-                     ""))))))))
-{% endhighlight %}
