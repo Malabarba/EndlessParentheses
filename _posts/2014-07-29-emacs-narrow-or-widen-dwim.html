@@ -35,8 +35,7 @@ narrowed."
         ((derived-mode-p 'org-mode)
          ;; `org-edit-src-code' is not a real narrowing command.
          ;; Remove this first conditional if you don't want it.
-         (cond ((endless/inside-org-code-block-p)
-                (org-edit-src-code)
+         (cond ((ignore-errors (org-edit-src-code))
                 (delete-other-windows))
                ((org-at-block-p)
                 (org-narrow-to-block))
@@ -82,11 +81,12 @@ blocks, I also need a better key to finish editing code blocks, and
 </div>
 </div>
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-09-23 Tue&gt;</span></span></h2>
+<h2 id="sec-2"><a id="ID-3ca97e87-2b3e-4b1e-8550-205341585b65" name="ID-3ca97e87-2b3e-4b1e-8550-205341585b65"></a>Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-09-23 Tue&gt;</span></span></h2>
 <div class="outline-text-2" id="text-2">
 <p>
 I’ve updated it to no longer use the <a href="http://doc.endlessparentheses.com/Fun/org-in-src-block-p"><code>org-in-src-block-p</code></a> function and
-use <a href="/fixing-org-in-src-block-p.html">endless/inside-org-code-block-p</a> instead. You’ll now need to copy
-this function as well.</p>
+just try callling <a href="http://doc.endlessparentheses.com/Fun/org-edit-src-code"><code>org-edit-src-code</code></a> instead. <code>org-in-src-block-p</code>
+has proven quite unreliable.
+</p>
 </div>
 </div>
