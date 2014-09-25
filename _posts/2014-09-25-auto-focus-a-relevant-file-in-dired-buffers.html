@@ -1,0 +1,119 @@
+---
+title: "Auto-focus a Relevant File in Dired Buffers"
+date: 2014-09-25
+layout: post
+tags: dired init.el
+series: "Emacs.SE Lessons"
+---
+<p>
+The <a href="http://emacs.stackexchange.com/">emacs.stackexchange</a> beta has only just started and interesting
+topics have already begun to pop up. Partially to share snippets I
+find nifty, and partially to help promote the beta, I’ll be posting
+here questions and answers I find engaging. 
+</p>
+
+<p>
+I’m kicking off this series with a <a href="http://emacs.stackexchange.com/q/140/50">question of my own</a>, answered by none
+other than <a href="http://emacs.stackexchange.com/a/150/50">Sebastian Wiesner</a>. (Did you know he <a href="http://www.lunaryorn.com/">has a blog</a>)? The beta
+is still private, so you might not be able to visit the links above,
+but I’ll summ it up here.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Question</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+For a while now I’ve noticed my dired patterns are somewhat
+predictable. 
+</p>
+
+<ul class="org-ul">
+<li>Whenever I visit the directory of one of my papers, I go straight to
+the <i>“master.tex”</i> file.
+</li>
+<li>When I open the root of an android project, it’s almost always to
+visit the the <i>“AndroidManifest.xml”</i>.
+</li>
+<li>Finally, when I go to a directory where I’m developing an emacs
+package, 80% of the time I’m headed for the package's main source
+file.
+</li>
+</ul>
+
+<p>
+See the pattern? For all these directories, the first file I visit is
+very predictable, so I wanted dired to focus that file automatically
+for me. So I would only need to hit <kbd>RET</kbd>&#x2014;lazyness
+to the extreme.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Solution</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Sebastian looks into the <code>save-place</code> package’s source code, and finds
+out about <a href="http://doc.endlessparentheses.com/Var/dired-initial-position-hook"><code>dired-initial-position-hook</code></a>, which is run exactly when we
+need. Visiting a file whose name we already know is then a trivial
+matter.<br  />
+<i>Note I’ve edited his code a bit.</i>
+</p>
+{% highlight cl %}
+(defcustom endless/important-files 
+  '("master.tex" "AndroidManifest.xml" "init.org")
+  "List of files which dired should focus by default."
+  :type '(repeat string))
+
+(defun my-dired-goto-important-file ()
+  "Go to an important file in the current dired buffer."
+  (let ((candidates endless/important-files)
+        (matched nil))
+    (while (and candidates (null matched))
+      (setq matched (dired-goto-file
+                     (expand-file-name (pop candidates)))))
+    (unless matched
+      (endless/goto-elisp-file))))
+
+(add-hook 'dired-initial-position-hook
+          ;; Append so we run after `save-place'
+          #'my-dired-goto-important-file 'append)
+{% endhighlight %}
+
+<p>
+Making dired focus the source file of elisp packages is tad bit
+tricker because the file’s name is not fixed. The solution I found
+(still borrowing some of Wiesner’s code) was to look for a file whose
+name matched the current directory’s name, and if it that doesn’t
+exist just focus any <i>“.el”</i> file. This works well for me because my
+directory structure typically looks like <i>“~/Git/paradox/paradox.el”</i>.
+</p>
+{% highlight cl %}
+(defun endless/goto-elisp-file ()
+  "Go to a file with .el extension.
+If more than one exists, go to the one with the same name as this
+directory. This is enough to catch most package source files."
+  (let* ((files (endless/dired-file-list))
+         (dirname (file-name-base (directory-file-name default-directory)))
+         (target (concat dirname ".el")))
+    (unless (dired-goto-file (expand-file-name target))
+      (setq target 
+            (car-safe (cl-member-if
+                       (lambda (x) (string-match "\\.el$" x))
+                       files)))
+      (when target (dired-goto-file (expand-file-name target))))))
+
+(defun endless/dired-file-list ()
+  "List of files in this dired buffer."
+  (save-excursion
+    (let (files)
+      (goto-char (point-min))
+      (while (not (eobp))
+        (let ((filename (dired-get-filename nil 'no-error)))
+          (when filename
+            (push filename files)))
+        (forward-line 1))
+      files)))
+{% endhighlight %}
+</div>
+</div>
