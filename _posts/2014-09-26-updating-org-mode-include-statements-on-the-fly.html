@@ -1,5 +1,5 @@
 ---
-title: "Updating org-mode INCLUDE statements on the fly"
+title: "Updating org-mode #+INCLUDE: statements on the fly"
 date: 2014-09-26
 layout: post
 tags: org-mode
@@ -16,7 +16,7 @@ quite yet, so I’ll summ it up here.
 <h2 id="sec-1">The Question</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-Kaushalmodi uses <code>INCLUDE</code> statements with line specifications in his
+Kaushalmodi uses <code>#+INCLUDE:</code> statements with line specifications in his
 org files. Here is an example similar to his. 14 and 80 are the first
 and last line of a class declaration in the source file, so they’re
 quite obvious for a human to identify.
@@ -43,12 +43,22 @@ include statements. You either specify the line numbers or you don’t.
 </p>
 
 <p>
-The solution was to have a function which
+The <a href="http://emacs.stackexchange.com/a/286/50">solution was</a> to add <code>:range-begin</code> and <code>:range-end</code> keywords to
+the statement
+</p>
+{% highlight text %}
+#+INCLUDE: "code/my-class.sv" :src systemverilog :range-begin "^class" :range-end "^endclass" :lines "14-80"
+{% endhighlight %}
+<p>
+and then write a function which
 </p>
 <ol class="org-ol">
-<li>goes through each <code>INCLUDE</code> statement in the buffer,
+<li>goes through each <code>#+INCLUDE:</code> statement in the buffer,
 </li>
-<li>visits the mentioned file,
+<li>checks if it has <code>:range-begin</code> and/or <code>:range-end</code> keywords and
+takes their arguments as regular expressions,
+</li>
+<li>visits the relevant file and searches for these regular expressions,
 </li>
 <li>checks what the line numbers are now,
 </li>
@@ -66,8 +76,8 @@ customizable per file extension through a <code>defcustom</code>.
 (add-hook 'before-save-hook #'endless/update-includes)
 
 (defun endless/update-includes (&rest ignore)
-  "Update the line numbers of all #+INCLUDE:s in current buffer.
-Only looks at INCLUDEs that already have a line number listed!
+  "Update the line numbers of #+INCLUDE:s in current buffer.
+Only looks at INCLUDEs that have either :range-begin or :range-end.
 This function does nothing if not in org-mode, so you can safely
 add it to `before-save-hook'."
   (interactive)
@@ -75,43 +85,39 @@ add it to `before-save-hook'."
     (save-excursion
       (goto-char (point-min))
       (while (search-forward-regexp
-              "^\\s-*#\\+INCLUDE: *\"\\([^\"]+\\)\".*:lines *\"\\([-0-9]+\\)\""
+              "^\\s-*#\\+INCLUDE: *\"\\([^\"]+\\)\".*:range-\\(begin\\|end\\)"
               nil 'noerror)
         (let* ((file (expand-file-name (match-string-no-properties 1)))
-               (lines (endless/decide-line-range file)))
+               lines begin end)
+          (forward-line 0)
+          (when (looking-at "^.*:range-begin *\"\\([^\"]+\\)\"")
+            (setq begin (match-string-no-properties 1)))
+          (when (looking-at "^.*:range-end *\"\\([^\"]+\\)\"")
+            (setq end (match-string-no-properties 1)))
+          (setq lines (endless/decide-line-range file begin end))
           (when lines
-            (replace-match lines :fixedcase :literal nil 2)))))))
+            (if (looking-at ".*:lines *\"\\([-0-9]+\\)\"")
+                (replace-match lines :fixedcase :literal nil 1)
+              (goto-char (line-end-position))
+              (insert " :lines \"" lines "\""))))))))
 
-(defcustom endless/extension-regexp-map 
-  '(("sv" ("^class\\b" . "^endclass\\b") ("^enum\\b" . "^endenum\\b")))
-  "Alist of regexps to use for each file extension.
-Each item should be
-    (EXTENSION (REGEXP-BEGIN . REGEXP-END) (REGEXP-BEGIN . REGEXP-END))
-See `endless/decide-line-range' for more information."
-  :type '(repeat (cons string (repeat (cons regexp regexp)))))
-
-(defun endless/decide-line-range (file)
+(defun endless/decide-line-range (file begin end)
   "Visit FILE and decide which lines to include.
-The FILE's extension is used to get a list of cons cells from
-`endless/extension-regexp-map'. Each cons cell is a pair of
-regexps, which determine the beginning and end of region to be
-included. The first one which matches is used."
-  (let ((regexps (cdr-safe (assoc (file-name-extension file)
-                                  endless/extension-regexp-map)))
-        it l r)
-    (when regexps
-      (save-match-data
-        (with-temp-buffer
-          (insert-file file)
-          (while regexps
-            (goto-char (point-min))
-            (setq it (pop regexps))
-            (when (search-forward-regexp (car it) nil 'noerror)
-              (setq l (line-number-at-pos (match-beginning 0)))
-              (when (search-forward-regexp (cdr it) nil 'noerror)
-                (setq regexps nil
-                      r (line-number-at-pos (match-end 0))))))
-          (when r (format "%s-%s" l (+ r 1))))))))
+BEGIN and END are regexps which define the line range to use."
+  (let (l r)
+    (save-match-data
+      (with-temp-buffer
+        (insert-file file)
+        (goto-char (point-min))
+        (if (null begin)
+            (setq l "")
+          (search-forward-regexp begin)
+          (setq l (line-number-at-pos (match-beginning 0))))
+        (if (null end)
+            (setq r "")
+          (search-forward-regexp end)
+          (setq r (1+ (line-number-at-pos (match-end 0)))))
+        (format "%s-%s" l r)))))
 {% endhighlight %}
 </div>
 </div>
