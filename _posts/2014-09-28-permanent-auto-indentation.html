@@ -1,0 +1,50 @@
+---
+title: "Permanent (Aggressive) Auto-indentation"
+date: 2014-09-28
+layout: post
+tags: indent init.el
+series: "Emacs.SE Lessons"
+meta_title: "Permanent (Aggressive) Auto-indentation with Emacs"
+---
+<p>
+<a href="http://doc.endlessparentheses.com/Fun/electric-indent-mode"><code>electric-indent-mode</code></a> is enough to keep your code nicely
+aligned when all you do is type. However, once you start shifting
+blocks around, transposing lines, or slurping and barfing sexps,
+indentation is bound to go wrong.
+</p>
+
+<p>
+Today’s lesson is <a href="http://emacs.stackexchange.com/a/385/50">my answer to mgoszcz2's question</a>. Having the perfect
+auto-indent is easier than you might think. Copy this snippet to your
+init file and you’ll <b>never</b> have unindented code again. 
+</p>
+{% highlight cl %}
+(defun endless/indent-defun ()
+  "Indent current defun."
+  (interactive)
+  (let ((l (save-excursion (beginning-of-defun 1) (point)))
+        (r (save-excursion (end-of-defun 1) (point))))
+    (indent-region l r)))
+
+(defun endless/activate-aggressive-indent ()
+  "Locally add `endless/indent-defun' to `post-command-hook'."
+  (add-hook 'post-command-hook
+            #'endless/indent-defun nil 'local))
+
+(add-hook 'emacs-lisp-mode-hook
+          #'endless/activate-aggressive-indent)
+{% endhighlight %}
+<p>
+Evidently, this will activate on <code>emacs-lisp-mode</code>, but you can add
+this last hook to any programming mode you use.
+</p>
+
+<p>
+Here’s some code to try it on. After you’ve evaluated the above, open
+a new <i>“.el”</i> file, paste the following code, and type something
+before the opening parentheses.
+</p>
+{% highlight cl %}
+(this is a
+      test)
+{% endhighlight %}
