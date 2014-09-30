@@ -1,0 +1,190 @@
+---
+title: "Longlines mode in LaTeX"
+date: 2014-09-30
+layout: post
+tags: paragraph latex init.el
+series: "Emacs.SE Lessons"
+meta_title: "Emacs Longlines mode in LaTeX"
+---
+
+<p>
+Emacs.SE has truly revived my init file. Every day, a new snippet gets
+added. I <a href="/auto-focus-a-relevant-file-in-dired-buffers.html">started this series</a> only 6 days ago, and it’s already on its
+fourth episode. 
+</p>
+
+<p>
+<a href="http://emacs.stackexchange.com/q/443/50">Today's question</a> was asked by me, and answered by Tikhon Jelvis,
+Francesco, and Sacha Chua. As usual, this link might not work for you
+until the beta goes public.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Question</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I’ve long been keeping my LaTeX documents under version control.
+Still, the effectiveness of this initiative would be greatly improved
+if I could bring myself to adopt a <i>“one-sentence-per-line”</i> approach.
+It would facilitate managing people’s conributions and reverting old
+changes.
+</p>
+
+<p>
+If you’re wondering what’s so difficult about that, here is what such
+a document would look like. (<i>Long sentences are to be avoided, but in
+scientific writing you don’t always have a choice</i>).
+</p>
+{% highlight text %}
+A quite short sentence here.
+New sentence on the same paragraph, with more text with more text with more text with more text.
+Some more text, still on the same paragraph.
+This is another very very very very very very very very very very very very very very very very very very very very long sentence.
+{% endhighlight %}
+<p>
+The lack of readability above is evident. Having text extend beyond 80
+columns is trouble enough, but intertwining long and short lines just
+makes my brain weep in despair.
+</p>
+
+<p>
+The official solution is to activate <a href="http://doc.endlessparentheses.com/Fun/visual-line-mode"><code>visual-line-mode</code></a> and add window
+margins (or just decrease window width). That causes the lines to wrap
+(visually, not in the file) and increases readability by an order of
+magnitude.
+</p>
+{% highlight text %}
+A quite short sentence here.
+New sentence on the same paragraph, with more text with more
+text with more text with more text.
+Some more text, still on the same paragraph.
+This is another very very very very very very very very very
+very very very very very very very very very very very long
+sentence.
+{% endhighlight %}
+<p>
+But alas, it comes at a cost. If this text were indented by a few
+spaces (quite common in LaTeX), the outcome looks like it went through
+a blender. And don’t get me started on broken equations.
+</p>
+{% highlight text %}
+    A quite short sentence here.
+    New sentence on the same paragraph, with more text with
+more text with more text with more text.
+    Some more text, still on the same paragraph.
+    This is another very very very very very very very very
+very very very very very very very very very very very very
+long sentence.
+{% endhighlight %}
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Solution</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The solution reached is a hack to make <a href="http://doc.endlessparentheses.com/Fun/longlines-mode"><code>longlines-mode</code></a> act more
+intelligently on LaTeX buffers. This minor mode is similar to the
+combination of <code>visual-line-mode</code> and window margins mentioned
+above. It makes lines wrap at <a href="http://doc.endlessparentheses.com/Var/fill-column"><code>fill-column</code></a>, intead of <code>window-width</code>.
+</p>
+
+<p>
+The advantage to <code>longlines-mode</code> is that it’s implemented in elisp
+(while window margins are done in C code), so we can hack it to our
+hearts’ content. Bafflingly, this little gold nugget has been marked
+obsolete on Emacs 24.4.
+</p>
+
+<p>
+The hack below does 3 things:
+</p>
+<ol class="org-ol">
+<li>It enables “soft” wrapping of text. That is, the text is wrapped to
+<code>fill-column</code> in the buffer, but that does not reflect in the file.
+</li>
+<li>It fixes the indentation problem. So wrapping an indented line follows
+the line’s indentation. So environments with indented text (like itemize, or
+theorem) are <b>much</b> more readable.
+</li>
+<li>It even prevents wrapping of equations!
+</li>
+</ol>
+
+<p>
+The code is a bit heavy, so I’ve added comments describing the lines
+which were actually changed.
+</p>
+{% highlight cl %}
+(eval-after-load 'tex-mode
+  '(progn
+     (require 'longlines nil t)
+     (add-hook 'latex-mode-hook #'longlines-mode)))
+
+(defun longlines-encode-region (beg end &optional _buffer)
+  "Replace each soft newline between BEG and END with exactly one space.
+Hard newlines are left intact. The optional argument BUFFER exists for
+compatibility with `format-alist', and is ignored."
+  (save-excursion
+    (let ((reg-max (max beg end))
+          (mod (buffer-modified-p)))
+      (goto-char (min beg end))
+      ;; Changed this line to "swallow" indendation when decoding.
+      (while (search-forward-regexp " *\\(\n\\) *" reg-max t)
+        (let ((pos (match-beginning 1)))
+          (unless (get-text-property pos 'hard)            
+            (goto-char (match-end 0))   ; This line too
+            (insert-and-inherit " ")
+            (replace-match "" :fixedcase :literal) ; This line too
+            (remove-text-properties pos (1+ pos) 'hard))))
+      (set-buffer-modified-p mod)
+      end)))
+
+(defun longlines-wrap-line ()
+  "If the current line needs to be wrapped, wrap it and return nil.
+If wrapping is performed, point remains on the line. If the line does
+not need to be wrapped, move point to the next line and return t."
+  (if (and (bound-and-true-p latex-extra-mode)
+           (null (latex/do-auto-fill-p)))
+      (progn (forward-line 1) t)
+    ;; The conditional above was added for latex equations. It relies
+    ;; on the latex-extra package (on Melpa).
+    (if (longlines-set-breakpoint)
+        (progn
+          ;; This `let' and the `when' below add indentation to the
+          ;; wrapped line.
+          (let ((indent (save-excursion (back-to-indentation)
+                                        (current-column))))
+            (insert-before-markers-and-inherit ?\n)
+            (backward-char 1)
+            (delete-char -1)
+            (forward-char 1)
+            (when (> indent 0)
+              (save-excursion
+                (insert (make-string indent ? )))
+              (setq longlines-wrap-point
+                    (+ longlines-wrap-point indent))))
+          nil)
+      (if (longlines-merge-lines-p)
+          (progn (end-of-line)
+                 (if (or (prog1 (bolp) (forward-char 1)) (eolp))
+                     (progn
+                       (delete-char -1)
+                       (if (> longlines-wrap-point (point))
+                           (setq longlines-wrap-point
+                                 (1- longlines-wrap-point))))
+                   (insert-before-markers-and-inherit ?\s)
+                   (backward-char 1)
+                   (delete-char -1)
+                   (forward-char 1)
+                   ;; This removes whitespace added for indentation.
+                   (while (eq (char-after) ? )
+                     (delete-char 1)
+                     (setq longlines-wrap-point
+                           (1- longlines-wrap-point))))
+                 nil)
+        (forward-line 1)
+        t))))
+{% endhighlight %}
+</div>
+</div>
