@@ -125,10 +125,8 @@ The code is a bit heavy, so I’ve added comments describing the lines
 which were actually changed.
 </p>
 {% highlight cl %}
-(eval-after-load 'tex-mode
-  '(progn
-     (require 'longlines nil t)
-     (add-hook 'latex-mode-hook #'longlines-mode)))
+(require 'longlines nil t)
+(add-hook 'latex-mode-hook #'longlines-mode)
 
 (defun longlines-encode-region (beg end &optional _buffer)
   "Replace each soft newline between BEG and END with exactly one space.
