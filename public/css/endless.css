@@ -235,9 +235,6 @@ abbr[title] {
     padding: 0.5rem;
 }
 
-p.series {
-    padding:0.3rem !important;
-}
 /* Quotes */
 /* blockquote {white-space:pre-line;} */
 blockquote {
@@ -431,18 +428,27 @@ ul.flair {
 .flair p {
     margin-top:0.5em;
 }
-@media (max-height: 33rem) {
+@media (max-height: 35rem) {
     .flair {display:none;}
 }
-@media (min-height: 32.9rem) {
+@media (min-height: 34.9rem) {
     .flair {display:initial;}
 }
-@media (max-height: 35rem) {
-    .bonus-flair {display:none;}
-}
-@media (min-height: 34.9rem) {
-    .bonus-flair {display:initial;}
-}
+/* .bonus-flair p { */
+/*     padding: 0; */
+/*     margin: 0; */
+/* } */
+/* .bonus-flair .series { */
+/*     max-width: 98%; */
+/*     padding:0.7em; */
+/*     margin: 0.3em 0 0.3em 0; */
+/* } */
+/* @media (max-height: 35rem) { */
+/*     .bonus-flair {display:none;} */
+/* } */
+/* @media (min-height: 34.9rem) { */
+/*     .bonus-flair {display:initial;} */
+/* } */
 @media (max-width: 62.2rem) {
     .flair {display:none;}
 
