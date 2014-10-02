@@ -29,6 +29,7 @@
  */
 
 
+
 /*
  * Body resets
  *
@@ -127,6 +128,7 @@ a:focus {
     text-decoration: underline;
 }
 
+
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
     margin-bottom: .5rem;
@@ -155,6 +157,7 @@ h1 {
     font-size: 1rem;
 }
 
+
 /* Body text */
 p {
     margin-top: 0;
@@ -179,6 +182,7 @@ dd {
     margin-bottom: .5rem;
 }
 
+
 /* Misc */
 hr {
     position: relative;
@@ -209,6 +213,7 @@ abbr[title] {
     margin-bottom: 0;
 }
 
+
 /* Series List */
 .series ul {
     /* list-style: none; */
@@ -235,6 +240,7 @@ abbr[title] {
     padding: 0.5rem;
 }
 
+
 /* Quotes */
 /* blockquote {white-space:pre-line;} */
 blockquote {
@@ -282,6 +288,7 @@ tbody tr:nth-child(odd) th {
 }
 
 
+
 /*
  * Custom type
  *
@@ -308,6 +315,7 @@ tbody tr:nth-child(odd) th {
     background-color: #f9f9f9;
 }
 
+
 /*
  * Container
  *
@@ -332,6 +340,7 @@ tbody tr:nth-child(odd) th {
     }
 }
 
+
 /*
  * Masthead
  *
@@ -486,6 +495,7 @@ a.author:focus {
 }
 
 
+
 /*
  * Posts and pages
  *
@@ -632,7 +642,7 @@ ul.archive {
     }
 }
 
-
+
 /* Right sidebar
  */
 

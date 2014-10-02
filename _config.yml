@@ -41,6 +41,7 @@ pages_list:
   RSS Feed: ['/atom.xml', '/icons/rss.png']
   Tag List: ['/tags.html', '/icons/tag.png']
   Android App: ['http://doc.endlessparentheses.com/app.html', '/icons/android.png']
+
 media_list:
   Twitter:
     url: 'https://twitter.com/intent/tweet?via=BruceConnor&hashtags=emacs&url='
