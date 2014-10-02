@@ -655,11 +655,11 @@ ul.archive {
     /* padding-left: 0; */
     margin-left: 1em;
     font-size: 90%;
-    color: #333;
+    color: #777;
 }
 .right-sidebar dt {
     margin-left: 0;
-    color: black;
+    color: #555;
 }
 
 @media (min-width: 76.3rem) {
