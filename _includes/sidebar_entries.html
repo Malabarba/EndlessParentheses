@@ -1,0 +1,10 @@
+<h1>My Projects</h1>
+<dl>
+  {% for page in site.projects %}
+    <a href="{{ page[1].url  }}"
+       onclick="javascript:ga('send', 'event', 'Button', 'Click', 'Project {{page[0]}} Click');">
+      <dt>{{ page[0] }}</dt>
+      <dd>{{ page[1].description }}</dd>
+    </a>
+  {% endfor %}
+</dl>

@@ -632,6 +632,66 @@ ul.archive {
     }
 }
 
+
+/* Right sidebar
+ */
+
+.right-sidebar {display:none;}
+.right-sidebar dl a {
+    color: black;
+}
+
+.right-sidebar dd {
+    /* padding-left: 0; */
+    margin-left: 1em;
+    font-size: 90%;
+    color: #333;
+}
+.right-sidebar dt {
+    margin-left: 0;
+    color: black;
+}
+
+@media (min-width: 76.3rem) {
+    .post-with-comments {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .container {
+        /* overflow:hidden; */
+        /* max-width: 72rem; */
+        width:34rem;
+        margin-left:  auto;
+        margin-right: auto;
+        /* background-color:red; */
+    }
+
+    .right-sidebar {
+        font-family: "Helvetica Neue", Helvetica, sans-serif;
+        padding-bottom: 0;
+        margin-right: 0.3rem;
+        margin-top:1.3rem;
+        margin-left:19rem;
+        margin-bottom: 0;
+        /* text-align:right; */
+        position:fixed;
+        top:0;
+        left:50%;
+        display:inline-block;
+        width:14rem;
+        /* background-color:blue; */
+    }
+
+    .masthead {
+        /* background-color:blue; */
+        margin-right:19rem;
+        /* text-align:right; */
+    }
+}
+
+
+
 /*
  * Pagination
  *
