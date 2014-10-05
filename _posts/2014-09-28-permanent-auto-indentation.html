@@ -27,7 +27,7 @@ buffer is not modified (to avoid creating accidental
 modifications)."
   (interactive)
   (unless (or (region-active-p)
-              (read-only-mode)
+              buffer-read-only
               (null (buffer-modified-p)))
     (let ((l (save-excursion (beginning-of-defun 1) (point)))
           (r (save-excursion (end-of-defun 1) (point))))
