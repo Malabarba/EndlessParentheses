@@ -1,0 +1,52 @@
+---
+title: "Keymap for Launching External Applications and Websites"
+date: 2014-10-05
+layout: post
+tags: keymap intuitive keybind init.el
+series: "Mnemonic Keymaps"
+meta_title: "Emacs Keymap for Launching External Applications and Websites"
+---
+<p>
+The <a href="/launcher-keymap-for-standalone-features.html">launcher-map</a> wouldn’t be half of what it is if not for the <code>run</code>
+macro. With it, we can easily turn Emacs into a quick ’n dirty app
+launcher.
+</p>
+{% highlight cl %}
+(defmacro run (exec)
+  "Return a function that runs the executable EXEC."
+  (let ((func-name (intern (concat "endless/run-" exec))))
+    `(progn
+       (defun ,func-name ()
+         ,(format "Run the %s executable." exec)
+         (interactive)
+         (start-process "" nil ,exec))
+       ',func-name)))
+
+(define-key launcher-map "e" #'msc/explorer-at-dir)
+(define-key launcher-map "m" (run "Mathematica"))
+(define-key launcher-map "k" (run "keepass"))
+(define-key launcher-map "v" (run "steam"))
+{% endhighlight %}
+<p>
+We could use a lambda instead of the macro, but the macro defines a
+nicely documented function.
+</p>
+
+<p>
+While we’re at it, let’s do something similar for websites.
+</p>
+{% highlight cl %}
+(defmacro browse (url)
+  "Return a function that calls `browse-url' on URL."
+  (let ((func-name (intern (concat "endless/browse-" url))))
+    `(progn
+       (defun ,func-name ()
+         ,(format "Browse to the url %s." url)
+         (interactive)
+         (browse-url ,url))
+       ',func-name)))
+
+(define-key launcher-map "r" (browse "http://www.reddit.com/r/emacs/"))
+(define-key launcher-map "w" (browse "http://www.emacswiki.org/"))
+(define-key launcher-map "+" (browse "https://plus.google.com/communities/114815898697665598016"))
+{% endhighlight %}
