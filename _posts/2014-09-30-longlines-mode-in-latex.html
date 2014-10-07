@@ -126,7 +126,7 @@ which were actually changed.
 </p>
 {% highlight cl %}
 (require 'longlines nil t)
-(add-hook 'latex-mode-hook #'longlines-mode)
+(add-hook 'LaTeX-mode-hook #'longlines-mode)
 
 (defun longlines-encode-region (beg end &optional _buffer)
   "Replace each soft newline between BEG and END with exactly one space.
@@ -156,7 +156,10 @@ not need to be wrapped, move point to the next line and return t."
       (progn (forward-line 1) t)
     ;; The conditional above was added for latex equations. It relies
     ;; on the latex-extra package (on Melpa).
-    (if (longlines-set-breakpoint)
+    (if (and (longlines-set-breakpoint)
+             ;; Make sure we don't break comments.
+             (null (nth 4 (parse-partial-sexp
+                           (line-beginning-position) (point)))))
         (progn
           ;; This `let' and the `when' below add indentation to the
           ;; wrapped line.
@@ -193,5 +196,14 @@ not need to be wrapped, move point to the next line and return t."
         (forward-line 1)
         t))))
 {% endhighlight %}
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-10-07 Tue&gt;</span></span></h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Fixed handling of comments. Now comments don’t get wrapped either.
+</p>
+</div>
 </div>
 </div>
