@@ -21,10 +21,11 @@ instead of always defaulting to the same one.
 ;;; ever called by `browse-url' itself. But if you have
 ;;; problems, try uncommenting this:
 ;; (require 'browse-url)
-(defun endless/browse-url-best-browser (url &rest others)
+(defun endless/browse-url-best-browser (url &rest _)
   "Use a running browser or start the preferred one."
   (setq url (browse-url-encode-url url))
-  (let ((process-environment (browse-url-process-environment))
+  (let ((process-environment
+         (browse-url-process-environment))
         (command (endless/decide-browser)))
     (start-process (concat command " " url)
                    nil command url)))
@@ -51,7 +52,8 @@ is the name of the executable.
     "chromium"
     ("firefox\\|mozilla" . "firefox")
     ;; This works regardless of your $PATH
-    ("firefox.exe" . "c:/Program Files (x86)/Mozilla Firefox/firefox.exe"))
+    ("firefox.exe" .
+     "c:/Program Files (x86)/Mozilla Firefox/firefox.exe"))
   "List of browsers by order of preference.
 Each element is a cons cell (REGEXP . EXEC-FILE).
 If REGEXP matches the name of a currently running process and if
@@ -73,9 +75,8 @@ processes and finding a browser in there.
 (defun endless/decide-browser ()
   "Decide best browser to use based on `endless/browser-list'."
   (let ((process-list
-         (mapcar
-          (lambda (x) (cdr (assoc 'comm (process-attributes x))))
-          (list-system-processes)))
+         (mapcar #'endless/process-name
+                 (list-system-processes)))
         (browser-list endless/browser-list)
         browser out)
     ;; Find the first browser on the list that is open.
@@ -87,9 +88,19 @@ processes and finding a browser in there.
           (setq out (cdr-or-self browser))
         (setq browser-list (cdr browser-list))))
     ;; Use the one we found, or the first one available.
-    (or out (cdr-or-self
-             (-first (lambda (x) (executable-find (cdr-or-self x)))
-                     endless/browser-list)))))
+    (or out (endless/first-existing-browser))))
+
+(defun endless/first-existing-browser ()
+  "Return the first installed browser in `endless/browser-list'."
+  (require 'cl-lib)
+  (cdr-or-self
+   (car
+    (cl-member-if
+     (lambda (x) (executable-find (cdr-or-self x)))
+     endless/browser-list))))
+
+(defun endless/process-name (proc)
+  (cdr (assoc 'comm (process-attributes proc))))
 
 (defun car-or-self (x)
   "If X is a list, return the car. Otherwise, return X."
@@ -99,3 +110,7 @@ processes and finding a browser in there.
   "If X is a list, return the cdr. Otherwise, return X."
   (or (cdr-safe x) x))
 {% endhighlight %}
+
+<p>
+I’ve tested it on Windows and a couple of Linux distros. Could a Mac
+user test it for me as well?</p>
