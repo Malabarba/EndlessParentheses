@@ -47,9 +47,9 @@ media_list:
     url: 'https://twitter.com/intent/tweet?via=BruceConnor&hashtags=emacs&url='
     icon: '/icons/twitter.png'
     title: '&text='
-  Facebook:
-    url: 'http://facebook.com/sharer.php?u='
-    icon: '/icons/facebook.png'
+  # Facebook:
+  #   url: 'http://facebook.com/sharer.php?u='
+  #   icon: '/icons/facebook.png'
   Google Plus:
     url: 'https://plus.google.com/share?hl=en&url='
     icon: '/icons/gplus.png'
