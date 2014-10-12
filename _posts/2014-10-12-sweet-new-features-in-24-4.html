@@ -1,0 +1,119 @@
+---
+title: "Sweet New Features in 24.4"
+date: 2014-10-12
+layout: post
+tags: 
+series: "New in 24.4"
+meta_title: "Sweet New Features in Emacs 24.4"
+---
+<p>
+At last, Emacs 24.4 is <a href="https://lists.gnu.org/archive/html/emacs-devel/2014-10/msg00376.html">getting released next Monday</a> (the 20th). To
+commemorate, I took a stroll through the <i>“News”</i> file and picked a
+few new features that spoke to me the most. I had to cut dozens of
+interesting items for it to fit the format of this blog. And I still
+had to divide it into 3 parts.
+</p>
+
+<p>
+Today, I’ll just list my reaction to some sweet new features. Worthy
+of mention: back in December 2013 Mickey made <a href="http://www.masteringemacs.org/articles/2013/12/29/whats-new-in-emacs-24-4/">a huge post</a> also listing
+new features, and Bozhidar has been doing a <a href="http://emacsredux.com/blog/categories/emacs24-dot-4/">series of great posts</a> on
+the subject.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Favourite New Features</h2>
+<div class="outline-text-2" id="text-1">
+<blockquote>
+<p>
+New [Tramp] connection method "adb", which allows to access Android.
+</p>
+</blockquote>
+<p>
+Woohoo!
+</p>
+
+<blockquote>
+<p>
+New hook `eval-expression-minibuffer-setup-hook' run by `eval-expression' on entering the minibuffer.
+</p>
+</blockquote>
+<blockquote>
+<p>
+You can enable ElDoc inside the `eval-expression' minibuffer.
+</p>
+</blockquote>
+<p>
+This is awesome! Try it now! Evaluate the following, then call
+<kbd>M-:</kbd> and type something like <code>(message</code>.
+</p>
+{% highlight cl %}
+(add-hook 
+ 'eval-expression-minibuffer-setup-hook
+ #'eldoc-mode)
+{% endhighlight %}
+<p>
+It displays in the mode-line!
+</p>
+
+<blockquote>
+<p>
+The <b>Messages</b> buffer is created in `messages-buffer-mode', a new
+major mode, with read-only status. Any code that might create the
+<b>Messages</b> buffer should call the function `messages-buffer' to do so
+and set up the mode.
+</p>
+</blockquote>
+<p>
+<a href="init.html">I've announced my joy for this before.</a>
+</p>
+<blockquote>
+<p>
+New option `load-prefer-newer' affects how the `load' function chooses the file to load.
+</p>
+</blockquote>
+<p>
+Hopefully, someday, <code>t</code> will be the default value of this. For the
+moment, make sure you add <code>(setq load-prefer-newer t)</code> so you’re never
+accidentally using outdated compiled files.
+</p>
+<blockquote>
+<p>
+New library subr-x.el with miscellaneous small utility functions: <code>hash-table-keys</code>, <code>hash-table-values</code>, <code>string-blank-p</code>, <code>string-empty-p</code>, <code>string-join</code>, <code>string-reverse</code>, <code>string-trim-left</code>, <code>string-trim-right</code>, <code>string-trim</code>, <code>string-remove-prefix</code>, <code>string-remove-suffix</code>
+</p>
+</blockquote>
+<p>
+Get in the habit of using these functions. They greatly reduce the need
+for the <code>s-</code> package, not that there’s anything wrong with it but less
+package dependencies lead to a cleaner environment.
+</p>
+
+<blockquote>
+<p>
+New macro `with-eval-after-load'.
+</p>
+</blockquote>
+<p>
+Like <a href="http://doc.endlessparentheses.com/Fun/eval-after-load"><code>eval-after-load</code></a>, but you don’t need to quote the body.
+</p>
+
+<blockquote>
+<p>
+New commands `toggle-frame-fullscreen' and `toggle-frame-maximized', bound to &lt;f11&gt; and M-&lt;f10&gt;, respectively.
+</p>
+</blockquote>
+<blockquote>
+<p>
+Support for menus on text-mode terminals.
+</p>
+</blockquote>
+<blockquote>
+<p>
+Multi-monitor support
+</p>
+</blockquote>
+<p>
+User-experience, user-experience, user-experience.
+</p>
+</div>
+</div>
