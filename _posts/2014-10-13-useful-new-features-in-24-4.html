@@ -46,7 +46,9 @@ New buffer-local <code>electric-indent-local-mode</code>.
 </p>
 </blockquote>
 <p>
-Smart and convenient choice. See Bozhidar’s <a href="http://emacsredux.com/blog/2014/01/19/a-peek-at-emacs-24-dot-4-auto-indentation-by-default/">Emacs Redux post</a> on this.
+I personally have fallen in love with <a href="/permanent-auto-indentation.html">Aggressive Auto-indentation</a>, but
+this is a smart and convenient default. Also, see Bozhidar’s <a href="http://emacsredux.com/blog/2014/01/19/a-peek-at-emacs-24-dot-4-auto-indentation-by-default/">Emacs
+Redux post</a> on this feature.
 </p>
 
 <blockquote>
@@ -60,45 +62,41 @@ solved by these hooks! And I expect they’ll pull their weight for a
 long time still.
 </p>
 
-<div class="quotation">
+<blockquote>
 <p>
 Uniquify is enabled by default
 </p>
-
-</div>
+</blockquote>
 <p>
 This doesn’t really affect me, as <a href="https://github.com/Bruce-Connor/smart-mode-line/">smart-mode-line</a> has its own way of
 uniquifying names, but it’s a huge improvement over the old numbering
 system.
 </p>
 
-<div class="quotation">
+<blockquote>
 <p>
 letf is now just an alias for cl-letf.
 </p>
-
-</div>
+</blockquote>
 <p>
 I shouldn’t have to tell you <a href="/understanding-letf-and-how-it-replaces-flet.html">why this is a big deal</a>.
 </p>
 
-<div class="quotation">
+<blockquote>
 <p>
 New Dired minor mode <code>dired-hide-details-mode</code>
 </p>
-
-</div>
+</blockquote>
 <p>
 This used to be a very popular third party extension for dired. It’s
 always nice to see good ideas getting promoted to built-in.
 </p>
 
-<div class="quotation">
+<blockquote>
 <p>
 More packages look for ~/.emacs.d/&lt;foo&gt; additionally to ~/.&lt;foo&gt;.
 </p>
-
-</div>
+</blockquote>
 <p>
 I won’t list each of the affected files here, suffice to say that they
 add up to 17 and include some very popular packages, such as <code>places</code>
@@ -107,12 +105,11 @@ different variables, but it’s nice to see Emacs taking initiative
 against home clutter.
 </p>
 
-<div class="quotation">
+<blockquote>
 <p>
 New macro <code>define-alternatives</code> can be used to define generic commands.
 </p>
-
-</div>
+</blockquote>
 <p>
 I had to write up some code to see what this was about and it
 certainly peaked my interest. <a href="http://doc.endlessparentheses.com/Fun/define-alternatives"><code>define-alternatives</code></a> is a command which
