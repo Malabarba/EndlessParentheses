@@ -1,0 +1,146 @@
+---
+title: "Useful New Features in 24.4"
+date: 2014-10-13
+layout: post
+tags: emacs-24.4
+series: "New in 24.4"
+meta_title: "New Features in Emacs 24.4"
+---
+<p>
+Following yesterday’s list of the <a href="/sweet-new-features-in-24-4.html">Sweetest New Features in 24.4</a>, today
+I go through the ones that strike me as most useful, either to me or to
+the Emacs environment itself. This is the part where I had to cut the
+most. Emacs 24.4 exhibits a downpour of usability improvements, and it
+almost feels unjust to not list them all. Nonetheless, I’ve narrowed
+them down to 8.
+</p>
+
+<blockquote>
+<p>
+The commands <code>eval-expression</code> (<code>M-:</code>), <code>eval-last-sexp</code> (<code>C-x C-e</code>),
+and <code>eval-print-last-sexp</code> (<code>C-j</code> in Lisp Interaction mode) can take a
+zero prefix argument.  This disables truncation of lists in the output,
+equivalent to setting <code>(eval-expression-)print-length</code> and
+<code>(eval-expression-)print-level</code> to nil.  Additionally, it causes integers
+to be printed in other formats (octal, hexadecimal, and character).
+</p>
+</blockquote>
+<p>
+Fantastic! The default behaviour of truncating lists proves frustrating
+every so often. My solution had been to set <a href="http://doc.endlessparentheses.com/Var/print-length"><code>print-length</code></a> to nil, but
+that’s also not ideal as you don’t always want to see everything either.
+</p>
+
+<p>
+Being able to quickly toggle between the two is just perfect.
+</p>
+
+<blockquote>
+<p>
+<code>electric-indent-mode</code> is now enabled by default.
+</p>
+</blockquote>
+<blockquote>
+<p>
+New buffer-local <code>electric-indent-local-mode</code>. 
+</p>
+</blockquote>
+<p>
+Smart and convenient choice. See Bozhidar’s <a href="http://emacsredux.com/blog/2014/01/19/a-peek-at-emacs-24-dot-4-auto-indentation-by-default/">Emacs Redux post</a> on this.
+</p>
+
+<blockquote>
+<p>
+New hooks <code>focus-in-hook</code>, <code>focus-out-hook</code>. These are normal hooks run when an Emacs frame gains or loses input focus.
+</p>
+</blockquote>
+<p>
+There are <a href="http://emacs.stackexchange.com/questions/521/turn-off-jabber-notifications-when-emacs-has-focus">already</a> <a href="http://emacs.stackexchange.com/questions/265/how-to-auto-save-buffers-when-emacs-loses-focus">two</a> questions on <a href="http://emacs.stackexchange.com/">Emacs.StackExchange</a> which are
+solved by these hooks! And I expect they’ll pull their weight for a
+long time still.
+</p>
+
+<div class="quotation">
+<p>
+Uniquify is enabled by default
+</p>
+
+</div>
+<p>
+This doesn’t really affect me, as <a href="https://github.com/Bruce-Connor/smart-mode-line/">smart-mode-line</a> has its own way of
+uniquifying names, but it’s a huge improvement over the old numbering
+system.
+</p>
+
+<div class="quotation">
+<p>
+letf is now just an alias for cl-letf.
+</p>
+
+</div>
+<p>
+I shouldn’t have to tell you <a href="/understanding-letf-and-how-it-replaces-flet.html">why this is a big deal</a>.
+</p>
+
+<div class="quotation">
+<p>
+New Dired minor mode <code>dired-hide-details-mode</code>
+</p>
+
+</div>
+<p>
+This used to be a very popular third party extension for dired. It’s
+always nice to see good ideas getting promoted to built-in.
+</p>
+
+<div class="quotation">
+<p>
+More packages look for ~/.emacs.d/&lt;foo&gt; additionally to ~/.&lt;foo&gt;.
+</p>
+
+</div>
+<p>
+I won’t list each of the affected files here, suffice to say that they
+add up to 17 and include some very popular packages, such as <code>places</code>
+and <code>ido</code>. You could always do this yourself by configuring a score of
+different variables, but it’s nice to see Emacs taking initiative
+against home clutter.
+</p>
+
+<div class="quotation">
+<p>
+New macro <code>define-alternatives</code> can be used to define generic commands.
+</p>
+
+</div>
+<p>
+I had to write up some code to see what this was about and it
+certainly peaked my interest. <a href="http://doc.endlessparentheses.com/Fun/define-alternatives"><code>define-alternatives</code></a> is a command which
+defines a function with several possible implementations. The user is
+then asked to choose the implementation he prefers upon invoking the command
+for the first time.
+</p>
+
+<p>
+For instance, say I’m writing up a major-mode for the Julia language.
+I want to offer a compilation command, but I don’t known whether the
+user will prefer synchronous or asynchronous compilation. So I use
+define alternatives.
+</p>
+{% highlight cl %}
+(define-alternatives julia-mode-compile
+  ;; These keywords are used on the defcustom
+  ;; for `julia-mode-compile-alternatives'.
+  :group julia-mode
+  :version "1.0")
+
+(setq julia-mode-compile-alternatives
+      '(("Compile synchronously" . 
+         julia-mode-compile-synchronously)
+        ("Compile asynchronously" . 
+         julia-mode-compile-asynchronously)))
+{% endhighlight %}
+<p>
+The first time the user invokes <kbd>M-x</kbd>
+<code>julia-mode-compile</code>, they will be asked to choose an implementation.
+</p>
