@@ -1,0 +1,188 @@
+---
+title: "Old Packages and New Packages in 24.4"
+date: 2014-10-14
+layout: post
+tags: package emacs-24.4
+series: "New in 24.4"
+---
+<p>
+Our final post of the series starts with a sober note, but swiftly
+moves to a happy ending. Just as we cherish each improvement to our
+favorite packages, so must we honor the dead who served us and give
+the newborn a chance to thrive. These are the packages marked
+obsolete, followed by the new packages you didn’t even know you wanted.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Obsolete packages</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+First, some short comments on the obituary.
+</p>
+<blockquote>
+<p>
+longlines.el; use visual-line-mode.
+</p>
+</blockquote>
+<p>
+<a href="/longlines-mode-in-latex.html">This is said</a>, but don’t weep yet. I have a feeling this 
+to be raised from the dead on Emacs 25.
+</p>
+
+<blockquote>
+<p>
+iswitchb.el; use icomplete-mode.
+</p>
+</blockquote>
+<p>
+This news flowed around the Emacsphere some months ago. Between
+<code>icomplete-mode</code> and <code>ido-mode</code>, <code>iswitchb</code> was no longer necessary. 
+</p>
+
+<blockquote>
+<p>
+terminal.el; use term.el instead.
+</p>
+</blockquote>
+<p>
+They were redundant, and now they’re identical.
+</p>
+
+<blockquote>
+<p>
+meese.el.
+</p>
+</blockquote>
+<blockquote>
+<p>
+sup-mouse.el.
+</p>
+</blockquote>
+<blockquote>
+<p>
+the old version of todo-mode.el (renamed to otodo-mode.el).
+</p>
+</blockquote>
+<blockquote>
+<p>
+xesam.el (owing to the cancellation of the XESAM project).
+</p>
+</blockquote>
+<blockquote>
+<p>
+yow.el; use fortune.el or cookie1.el instead.
+</p>
+</blockquote>
+<p>
+Five packages I’ve never ever ever heard of. But I’m sure somebody
+will miss them.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">New Modes and Packages in Emacs 24.4</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Now, the interesting part.
+</p>
+
+<blockquote>
+<p>
+New package eww.el provides a built-in web browser.
+This requires Emacs to have been compiled with libxml2 support.
+</p>
+</blockquote>
+<p>
+I remember a lot of talk on =eww=’s speed and visual accuracy. It’s
+not always that I salute a package whose role is already filled by
+several others, but this one looks promising.
+</p>
+
+<blockquote>
+<p>
+New package nadvice.el offers lighter-weight advice facilities.
+It is layered as:\
+<code>add-function=/=remove-function</code>, which can be used to add/remove code on
+any function-carrying place, such as process filters or <code>&lt;foo&gt;-function</code> hooks.\
+<code>advice-add=/=advice-remove</code> to add/remove a piece of advice on a named
+function, much like <code>defadvice</code> does.
+</p>
+</blockquote>
+<p>
+Perhaps the advice interface needed a light-weight alternative. I
+never really noticed, and this package (while nice) feels rather
+underwhelming. Here’s a usage example.
+</p>
+{% highlight cl %}
+(defvar x 1)
+(defun test ()
+  "Description"
+  (interactive)
+  (message "%s" x))
+
+(advice-add 
+ 'test :around
+ (lambda (fun) 
+   (let ((x 2))
+     (funcall fun))))
+{% endhighlight %}
+
+<blockquote>
+<p>
+New package frameset.el provides a set of operations to save a frameset
+(the state of all or a subset of the existing frames and windows, somewhat
+similar to a frame configuration), both in-session and persistently, and
+restore it at some point in the future.
+</p>
+</blockquote>
+<p>
+Now we’re talking! Can you believe Emacs had no way of saving
+window/frame configurations between sessions? I ran into this problem
+before, and so did <a href="http://emacs.stackexchange.com/q/822/50">this user at Emacs.SO</a>. Before, all you could do was
+save it within a single session.
+Thanks to <code>frameset.el</code>, not only can you save configurations
+manually, but <a href="http://doc.endlessparentheses.com/Fun/desktop-save-mode"><code>desktop-save-mode</code></a> hooks into that automatically!
+</p>
+
+<blockquote>
+<p>
+New package filenotify.el provides an interface for file system
+notifications.  It requires that Emacs be compiled with one of the
+low-level libraries gfilenotify.c, inotify.c or w32notify.c.
+</p>
+</blockquote>
+<p>
+I can imagine some nice uses for this, but we’ll have to see what
+comes of it. For what it’s worth, <a href="http://doc.endlessparentheses.com/Fun/auto-revert-mode"><code>auto-revert-mode</code></a> already makes use
+of this interface when it’s available, making it much less demanding.
+</p>
+
+<blockquote>
+<p>
+New minor mode <code>superword-mode</code>, which overrides the default word motion
+commands to treat "symbol_words" as a single word, similar to what
+<code>subword-mode</code> does.
+</p>
+</blockquote>
+<p>
+Bozhidar <a href="http://emacsredux.com/blog/2014/08/27/a-peek-at-emacs-24-dot-4-superword-mode/">has more to say on this</a> than I do. I’m a <code>subword-mode</code>
+worshipper, so I won’t be using this mode.
+</p>
+
+<blockquote>
+<p>
+New minor modes <code>prettify-symbols-mode</code> and <code>global-prettify-symbols-mode</code>
+display specified symbols as composed characters.  E.g., in Emacs Lisp mode,
+this replaces the string "lambda" with the Greek lambda character.
+</p>
+</blockquote>
+<p>
+And we go off with a bang! By default, in <code>emacs-lisp-mode</code>, this will
+only turn <code>lambda</code> into <code>λ</code>, but that’s enough reason to turn it on.
+</p>
+{% highlight cl %}
+(global-prettify-symbols-mode 1)
+{% endhighlight %}
+</div>
+</div>
