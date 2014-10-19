@@ -1,0 +1,58 @@
+---
+title: "Kill Entire Line with Prefix Argument"
+date: 2014-10-19
+layout: post
+tags: keybind init.el
+series: "Emacs.SE Lessons"
+---
+<p>
+I won’t repeat myself on the <a href="/Meta-Binds-Part-1%3A-Drunk-in-the-Dark.html">usefulness of prefix arguments</a>, though it
+would hardly be an overstatement. Killing 7 lines of text in two
+keystrokes is a bliss most people will never know.
+</p>
+
+<p>
+Today's post was prompted by <a href="http://emacs.stackexchange.com/q/2347/50">this question</a> on Emacs Stack Exchange. Itsjeyd has
+grown tired of using 3 keystrokes to kill a line (<kbd>C-a C-k
+C-k</kbd>) and asks for an alternative. The <a href="http://emacs.stackexchange.com/a/2348/50">straightforward answer</a> is to use
+<a href="http://doc.endlessparentheses.com/Fun/kill-whole-line"><code>kill-whole-line</code></a> instead, but then you either need another keybind or you need
+to lose the regular <code>kill-line</code> functionality.
+</p>
+
+<p>
+<a href="http://emacs.stackexchange.com/a/2353/50">The solution</a> I've found for myself is to use prefix arguments.<br  />
+You see, killing half a line is a useful feature, but slaughtering three and a
+half lines make very little sense. So it stands to reason to have <a href="http://doc.endlessparentheses.com/Fun/kill-line"><code>kill-line</code></a>
+meticulously murder everything in its sight when given a prefix argument.
+</p>
+{% highlight cl %}
+(defmacro bol-with-prefix (function)
+  "Define a new function which calls FUNCTION.
+Except it moves to beginning of line before calling FUNCTION when
+called with a prefix argument. The FUNCTION still receives the
+prefix argument."
+  (let ((name (intern (format "endless/%s-BOL" function))))
+    `(progn
+       (defun ,name (p)
+         ,(format 
+           "Call `%s', but move to BOL when called with a prefix argument."
+           function)
+         (interactive "P")
+         (when p
+           (forward-line 0))
+         (call-interactively ',function))
+       ',name)))
+
+(global-set-key [remap paredit-kill] (bol-with-prefix paredit-kill))
+(global-set-key [remap org-kill-line] (bol-with-prefix org-kill-line))
+(global-set-key [remap kill-line] (bol-with-prefix paredit-kill))
+{% endhighlight %}
+<p>
+With this little macro, <kbd>C-k</kbd> still kills from point, but
+<kbd>C-3 C-k</kbd> swallows three whole lines. As a bonus, we get the
+<code>kill-whole-line</code> behavior by doing <kbd>C-1 C-k</kbd>.
+</p>
+
+<p>
+Are there any other functions which might benefit from this macro?
+</p>
