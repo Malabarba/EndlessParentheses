@@ -15,38 +15,31 @@ indentation is bound to go wrong.
 
 <p>
 Today’s lesson is <a href="http://emacs.stackexchange.com/a/385/50">my answer to mgoszcz2's question</a>. Having the perfect
-auto-indent is easier than you might think. Copy this snippet to your
-init file and you’ll <b>never</b> have unindented code again. 
+auto-indent is easier than you might think. I've turned this post into a
+package. Emacsers, meet <a href="https://github.com/Bruce-Connor/aggressive-indent-mode">aggressive-indent</a>. 
 </p>
-{% highlight cl %}
-(require 'cl-lib)
-(defun endless/indent-defun ()
-  "Indent current defun.
-Do nothing if mark is active (to avoid deactivaing it), or if
-buffer is not modified (to avoid creating accidental
-modifications)."
-  (interactive)
-  (ignore-errors
-    (unless (or (region-active-p)
-                buffer-read-only
-                (null (buffer-modified-p)))
-      (let ((l (save-excursion (beginning-of-defun 1) (point)))
-            (r (save-excursion (end-of-defun 1) (point))))
-        (cl-letf (((symbol-function 'message) #'ignore))
-          (indent-region l r))))))
 
-(defun endless/activate-aggressive-indent ()
-  "Locally add `endless/indent-defun' to `post-command-hook'."
-  (add-hook 'post-command-hook
-            #'endless/indent-defun nil 'local))
-
-(add-hook 'emacs-lisp-mode-hook
-          #'endless/activate-aggressive-indent)
+<p>
+So long as you have Melpa configured, you can install it with.
+</p>
+{% highlight text %}
+M-x package-install RET aggressive-indent
 {% endhighlight %}
 <p>
-Evidently, this will activate on <code>emacs-lisp-mode</code>, but you can add
-this last hook to any programming mode you use.
+Then simply turn it on and you’ll <b>never</b> have unindented code again. 
 </p>
+{% highlight cl %}
+(global-aggressive-indent-mode)
+{% endhighlight %}
+
+<p>
+This will activate <code>aggressive-indent-mode</code> on every non-text buffer. If you're
+a little shy, you can also turn it on only for specific major modes by using
+hooks.
+</p>
+{% highlight cl %}
+(add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+{% endhighlight %}
 
 <p>
 Here’s some code to try it on. After you’ve evaluated the above, open
@@ -59,28 +52,10 @@ before the opening parentheses.
 {% endhighlight %}
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-09-29 Mon&gt;</span></span></h2>
+<h2 id="sec-1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-10-20 Mon&gt;</span></span></h2>
 <div class="outline-text-2" id="text-1">
 <p>
-Fixed excessive messaging, and prevented deactivation of mark.
+Announce <a href="https://github.com/Bruce-Connor/aggressive-indent-mode">new package</a>!
 </p>
-</div>
-</div>
-
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-10-05 Sun&gt;</span></span></h2>
-<div class="outline-text-2" id="text-2">
-<p>
-Do nothing if buffer is not modified (to avoid creating accidental
-modifications).
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-10-10 Fri&gt;</span></span></h2>
-<div class="outline-text-2" id="text-3">
-<p>
-Ignore errors.</p>
 </div>
 </div>
