@@ -12,7 +12,10 @@ isPost: true
 
 <div class="tags-line">
   <p>Tags:
-    {% for tag in page.tags %} <span class="tag"><a href="/tags-expanded.html#{{ tag }}">{{ tag }}</a></span>, {% endfor %}
+    {% for tag in page.tags %} <span class="tag">
+      <a href="/tags-expanded.html#{{ tag }}" 
+         onclick="javascript:ga('send', 'event', 'Tag', 'Click', '{{ tag }} Click');">{{ tag }}</a></span>, 
+    {% endfor %}
     <span class="tag">emacs</span></p>
 </div>
 
