@@ -1,32 +1,15 @@
 <div class="related">
   {% assign number_so_far = 0 %}
-  {% for post in site.posts %}
-    {% unless post.title == page.title or (page.series != null and page.series == post.series)%}
-      {% assign already_used = false %}
-      {% unless number_so_far >= site.related.max_number %}
-        {% for tag in page.tags %}
-          {% unless already_used or site.related.excluded_tags contains tag %}
-            {% if post.tags contains tag %}
-              {% assign already_used = true %}
-              {% assign number_so_far = number_so_far | plus:1 %}
-              {% if number_so_far == 1 %}
-                <h3>Related Posts</h3>
-                <ul class="related-posts">
-              {% endif %}
-              <li>
-                <h4>
-                  <a href="{{ post.url }}"
-                     onclick="javascript:ga('send', 'event', 'Related Links', 'Click', '{{ post.title }}');">{{ post.title }}</a>
-                  <small>in <span class="tag"><a href="/tags.html#{{ tag }}">{{ tag }}</a></span></small>
-                </h4>
-              </li>
-            {% endif %}
-          {% endunless %}
-        {% endfor %}
-      {% endunless %}
-    {% endunless %}
-  {% endfor %}
-  {% if number_so_far > 0 %}
-                </ul>
+  {% for post in site.posts %}{% unless post.title == page.title or (page.series != null and page.series == post.series)%}{% assign already_used = false %}{% unless number_so_far >= site.related.max_number %}{% for tag in page.tags %}{% unless already_used or site.related.excluded_tags contains tag %}{% if post.tags contains tag %}{% assign already_used = true %}{% assign number_so_far = number_so_far | plus:1 %}{% if number_so_far == 1 %}
+    <h3>Related Posts</h3>
+    <ul class="related-posts">
   {% endif %}
+  <li>
+    <h4>
+      <a href="{{ post.url }}"
+         onclick="javascript:ga('send', 'event', 'Related Links', 'Click', '{{ post.title }}');">{{ post.title }}</a>
+      <small>in <span class="tag"><a href="/tags.html#{{ tag }}">{{ tag }}</a></span></small>
+    </h4>
+  </li>
+  {% endif %}{% endunless %}{% endfor %}{% endunless %}{% endunless %}{% endfor %}{% if number_so_far > 0 %}</ul>{% endif %}
 </div>
