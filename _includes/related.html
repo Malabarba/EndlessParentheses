@@ -15,7 +15,8 @@
               {% endif %}
               <li>
                 <h4>
-                  <a href="{{ post.url }}">{{ post.title }}</a>
+                  <a href="{{ post.url }}"
+                     onclick="javascript:ga('send', 'event', 'Related Links', 'Click', '{{ post.title }}');">{{ post.title }}</a>
                   <small>in <span class="tag"><a href="/tags.html#{{ tag }}">{{ tag }}</a></span></small>
                 </h4>
               </li>
