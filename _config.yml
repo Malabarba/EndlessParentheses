@@ -13,7 +13,7 @@ permalink:        none
 title:            Endless Parentheses
 tagline:          'Concise ramblings on Emacs productivity.'
 url:              'http://endlessparentheses.com'
-paginate:         8
+paginate:         15
 
 baseurl:          /
 author:
