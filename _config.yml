@@ -61,9 +61,9 @@ projects:
   Paradox:
     url: 'https://github.com/Bruce-Connor/paradox/'
     description: 'A modern and customizable Packages Menu .'
-  latex-extra:
-    url: 'https://github.com/Bruce-Connor/latex-extra/'
-    description: 'A series of usability improvements for LaTeX-mode.'
+  # latex-extra:
+  #   url: 'https://github.com/Bruce-Connor/latex-extra/'
+  #   description: 'A series of usability improvements for LaTeX-mode.'
   google-this:
     url: 'https://github.com/Bruce-Connor/emacs-google-this/'
     description: 'A set of functions and bindings to Google under point.'
