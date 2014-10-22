@@ -330,15 +330,6 @@ tbody tr:nth-child(odd) th {
     margin-right: auto;
 }
 
-@media (min-width: 62.3rem) {
-    .container {
-        /* overflow:hidden; */
-        max-width: 58rem;
-        margin-left:  auto;
-        margin-right: auto;
-    }
-}
-
 
 /*
  * Masthead
@@ -354,19 +345,7 @@ tbody tr:nth-child(odd) th {
     margin-left: 0.3rem;
     margin-right: 0.3rem;
 }
-@media (min-width: 62.3rem) {
-    .masthead {
-        margin-top:2rem;
-        margin-right:11rem;
-        margin-bottom: 0;
-        /* text-align:right; */
-        position:fixed;
-        top:0;
-        right:50%;
-        display:inline-block;
-        width:13rem;
-    }
-}
+
 .masthead-title {
     font-size: 200%;
 }
@@ -418,32 +397,6 @@ ul.masthead-links {
     letter-spacing: 0;
 }
 
-@media (max-width: 62.2rem) {
-    .masthead-links {
-        margin-top: .3rem;
-        margin-left: 0;
-        margin-right: 0;
-    }
-    .masthead-links li {
-        margin:0;
-        margin-bottom:.3rem;
-        text-align: center;
-        font-size:100%;
-        width:32%;
-        display:none;
-    }
-    /* Only 3 links fit in mobile. */
-    .masthead-links li:nth-child(1),
-    .masthead-links li:nth-child(2),
-    .masthead-links li:nth-child(3) {
-        display:inline-block;
-    }
-
-    .pagination {
-        width: 99%;
-    }
-}
-
 a.author {
     color: inherit;
 }
@@ -463,15 +416,6 @@ a.author:focus {
 
 .post-with-comments {
     margin:.3rem;
-}
-@media (min-width: 62.3rem) {
-    .post-with-comments {
-        /* float:left; */
-        margin-left:20rem;
-        width:34rem;
-        display:inline-block;
-        /* overflow:scroll; */
-    }
 }
 
 .post, .page {
@@ -620,45 +564,6 @@ ul.archive {
     color: #555;
 }
 
-@media (min-width: 76.3rem) {
-    .post-with-comments {
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    .container {
-        /* overflow:hidden; */
-        /* max-width: 72rem; */
-        width:34rem;
-        margin-left:  auto;
-        margin-right: auto;
-        /* background-color:red; */
-    }
-
-    .right-sidebar {
-        font-family: "Helvetica Neue", Helvetica, sans-serif;
-        padding-bottom: 0;
-        margin-right: 0.3rem;
-        margin-top:1.3rem;
-        margin-left:19rem;
-        margin-bottom: 0;
-        /* text-align:right; */
-        position:fixed;
-        top:0;
-        left:50%;
-        display:inline-block;
-        width:14rem;
-        /* background-color:blue; */
-    }
-
-    .masthead {
-        /* background-color:blue; */
-        margin-right:19rem;
-        /* text-align:right; */
-    }
-}
-
-
 
 /*
  * Pagination
@@ -710,4 +615,94 @@ a.pagination-item:hover {
 .pagination-item:first-child {
     border-top-right-radius:    0;
     border-bottom-right-radius: 0;
+}
+/* Responsiveness */
+@media (max-width: 62.2rem) {
+    .masthead-links {
+        margin-top: .3rem;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .masthead-links li {
+        margin:0;
+        margin-bottom:.3rem;
+        text-align: center;
+        font-size:100%;
+        width:32%;
+        display:none;
+    }
+    /* Only 3 links fit in mobile. */
+    .masthead-links li:nth-child(1),
+    .masthead-links li:nth-child(2),
+    .masthead-links li:nth-child(3) {
+        display:inline-block;
+    }
+
+    .pagination {
+        width: 99%;
+    }
+}
+@media (min-width: 62.3rem) {
+    .container {
+        /* overflow:hidden; */
+        max-width: 58rem;
+        margin-left:  auto;
+        margin-right: auto;
+    }
+    .masthead {
+        margin-top:2rem;
+        margin-right:11rem;
+        margin-bottom: 0;
+        /* text-align:right; */
+        position:fixed;
+        top:0;
+        right:50%;
+        display:block;
+        width:13rem;
+    }
+    .post-with-comments {
+        /* float:left; */
+        margin-left:20rem;
+        width:34rem;
+        display:inline-block;
+        /* overflow:scroll; */
+    }
+}
+
+@media (min-width: 76.3rem) {
+    .post-with-comments {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .container {
+        /* overflow:hidden; */
+        /* max-width: 72rem; */
+        width:34rem;
+        margin-left:  auto;
+        margin-right: auto;
+        /* background-color:red; */
+    }
+
+    .right-sidebar {
+        font-family: "Helvetica Neue", Helvetica, sans-serif;
+        padding-bottom: 0;
+        margin-right: 0.3rem;
+        margin-top:1.3rem;
+        margin-left:19rem;
+        margin-bottom: 0;
+        /* text-align:right; */
+        position:fixed;
+        top:0;
+        left:50%;
+        display:inline-block;
+        width:14rem;
+        /* background-color:blue; */
+    }
+
+    .masthead {
+        /* background-color:blue; */
+        margin-right:19rem;
+        /* text-align:right; */
+    }
 }
