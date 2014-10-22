@@ -17,17 +17,16 @@
             <li><a href="{{ page[1][0]  }}"><img src="{{ page[1][1]  }}" class="masthead-icon" /><span class="link-name">{{page[0]}}</span></a></li>
           {% endfor %}
           <li>{% include search-box.html %}</li>
-        </ul>
-        <ul class="flair">
           <li>{% include twitter_follow.html %}</li>
-          <li>{% include stack_exchange.html %}</li>
         </ul>
+
       </div>
 
       <div class="post-with-comments">{{ content }}
         {% include copyright.html %}</div>
       <div class="right-sidebar">
         {% include sidebar_entries.html %}
+        {% include stack_exchange.html %}
       </div>
     </div>
   </body>
