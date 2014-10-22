@@ -616,8 +616,38 @@ a.pagination-item:hover {
     border-top-right-radius:    0;
     border-bottom-right-radius: 0;
 }
+
+.gad {}
+.adsbygoogle {}
+
+.left-sidebar-ad {
+    width: 200px;
+    height: 90px;
+    position:absolute;
+    bottom:3.5rem;
+    left:0;
+}
+
 /* Responsiveness */
+@media (max-height: 36rem) {
+    .left-sidebar-ad {display:none;}
+}
+@media (min-height: 36.1rem) {
+    .left-sidebar-ad {display: initial;}
+}
+
 @media (max-width: 62.2rem) {
+    .post-ad-mobile {
+        display: initial;
+        width: 320px;
+        height: 100px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .post-ad {display: none;}
+    .left-sidebar-ad {display:none;}
+
     .masthead-links {
         margin-top: .3rem;
         margin-left: 0;
@@ -667,6 +697,8 @@ a.pagination-item:hover {
         display:inline-block;
         /* overflow:scroll; */
     }
+    
+    .post-ad-mobile {display: none;}
 }
 
 @media (min-width: 76.3rem) {
