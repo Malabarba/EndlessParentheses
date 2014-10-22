@@ -689,6 +689,7 @@ a.pagination-item:hover {
         right:50%;
         display:block;
         width:13rem;
+        height:100%;
     }
     .post-with-comments {
         /* float:left; */
