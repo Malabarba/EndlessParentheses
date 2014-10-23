@@ -620,12 +620,17 @@ a.pagination-item:hover {
 .gad {}
 .adsbygoogle {}
 
-.left-sidebar-ad {
-    width: 200px;
-    height: 90px;
+.bottom {
     position:absolute;
     bottom:3.5rem;
     left:0;
+}
+.se-flair {
+    height: 50px;
+}
+.left-sidebar-ad {
+    width: 200px;
+    height: 90px;
 }
 
 /* Responsiveness */
@@ -633,7 +638,7 @@ a.pagination-item:hover {
     .left-sidebar-ad {display:none;}
 }
 @media (min-height: 36.1rem) {
-    .left-sidebar-ad {display: initial;}
+    .left-sidebar-ad {display:initial;}
 }
 
 @media (max-width: 62.2rem) {
@@ -730,6 +735,7 @@ a.pagination-item:hover {
         left:50%;
         display:inline-block;
         width:14rem;
+        height:100%;
         /* background-color:blue; */
     }
 
