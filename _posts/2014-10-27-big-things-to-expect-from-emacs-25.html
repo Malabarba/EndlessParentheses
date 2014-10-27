@@ -1,0 +1,231 @@
+---
+title: "Big things to expect from Emacs 25"
+date: 2014-10-27
+layout: post
+tags: emacs-24.4 emacs-25
+---
+<p>
+Emacs turned 24.4 this Monday. Admittedly, it's not a hugely significant number,
+but every birthday is a big deal. The <a href="http://lists.gnu.org/archive/html/emacs-devel/2014-10/msg00713.html">cries</a> of <a href="https://news.ycombinator.com/item?id=8484027">joy</a> and <a href="https://news.ycombinator.com/item?id=8484027">celebration</a> <a href="http://irreal.org/blog/?p=3337">echoed</a>
+<a href="http://emacsredux.com/blog/2014/10/21/emacs-24-dot-4/">throughout</a> the <a href="https://twitter.com/search?q=%2523emacs%252024.4&src=typd">websphere</a>. And now, while Emacs sleeps off an alcohol-induced
+headache, as the janitor sweeps off the inch-thick confetti covering the floor,
+we gather ourselves and look forward. Just before the horizon, a prominently
+ominous, silvery, unavoidable “25” is within sight. And it brings changes.
+</p>
+
+<p>
+Last week, I exposed my favorite perks about the version that is now upon us.
+Today, I bring to you my expectations. Features I'd be overjoyed to find in the
+“News” file. Some of these are guaranteed, others are hopeful ramblings, but
+they all have something in common: their absence&#x2014;in my opinion&#x2014;holds back
+the Emacs community from growing even faster. Finally, none of these are
+far-fetched dreams, they're either already guaranteed or at least implementable.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Git</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+No, I'm not talking about git support, anyone knows Emacs is <a href="http://magit.github.io/index.html">better at git</a> than
+git itself. I'm referring to moving the codebase from <code>bzr</code> to <code>git</code>. At the
+moment, this is <a href="http://lists.gnu.org/archive/html/emacs-devel/2014-10/msg00864.html">planned to happen</a> on November 11, and a cheerful day that will be.
+</p>
+
+<p>
+In <a href="https://lists.gnu.org/archive/html/emacs-devel/2014-01/msg00005.html">the words of</a> Eric S. Raymond,
+</p>
+<blockquote>
+<p>
+The bzr version control system is dying; by most measures it is already
+moribund. The dev list has flat-lined, most of Canonical's in-house projects have
+abandoned bzr for git, and one of its senior developers has written a remarkably
+<a href="http://www.stationary-traveller.eu/pages/bzr-a-retrospective.html">candid
+assessment</a> of why bzr failed[.]
+</p>
+</blockquote>
+
+<p>
+I'm not an expert on bzr, but I've noticed it discourages some new contributors.
+Ultimately, adopting a system people already tend to be familiar with is a big
+step in the right direction.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Dynamic library loading</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Dynamically loading libraries is a big deal, and it's closer than ever. Some
+<a href="https://lists.gnu.org/archive/html/emacs-devel/2014-10/msg00292.html">very inspiring results</a> has been reported in the last month and, while there are
+still some obstacles under discussion, it's looking almost in shape for release.
+</p>
+
+<p>
+Of course, not every package needs this&#x2014;in fact, the vast majority doesn't. 
+But this would be a huge boon to a number of packages which, so far, have had to
+resort to sub-processes or resign to elisp.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Concurrency in Elisp</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+This is not a new idea in any way but it's become increasingly urgent with the
+growth of the package repositories. I'll be honest, I haven't seen much talk
+about this feature. Still, sometime next year, if there's no sign whatsoever of
+concurrency being a thing, I'll write a hack for it work with <code>package.el</code>.
+Here's why I think that's important.
+</p>
+
+<p>
+Consider this situation a little more than a year ago. I noticed my
+laptop was taking a while to display the <code>*Packages*</code> buffer.
+<i>“No doubt,”</i> I thought to myself, <i>“1477 packages is a bit much for this
+laptop. No worries though, 5 seconds of waiting isn't that bad.”</i>.
+</p>
+
+<p>
+Fast-forward fifteen months. I invoke <kbd>M-x</kbd> <code>list-packages</code>,
+wait 20 seconds, and the buffer I'm given crosses the 3000 lines threshold.
+That's partially aggravated by the fact that <code>package.el</code> displays separate
+entries for each repository a package can be found in. But even if we eliminate
+these redundancies, since July 2013 <a href="http://tracker.endlessparentheses.com/">one thousand unique new packages</a> have been
+released. That is an impressive rate of over 2 new packages <i>every single day</i>.
+</p>
+
+<p>
+Now consider that this rate shows absolutely <a href="http://tracker.endlessparentheses.com/newPackagePlotEver.png">no sign of diminishing</a>. Worse yet,
+consider that the rate in which packages are updated on Melpa is almost two
+orders of magnitude higher. Where will we be by the time Emacs 25 is released?
+</p>
+
+<p>
+Gradually and surely, the time it takes to upgrade one's Emacs packages will
+surpass that of updating one's Operating System. And what are we to do in the
+mean time? Play Minesweeper?
+</p>
+
+<p>
+We need asynchronicity, now more than ever, because the <code>*Packages*</code> buffer
+plays one of the most fundamental roles in the expansion of the community. We
+need a package manager that checks for new releases in the background while we
+navigate the previously cached list, and one that performs updates in the
+background without forcing us to go for a coffee.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">A Better Package Menu</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+This is an extension to the previous topic. Sluggishness is not the only
+consequence of an ever-increasing package menu. Navigating the menu in its
+current form is akin to exploring the Amazon rain-forest. There's plenty of
+dazzling richness to be found, but the sheer size and roughness are
+overwhelming&#x2014;not mention the piranhas.
+</p>
+
+<p>
+Emacs 24.4 introduces keyword filtering to the menu, and Paradox offers <a href="https://github.com/Bruce-Connor/paradox/#several-improvements">a couple
+other forms</a> of filtering, but they're still very crude. We need a navigable
+tree of categories&#x2014;which would to facilitate discovery for times when
+<code>isearch</code> is a bit too narrow. And we need a simple and honest search box, even
+if its only purpose is to invoke something similar to <code>occur</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">A More Robust Customize Interface</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+The customize interface is powerful and beautiful. Its major achievement, in my
+opinion, is to make it Emacs customization accessible even for those who know no
+elisp at all. When correctly configured, I could see my grandmother using it.
+</p>
+
+<p>
+Still, it is for that same reason that we must not admit it to have recurring
+bugs. A sizeable part of its user base might never be aware that they're running
+into a bug, they'll just think <i>“Emacs is complicated”</i>. So it doesn't help, you
+see, that it has <a href="http://emacs.stackexchange.com/q/2112/50">a couple of issues</a> so deep-seated that even experienced lispers
+might be led to think they're doing something wrong.
+</p>
+
+<p>
+There have been <a href="https://lists.gnu.org/archive/html/emacs-devel/2014-10/msg00707.html">talks of fixing this</a> on the dev list, so I'm optimistic.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Namespaces</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+I could go on about this for several posts. Plain and simple: Emacs doesn't
+have namespaces, so we have to prepend the package name or prefix to every
+single defined symbol. Here's a snippet of what that looks like:
+</p>
+{% highlight cl %}
+(defun package-initialize (&optional no-activate)
+  "[DOC]"
+  (interactive)
+  (setq package-alist nil)
+  (package-load-all-descriptors)
+  (package-read-all-archive-contents)
+  (unless no-activate
+    (dolist (elt package-alist)
+      (package-activate (car elt))))
+  (setq package--initialized t))
+{% endhighlight %}
+<p>
+I'm sure you see how that's annoying to write <i>and</i> read. Not to mention every
+symbol is permanently available in the global namespace.
+</p>
+
+<p>
+There have been talks of implementing a system similar to common-lisp packages,
+which takes a lot of adaptation to how symbols are interned. While we wait, I
+wrote a <a href="https://github.com/Bruce-Connor/names/">namespacing engine</a> in the form of a macro. Which turns the above into
+something like this.
+</p>
+{% highlight cl %}
+(define-namespace package- 
+(defun initialize (&optional no-activate)
+  "[DOC]"
+  (interactive)
+  (setq alist nil)
+  (load-all-descriptors)
+  (read-all-archive-contents)
+  (unless no-activate
+    (dolist (elt alist)
+      (activate (car elt))))
+  (setq -initialized t))
+)
+{% endhighlight %}
+
+<p>
+One way or the other, some form of solution should make its way into Emacs. And
+I'll fight for that to happen before 25.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Conclusion</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+That's my list of most immediate improvements. Did I miss something big? Do you
+feel insulted and disagree aggressively, or do you feel enlightened and praise
+such accuracy?
+</p>
+
+<p>
+May the year to come be filled with parentheses.
+</p>
+</div>
+</div>
