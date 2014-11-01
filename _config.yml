@@ -20,7 +20,7 @@ author:
   name:           Artur Malabarba
   url:            https://github.com/Bruce-Connor
   email:          bruce.connor.am@gmail.com
-  twitter:        https://twitter.com/bruceconnor
+  twitter:        https://twitter.com/AMalabarba
 
 # Content
 excerpt_separator: "</p>"
@@ -44,7 +44,7 @@ pages_list:
 
 media_list:
   Twitter:
-    url: 'https://twitter.com/intent/tweet?via=BruceConnor&hashtags=emacs&url='
+    url: 'https://twitter.com/intent/tweet?via=AMalabarba&hashtags=emacs&url='
     icon: '/icons/twitter.png'
     title: '&text='
   # Facebook:
