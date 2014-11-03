@@ -1,0 +1,81 @@
+---
+title: "Super Smart Capitalization"
+date: 2014-11-03
+layout: post
+tags: writing optimization init.el
+---
+<p>
+<a href="http://doc.endlessparentheses.com/Fun/capitalize-word"><code>capitalize-word</code></a> and <a href="http://doc.endlessparentheses.com/Fun/downcase-word"><code>downcase-word</code></a> are godsends. Like many other
+commands, they've spoiled me to the point that I can no longer write
+prose without Emacs. There's just one peeve that bothers me quite often.
+</p>
+
+<p>
+Let's say I want to join the following two sentences, and point is at the “B”.
+</p>
+{% highlight text %}
+Languages are fleeting. But Emacs is forever.
+{% endhighlight %}
+<p>
+You could do <kbd>DEL DEL , M-l</kbd>, but that's so long! When I
+<code>downcase</code> the word “But”, it's perfectly obvious that I'll want to get rid of
+that full stop, so why can't <kbd>M-l</kbd> do that for me?
+</p>
+{% highlight cl %}
+(global-set-key "\M-c" 'endless/capitalize)
+(global-set-key "\M-l" 'endless/downcase)
+(global-set-key "\M-u" 'endless/upcase)
+
+(defun endless/convert-punctuation (rg rp)
+  "Look for regexp RG around point, and replace with RP.
+Only applies to text-mode."
+  (let ((f "\\(%s\\)\\(%s\\)")
+        (space "?:[[:blank:]\n\r]*"))
+    ;; We obviously don't want to do this in prog-mode.
+    (if (and (derived-mode-p 'text-mode)
+             (or (looking-at (format f space rg))
+                 (looking-back (format f rg space))))
+        (replace-match rp nil nil nil 1))))
+
+(defun endless/capitalize ()
+  "Capitalize region or word.
+Also converts commas to full stops, and kills
+extraneous space at beginning of line."
+  (interactive)
+  (endless/convert-punctuation "," ".")
+  (if (use-region-p)
+      (call-interactively 'capitalize-region)
+    ;; A single space at the start of a line:
+    (when (looking-at "^\\s-\\b")
+      ;; get rid of it!
+      (delete-char 1))
+    (call-interactively 'subword-capitalize)))
+
+(defun endless/downcase ()
+  "Downcase region or word.
+Also converts full stops to commas."
+  (interactive)
+  (endless/convert-punctuation "\\." ",")
+  (if (use-region-p)
+      (call-interactively 'downcase-region)
+    (call-interactively 'subword-downcase)))
+
+(defun endless/upcase ()
+  "Upcase region or word."
+  (interactive)
+  (if (use-region-p)
+      (call-interactively 'upcase-region)
+    (call-interactively 'subword-upcase)))
+{% endhighlight %}
+<p>
+The snippet above will automatically convert between commas and full-stops when
+you're (un)capitalizing prose. It comes up on every single writing session for
+me.
+</p>
+
+<p>
+Now I can just hit <kbd>M-l</kbd> and get
+</p>
+{% highlight text %}
+Languages are fleeting, but Emacs is forever.
+{% endhighlight %}
