@@ -1,0 +1,57 @@
+---
+title: "Get in the habit of using sharp quote"
+date: 2014-11-10
+layout: post
+tags: style keybind lisp init.el
+---
+<p>
+The sharp quote (or function quote, or simply <code> #' </code>) is an abbreviation
+for the <a href="http://doc.endlessparentheses.com/Fun/function"><code>function</code></a> form. It is essentially a version of <a href="http://doc.endlessparentheses.com/Fun/quote"><code>quote</code></a> (or <code>'</code>)
+which enables byte-compilation, but its actual usefulness has changed
+throughout the years.
+</p>
+
+<p>
+A little over two decades ago, it was used to quote <a href="http://doc.endlessparentheses.com/Fun/lambda"><code>lambda</code></a> forms.
+You see, <code>'(lambda (x) (* x x))</code> was just a raw list to the
+byte-compiler, but <code>#'(lambda (x) (* x x))</code> was an actual function
+that could be compiled. Now-a-days&#x2014;or rather, now-a-decades&#x2014;the
+lambda form sharp-quotes itself, meaning a plain <code>(lambda (x) (* x
+x))</code> <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Anonymous-Functions.html">is identical</a> to the <code>#'</code> version. In fact, you should <i>never</i>
+quote your lambdas with either quotes.
+</p>
+
+<p>
+On the other hand, just as you'd expect the sharp quote to become
+redundant for the elisp programmer, a new use arises for it. The
+compiler throws a warning whenever it notices you've used an undefined
+function, say <code>(not-defined "oops")</code>, but it can't do the same for
+something like <code>(mapcar 'not-defined some-list)</code> because it doesn't
+know that symbol is the name of a function. The sharp quote is a way
+of conveying that information to the compiler, so if it runs into
+<code>(mapcar #'not-defined some-list)</code>, it can throw a warning
+accordingly.
+</p>
+
+<p>
+So it is always good practice to sharp quote every symbol that is the
+name of a function, whether it's going into a <code>mapcar</code>, an <code>apply</code>, a
+<code>funcall</code>, or anything else. Adhering to this actually unearthed a
+small bug in one of my packages.
+</p>
+
+<p>
+And of course, we can make things more convenient.
+</p>
+{% highlight cl %}
+(defun endless/sharp ()
+  "Insert #' unless in a string or comment."
+  (interactive)
+  (call-interactively #'self-insert-command)
+  (let ((ppss (syntax-ppss)))
+    (unless (or (elt ppss 3)
+                (elt ppss 4))
+      (insert "'"))))
+
+(define-key emacs-lisp-mode-map "#" #'endless/sharp)
+{% endhighlight %}
