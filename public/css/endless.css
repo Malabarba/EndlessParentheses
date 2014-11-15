@@ -749,3 +749,27 @@ a.pagination-item:hover {
         /* text-align:right; */
     }
 }
+
+
+/* KBD */
+
+/* Added by me */
+kbd
+{
+    -moz-border-radius: 6px;
+    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+    -webkit-border-radius: 6px;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+    color: #333;
+    display: inline-block;
+    font-family: 'Droid Sans Mono', monospace;
+    font-size: inherit;
+    line-height: inherit;
+    margin: 0 .1em;
+    padding: .08em .4em;
+    text-shadow: 0 1px 0 #fff;
+}
