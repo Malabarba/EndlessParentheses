@@ -33,7 +33,6 @@
 @font-face{font-family:"Charter";src:url("charter_italic-webfont.woff") format('woff');font-style:italic}
 @font-face{font-family:"Charter";src:url("charter_bold_italic-webfont.woff") format('woff');font-style:italic;font-weight:bold}
 
-
 /*
  * Body resets
  *
@@ -77,7 +76,7 @@ body {
 /* Code */
 code,
 pre {
-    font-family: Monaco, "Courier New", Menlo, monospace;
+    font-family: 'Droid Sans Mono', monospace;
 }
 
 code {
@@ -253,7 +252,7 @@ blockquote {
     border-left: .25rem solid #ccc;
 }
 .verse {
-    font-family: monospace;
+    font-family: 'Droid Sans Mono', monospace;
     font-size: 80%;
 }
 blockquote p:last-child {
@@ -538,7 +537,7 @@ ul.archive {
 .archive-date {
     margin-left: -2em;
     font-size: 85%;
-    font-family: "Courier New", Menlo, Monaco, monospace;
+    font-family:  'Droid Sans Mono', monospace;
     color: #666666;
 }
 
