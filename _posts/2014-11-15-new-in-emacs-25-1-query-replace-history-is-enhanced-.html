@@ -1,0 +1,47 @@
+---
+title: "New in Emacs 25.1: Query-replace history is enhanced."
+date: 2014-11-15
+layout: post
+tags: query-replace emacs-25
+series: "New in 25.1"
+---
+<p>
+Since the previous post on <a href="/big-things-to-expect-from-emacs-25.html">Emacs 25</a> has been well received, I've decided to
+start a series on the topic. It's time to get off the rocking chair, step off
+the porch and onto the sidewalk, and start walking towards that ominous “25” on
+the horizon. Unlike the <a href="/big-things-to-expect-from-emacs-25.html">birthday post</a>, we're not here to discuss possibilities,
+but to meet and greet every new feature that's already implemented in Emacs
+<code>master</code>.
+</p>
+
+<p>
+This time, we stick to the style of the blog. Short posts listing a single
+feature, or two at most. It's going to be a long walk, so we might as well take
+it one step at a time.
+</p>
+
+<blockquote>
+<p>
+When [in] query-replace [&#x2026;], typing <kbd>M-p</kbd> will now show
+previous replacements as "FROM SEP TO", where FROM and TO are the original text
+and its replacement, and SEP is an arrow string defined by the new variable
+<code>query-replace-from-to-separator</code>. [&#x2026;]
+</p>
+</blockquote>
+
+<p>
+This is actually rather cute.<br  />
+<img src="/images/query-replace-prompt.png" alt="query-replace-prompt.png" />
+</p>
+
+<p>
+The arrow is intangible, so it really doesn't get in the way. You can edit
+either sides of the prompt, switch them around for a kind of “undo” effect, and
+you can even delete the arrow to turn the prompt into a regular <i>FROM</i> prompt.
+</p>
+
+<p>
+If you keep cycling back through all the previous replacements, you will
+eventually be offered replacements in the old format (just <i>TO</i> and then just
+<i>FROM</i>).
+</p>
