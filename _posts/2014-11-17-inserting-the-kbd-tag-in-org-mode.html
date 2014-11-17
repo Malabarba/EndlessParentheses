@@ -1,0 +1,37 @@
+---
+title: "Inserting the kbd tag in org-mode"
+date: 2014-11-17
+layout: post
+tags: blog keybind org-mode init.el
+series: "Emacs.SE Lessons"
+---
+<p>
+It doesn't take a psychic to guess the <code>kbd</code> tag will be useful when
+writing about Emacs. When Jorge Navarro asked for the best way to do this, over
+at <a href="http://emacs.stackexchange.com/q/2206/50">Emacs.SE</a>, I thought I'd share the snippet I use.
+</p>
+
+<p>
+This simple command will ask for a key sequence (just like <kbd>C-h
+k</kbd> would) and will insert it for you. If you want to write the sequence
+manually, just hit <kbd>RET</kbd> when prompted. 
+</p>
+{% highlight cl %}
+(define-key org-mode-map "\C-ck" #'endless/insert-key)
+(defun endless/insert-key (key)
+  "Ask for a key then insert its description.
+Will work on both org-mode and any mode that accepts plain html."
+  (interactive "kType key sequence: ")
+  (let* ((is-org-mode (derived-mode-p 'org-mode))
+         (tag (if is-org-mode
+                  "@@html:<kbd>%s</kbd>@@"
+                "<kbd>%s</kbd>")))
+    (if (null (equal key ""))
+        (insert
+         (format tag (help-key-description key nil)))
+      (insert (format tag ""))
+      (forward-char (if is-org-mode -8 -6)))))
+{% endhighlight %}
+<p>
+It should work in both <code>org-mode</code> and <code>markdown-mode</code>.
+</p>
