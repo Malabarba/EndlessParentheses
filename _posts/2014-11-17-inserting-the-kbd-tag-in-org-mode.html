@@ -1,5 +1,5 @@
 ---
-title: "Inserting the kbd tag in org-mode"
+title: "Inserting the kbd tag in interactively"
 date: 2014-11-17
 layout: post
 tags: blog keybind org-mode init.el
@@ -13,8 +13,8 @@ at <a href="http://emacs.stackexchange.com/q/2206/50">Emacs.SE</a>, I thought I'
 
 <p>
 This simple command will ask for a key sequence (just like <kbd>C-h
-k</kbd> would) and will insert it for you. If you want to write the sequence
-manually, just hit <kbd>RET</kbd> when prompted. 
+k</kbd> would) and will insert it for you. If you want to write the
+sequence manually, just hit <kbd>RET</kbd> when prompted.
 </p>
 {% highlight cl %}
 (define-key org-mode-map "\C-ck" #'endless/insert-key)
@@ -24,13 +24,13 @@ Will work on both org-mode and any mode that accepts plain html."
   (interactive "kType key sequence: ")
   (let* ((is-org-mode (derived-mode-p 'org-mode))
          (tag (if is-org-mode
-                  "@@html:<kbd>%s</kbd>@@"
+                  "@@html:<kbd>@@%s@@html:</kbd>@@"
                 "<kbd>%s</kbd>")))
     (if (null (equal key ""))
         (insert
          (format tag (help-key-description key nil)))
       (insert (format tag ""))
-      (forward-char (if is-org-mode -8 -6)))))
+      (forward-char (if is-org-mode -15 -6)))))
 {% endhighlight %}
 <p>
 It should work in both <code>org-mode</code> and <code>markdown-mode</code>.
