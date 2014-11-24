@@ -59,7 +59,7 @@ that function).
 </ol>
 
 <p>
-The next time the debugged function gets called, Emacs will display
+The next time the Edebugged function gets called, Emacs will display
 its source code and will take you through it step-by-step. Press
 <kbd>n</kbd> to continue to the next step or
 <kbd>c</kbd> to stop fooling around and skip to the end.
@@ -75,5 +75,11 @@ M-x find-function RET package-menu--generate RET
 C-u C-M-x
 M-x paradox-list-packages RET
 {% endhighlight %}
+
+<p>
+Once a function has been instrumented, it will trigger Edebug <i>every time</i> it is
+called. To undo this effect (to remove instrumentation) simply visit its
+definition again and hit <kbd>C-M-x</kbd> without the prefix.
+</p>
 </div>
 </div>
