@@ -1,0 +1,79 @@
+---
+title: "Debugging Emacs-Lisp Part 1: Earn your independence"
+date: 2014-11-24
+layout: post
+tags: programming debugging
+series: "Edebug"
+---
+<p>
+Running into errors is not only a consequence of tinkering with your
+editor, it is the <i>only</i> road to graduating in Emacs. Therefore, it
+stands to reason that Emacs would contain the most impressive
+debugging utilities know to mankind, <b><a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Using-Edebug.html">Edebug</a></b>.
+</p>
+
+<p>
+Learning to Edebug is the right decision for anyone who doesn't know
+how to Edebug. 
+</p>
+
+<ul class="org-ul">
+<li>It's easy as pie, you have no excuse not to learn it.
+</li>
+<li>It helps you solve your own problems. Not that the community isn't
+helpful, it just allows you to help yourself&#x2014;which will eventually
+allow you to help the community.
+</li>
+<li>If you're a newcomer, it will teach you more about elisp than most
+tutorials out there.
+</li>
+<li>If you're anything other than a newcomer, then it's about time and
+you should be ashamed of yourself.
+</li>
+</ul>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">A quick first stop</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Before delving into Edebug, you should be aware of <a href="http://doc.endlessparentheses.com/Fun/toggle-debug-on-error"><code>toggle-debug-on-error</code></a> and
+<a href="http://doc.endlessparentheses.com/Fun/toggle-debug-on-quit"><code>toggle-debug-on-quit</code></a>. Though not as powerful as the alternative, they're a
+quick'n dirty way to get a backtrace of your problem.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">How to Edebug a function</h2>
+<div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li>Go to where the function is defined. You can usually do that with
+<kbd>C-h f</kbd> (which calls describe function) or just
+<kbd>M-x find-function</kbd>.
+</li>
+<li>Press <kbd>C-u C-M-x</kbd>. This turns on Edebug for that function.
+</li>
+<li>Now, just invoke the function (or some other command that calls
+that function). 
+</li>
+</ol>
+
+<p>
+The next time the debugged function gets called, Emacs will display
+its source code and will take you through it step-by-step. Press
+<kbd>n</kbd> to continue to the next step or
+<kbd>c</kbd> to stop fooling around and skip to the end.
+</p>
+
+<p>
+For instance, to solve the <a href="https://github.com/Bruce-Connor/paradox/issues/15">issue that lead me to write this</a>, we could
+perform the following sequence of commands:
+</p>
+
+{% highlight text %}
+M-x find-function RET package-menu--generate RET
+C-u C-M-x
+M-x paradox-list-packages RET
+{% endhighlight %}
+</div>
+</div>
