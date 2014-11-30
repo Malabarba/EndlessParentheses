@@ -1,9 +1,9 @@
 ---
-title: "Debugging Emacs-Lisp Part 1: Earn your independence"
+title: "Debugging Elisp Part 1: Earn your independence"
 date: 2014-11-24
 layout: post
-tags: programming debugging
-series: "Edebug"
+tags: edebug programming debugging
+series: "Debugging Emacs-Lisp"
 ---
 <p>
 Running into errors is not only a consequence of tinkering with your
@@ -37,8 +37,9 @@ you should be ashamed of yourself.
 <div class="outline-text-2" id="text-1">
 <p>
 Before delving into Edebug, you should be aware of <a href="http://doc.endlessparentheses.com/Fun/toggle-debug-on-error"><code>toggle-debug-on-error</code></a> and
-<a href="http://doc.endlessparentheses.com/Fun/toggle-debug-on-quit"><code>toggle-debug-on-quit</code></a>. Though not as powerful as the alternative, they're a
-quick'n dirty way to get a backtrace of your problem.
+<a href="http://doc.endlessparentheses.com/Fun/toggle-debug-on-quit"><code>toggle-debug-on-quit</code></a> (which happen to be in our <a href="/the-toggle-map-and-wizardry.html">toggle-map</a>). Though not as
+powerful as the alternative, they're a quick n' dirty way to get a backtrace of
+your problem.
 </p>
 </div>
 </div>
@@ -79,7 +80,7 @@ M-x paradox-list-packages RET
 <p>
 Once a function has been instrumented, it will trigger Edebug <i>every time</i> it is
 called. To undo this effect (to remove instrumentation) simply visit its
-definition again and hit <kbd>C-M-x</kbd> without the prefix.
+definition again and hit <kbd>C-M-x</kbd> without the prefix.q
 </p>
 </div>
 </div>
