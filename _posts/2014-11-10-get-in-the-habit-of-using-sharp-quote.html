@@ -5,10 +5,10 @@ layout: post
 tags: style keybind lisp init.el
 ---
 <p>
-The sharp quote (or function quote, or simply <code> #' </code>) is an abbreviation
-for the <a href="http://doc.endlessparentheses.com/Fun/function"><code>function</code></a> form. It is essentially a version of <a href="http://doc.endlessparentheses.com/Fun/quote"><code>quote</code></a> (or <code>'</code>)
-which enables byte-compilation, but its actual usefulness has changed
-throughout the years.
+The sharp quote (or function quote, or simply <code>#'</code>) is an abbreviation
+    for the <a href="http://doc.endlessparentheses.com/Fun/function"><code>function</code></a> form. It is essentially a version of <a href="http://doc.endlessparentheses.com/Fun/quote"><code>quote</code></a> (or <code>'</code>)
+    which enables byte-compilation, but its actual usefulness has changed
+    throughout the years.
 </p>
 
 <p>
@@ -50,7 +50,8 @@ And of course, we can make things more convenient.
   (call-interactively #'self-insert-command)
   (let ((ppss (syntax-ppss)))
     (unless (or (elt ppss 3)
-                (elt ppss 4))
+                (elt ppss 4)
+                (eq (char-after) ?'))
       (insert "'"))))
 
 (define-key emacs-lisp-mode-map "#" #'endless/sharp)
