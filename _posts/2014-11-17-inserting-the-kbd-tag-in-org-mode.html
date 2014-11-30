@@ -14,24 +14,38 @@ at <a href="http://emacs.stackexchange.com/q/2206/50">Emacs.SE</a>, I thought I'
 <p>
 This simple command will ask for a key sequence (just like <kbd>C-h
 k</kbd> would) and will insert it for you. If you want to write the
-sequence manually, just hit <kbd>RET</kbd> when prompted.
+sequence manually, just hit <kbd>RET</kbd> when prompted. <kbd>C-c k</kbd> feels
+like a nice binding for it.
 </p>
 {% highlight cl %}
+(eval-after-load 'ox-html
+  ;; If you prefer to use ~ for <code> tags. Replace "code" with
+  ;; "verbatim" here, and replace "~" with "=" below.
+  '(push '(code . "<kbd>%s</kbd>") org-html-text-markup-alist))
+
 (define-key org-mode-map "\C-ck" #'endless/insert-key)
 (defun endless/insert-key (key)
   "Ask for a key then insert its description.
 Will work on both org-mode and any mode that accepts plain html."
   (interactive "kType key sequence: ")
-  (let* ((is-org-mode (derived-mode-p 'org-mode))
-         (tag (if is-org-mode
-                  "@@html:<kbd>@@%s@@html:</kbd>@@"
-                "<kbd>%s</kbd>")))
-    (if (null (equal key ""))
-        (insert
+  (let* ((orgp (derived-mode-p 'org-mode))
+         (tag (if orgp "~%s~" "<kbd>%s</kbd>")))
+    (if (null (equal key "\C-m"))
+        (insert 
          (format tag (help-key-description key nil)))
+      ;; If you just hit RET.
       (insert (format tag ""))
-      (forward-char (if is-org-mode -15 -6)))))
+      (forward-char (if orgp -1 -6)))))
 {% endhighlight %}
 <p>
-It should work in both <code>org-mode</code> and <code>markdown-mode</code>.
+It should work in both <code>org-mode</code> and <code>html</code>-like modes.
 </p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-11-30 Sun&gt;</span></span></h2>
+<div class="outline-text-2" id="text-1">
+<p>
+A big kudos to <a href="http://www.reddit.com/r/emacs/comments/2mpjfu/inserting_the_kbd_tag_in_interactively/cm8v0p2">u/abo-abo</a>, for suggesting the use of <code>~</code>. 
+</p>
+</div>
+</div>
