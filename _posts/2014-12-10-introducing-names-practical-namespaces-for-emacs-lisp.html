@@ -1,0 +1,307 @@
+---
+title: "Introducing Names: practical namespaces for Emacs-Lisp"
+date: 2014-12-10
+layout: post
+tags: namespaces names
+---
+<p>
+A little over a month ago, I released a package called <a href="https://github.com/Bruce-Connor/names/"><b>Names</b></a>, designed for
+mitigating Emacs' namespace issue. Before I even had a chance to announced it,
+it made a bit of <a href="http://www.reddit.com/r/emacs/comments/2j4168/names_namespaces_for_emacs_lisp/">a splash</a> on r/emacs, which I've taken to mean that people are
+interested. I've been holding off on this post until I had a couple of
+Names-using packages under my belt, so I could actually speak from experience as
+opposed to expectation, and that's finally the case.
+</p>
+
+<p>
+<b>Names</b> aims to provide an implementation of namespaces in Emacs-Lisp with four
+guiding principles:
+</p>
+
+<dl class="org-dl">
+<dt> Practical </dt><dd>Actually useful and easy to grasp.
+</dd>
+<dt> Complete </dt><dd>Support any function, macro, or special-form available in
+<code>emacs-lisp</code>, <i>even</i> the ones defined by you or a third party.
+</dd>
+<dt> Robust </dt><dd>No-surprises, well-tested, and with clearly stated limitations.
+</dd>
+<dt> Debuggable </dt><dd>Support <code>edebug</code>, <code>eval-defun</code>, and <code>eval-last-sexp</code> (also known
+as <kbd>C-x C-e</kbd>). Integration with other developing tools are under
+way.
+</dd>
+</dl>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Why a namespace package?</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The lack of actual namespaces in elisp is a recurring topic in the Emacs
+community. The discussion is long and beyond the scope of this post, so I'll
+refer those interested to Nic Ferrier's <a href="http://nic.ferrier.me.uk/blog/2013_06/adding-namespaces-to-elisp">great essay on the subject</a> and to a
+<a href="http://irreal.org/blog/?p=3500">concise explanation</a> by Jon Snader as well.
+</p>
+
+<p>
+In short, Emacs takes the approach of prefixing every symbol name with the name
+of the package. This successfully avoids name clashes between packages, but it
+quickly leads to code that's repetitive and annoying to write. The links above
+mentions many shortcomings of this approach, but this code-cluttering repetition
+of the package name has always bothered me the most. It makes the code longer
+and more tiresome to read
+</p>
+
+<p>
+See this example from <kbd>package.el</kbd>. The word "<i>package</i>" is repeated 7 times in
+a 10-line function.
+</p>
+{% highlight cl %}
+;;;###autoload
+(defun package-initialize (&optional no-activate)
+  "[DOC]"
+  (interactive)
+  (setq package-alist nil)
+  (package-load-all-descriptors)
+  (package-read-all-archive-contents)
+  (unless no-activate
+    (dolist (elt package-alist)
+      (package-activate (car elt))))
+  (setq package--initialized t))
+{% endhighlight %}
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">What does Names do?</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+It doesn't change this approach, nor does it try to revolutionize Emacs or
+reinvent packages. <b>Names</b> fully adheres to Emacs conventions and is completely
+invisible to the end-user, it simply gives <i>you</i> (the developer) a convenient
+way of writing code that adheres to this standard.
+</p>
+
+<p>
+Here's what the code above would look like inside a namespace.
+</p>
+{% highlight cl %}
+;;;###autoload
+(define-namespace package-
+
+:autoload
+(defun initialize (&optional no-activate)
+  "[DOC]"
+  (interactive)
+  (setq alist nil)
+  (load-all-descriptors)
+  (read-all-archive-contents)
+  (unless no-activate
+    (dolist (elt alist)
+      (activate (car elt))))
+  (setq -initialized t))
+)
+{% endhighlight %}
+<p>
+<code>define-namespace</code> is a macro. At compilation, it expands to generate the exact
+same code as the original, thus being completely invisible to the user.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">How reliable is it?</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+I'll forgive you for being sceptical, wrapping your entire package in a macro
+sounds risky. Rest assured, <b>Names</b> is very smart in what it does, and it
+strives to avoid surprises.
+</p>
+
+<p>
+Furthermore, it features a thorough <a href="https://github.com/Bruce-Connor/names#tested-on">test suite</a> which leverages off other
+well-tested packages to the respectable sum of 244 tests. Of course, the number
+by itself has no objective meaning, but it shows that I'm commited to making it
+as reliable and robust as possible. And to prove I mean business, the last <a href="https://github.com/Bruce-Connor/camcorder.el/">two</a>
+<a href="https://github.com/Bruce-Connor/aggressive-indent-mode">packages</a> I pushed to Melpa already make use of it.
+</p>
+
+<p>
+In terms of availability, it's on GNU Elpa, so it's a safe dependency for any
+Emacs starting with <code>24.1</code>. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">And how do I use it?</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+If you learn better by example, you can have a quick look at this <a href="https://github.com/Bruce-Connor/names/blob/master/UsageExample.org">short dummy
+package</a> available on the repo or, for real world packages, see <a href="https://github.com/Bruce-Connor/camcorder.el/">camcorder.el</a> or
+<a href="https://github.com/Bruce-Connor/aggressive-indent-mode">aggressive-indent</a>. In any case, it's important to check the <a href="https://github.com/Bruce-Connor/names">Readme</a> for the most
+up-to-date instructions but here's the gist of it:
+</p>
+
+<ul class="org-ul">
+<li>List <code>names</code> as a dependency. A typical header will contain 
+</li>
+</ul>
+{% highlight cl %}
+;; Package-Requires: ((names "0.5") (emacs "24"))
+{% endhighlight %}
+<ul class="org-ul">
+<li>Write all code inside the <code>define-namespace</code> macro, preceded by an
+<code>;;;###autoload</code> cookie. The first argument of the macro is the prefix which
+will be applied to all definitions. <code>require</code> and <code>provide</code> statements go
+outside the macro.
+</li>
+</ul>
+{% highlight cl %}
+;; `require' statements come first.
+(require 'whatever)
+
+;;;###autoload
+(define-namespace example-
+;;; Code goes here
+)
+
+(provide 'example)
+;;; example.el ends here
+{% endhighlight %}
+<ul class="org-ul">
+<li>Inside the macro, instead of using <code>;;;###autoload</code> cookies, use the
+<code>:autoload</code> keyword.
+</li>
+</ul>
+
+<p>
+And that's pretty much it. Just write your code without prefixing every symbol
+with the package name, and Names will take care of that for you. 
+</p>
+</div>
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">1. Every definition gets namespaced</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Any definitions inside will have the prefix prepended to the
+symbol given. So the code
+</p>
+{% highlight cl %}
+;;;###autoload
+(define-namespace foo-
+
+(defvar bar 1 "docs")
+
+:autoload
+(defun free ()
+  "DOC"
+  (message "hi"))
+)
+{% endhighlight %}
+<p>
+essentially expands to
+</p>
+{% highlight cl %}
+(defvar foo-bar 1 "docs")
+
+;;;###autoload
+(defun foo-free ()
+  "DOC"
+  (message "hi"))
+{% endhighlight %}
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">2. Function calls and variables are namespaced if defined</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+This is best explained by example. This code:
+</p>
+{% highlight cl %}
+(define-namespace foo-
+
+(defvar var infinite)
+(defun infinite (x)
+  (infinite x))
+
+(infinite 2) ;; Local function call
+(something-else t) ;; External function call
+(::infinite var) ;; External function call
+infinite ;; Variable
+)
+{% endhighlight %}
+<p>
+expands to this code:
+</p>
+{% highlight cl %}
+(defvar foo-myvar infinite)
+(defun foo-infinite (x)
+  (foo-infinite x))
+
+(foo-infinite 2) ;; Local function call
+(something-else t) ;; External function call
+(infinite foo-var) ;; External function call.
+infinite ;; Variable.
+{% endhighlight %}
+
+<p>
+Note how:
+</p>
+<ul class="org-ul">
+<li>The <code>infinite</code> symbol gets namespaced only as a function name, <i>not</i> when it's
+used as a variable. That's because <b>Names</b> knows that <code>foo-infinite</code> is not a
+defined variable.
+</li>
+<li>The symbol <code>::infinite</code> is not namespaced, because it had been protected with
+<code>::</code>.
+</li>
+<li><code>something-else</code> is not namespaced, because it is not a locally
+defined function, so it must be external.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">3. Quoted forms are not namespaced.</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Whenever a form is not meant for evaluation, it is left completely untouched.
+The most significant example of this are lists and symbols quoted with a simple
+quote (e.g. <code>'foo</code>). These are regarded as data, not code, so you'll have to
+write the prefix explicitly inside these quoted forms.
+</p>
+
+<p>
+Some examples of the <b>opposite</b>:
+</p>
+<ul class="org-ul">
+<li>Symbols quoted with a function quote (e.g. <code>#'foo</code>) are regarded as function
+names, and are namespaced as explained in <i>item 2</i>. Remember you should <a href="/get-in-the-habit-of-using-sharp-quote.html">use the
+function quote</a> for functions anyway.
+</li>
+<li>Comma forms inside a back-tick form (e.g. <code>`(nothing ,@(function) ,variable)</code>)
+<b>are</b> meant for evaluation and so <b>will</b> be namespaced.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">But is it all worth it?</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Absolutely! Like I said, I've already written two packages using <b>Names</b>, and I
+had a blast! Of course, my opinion is biased. But I can say with all honesty
+that it's an absolute <i>delight</i> to not need to worry about all those prefixes.
+</p>
+
+<p>
+I invite people to try it out. If you do, make sure you <code>(require 'names-dev)</code> in
+your init file. This will enable integration with <code>edebug</code>, <code>eval-defun</code>, and
+<code>eval-last-sexp</code>.
+</p>
+</div>
+</div>
