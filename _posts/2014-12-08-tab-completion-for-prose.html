@@ -1,0 +1,37 @@
+---
+title: "Tab Completion for Prose"
+date: 2014-12-08
+layout: post
+tags: writing company autocomplete init.el
+---
+<p>
+When writing prose, I find auto-completion to be more of a distraction
+then an aid. However, my field of research involves much
+repetition of some annoyingly long words, such as <i>“thermalization”</i> or
+<i>“distinguishability”</i>.
+</p>
+
+<p>
+Instead of completely disabling auto-complete, I've found it useful to dial it
+down a notch, while still letting it trigger on these monstrosities.
+</p>
+{% highlight cl %}
+(setq ac-auto-start 3)
+(setq company-minimum-prefix-length 3)
+
+(defun endless/config-prose-completion ()
+  "Make auto-complete less agressive in this buffer."
+  (setq-local company-minimum-prefix-length 6)
+  (setq-local ac-auto-start 6))
+
+(add-hook 'text-mode-hook
+  #'endless/config-prose-completion)
+{% endhighlight %}
+<p>
+This will offer completions based on previously typed text, but only when I
+stumble while typing a long word.
+</p>
+
+<p>
+Do you use any kind of tab completion for writing prose? It seems
+<code>company-mode</code> has an Ispell back-end, has anyone ever tried that?</p>
