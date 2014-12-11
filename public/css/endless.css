@@ -40,11 +40,9 @@
  */
 
 html {
-    font-family: "Charter", "Helvetica Neue", Helvetica, serif;
-    text-rendering: optimizeLegibility;
-    font-weight: 550;
+    font-family: "Droid Serif", serif;
     font-size: 100%;
-    line-height: 1.3;
+    line-height: 1.5;
     box-sizing: border-box;
 }
 
@@ -229,7 +227,7 @@ abbr[title] {
     margin-top: 0;
 }
 .series-post {
-    font-family: "Charter", serif;
+    font-family: "Droid Serif", serif;
     letter-spacing:.7px;
     margin-top: .2em;
 }
@@ -753,7 +751,7 @@ a.pagination-item:hover {
     }
 
     .right-sidebar {
-        font-family: "Charter", serif;
+        font-family: "Droid Serif", serif;
         padding-bottom: 0;
         margin-right: 0rem;
         margin-top:1.3rem;
