@@ -78,11 +78,12 @@ body {
 code,
 pre {
     font-family: 'Droid Sans Mono', monospace;
+    font-weight: 600;
 }
 
 code {
     padding: .1em;
-    font-size: 87%;
+    font-size: 90%;
     color: #401515;
     /* font-weight:bold; */
 }
