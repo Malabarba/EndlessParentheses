@@ -26,9 +26,9 @@ guiding principles:
 </dd>
 <dt> Robust </dt><dd>No-surprises, well-tested, and with clearly stated limitations.
 </dd>
-<dt> Debuggable </dt><dd>Support <code>edebug</code>, <code>eval-defun</code>, and <code>eval-last-sexp</code> (also known
-as <kbd>C-x C-e</kbd>). Integration with other developing tools are under
-way.
+<dt> Debuggable </dt><dd>Support <code>edebug</code>, <code>find-function</code>/ <code>variable</code>/ <code>face</code>,
+<code>eval-defun</code>, and <code>eval-last-sexp</code> (also known as <kbd>C-x C-e</kbd>).
+Integration with other developing tools are under way.
 </dd>
 </dl>
 
@@ -121,8 +121,10 @@ strives to avoid surprises.
 Furthermore, it features a thorough <a href="https://github.com/Bruce-Connor/names#tested-on">test suite</a> which leverages off other
 well-tested packages to the respectable sum of 244 tests. Of course, the number
 by itself has no objective meaning, but it shows that I'm commited to making it
-as reliable and robust as possible. And to prove I mean business, the last <a href="https://github.com/Bruce-Connor/camcorder.el/">two</a>
-<a href="https://github.com/Bruce-Connor/aggressive-indent-mode">packages</a> I pushed to Melpa already make use of it.
+as reliable and robust as possible. To prove I mean business, the last <a href="https://github.com/Bruce-Connor/camcorder.el/">two</a>
+<a href="https://github.com/Bruce-Connor/aggressive-indent-mode">packages</a> I pushed to Melpa already make use of it. And if that's not enough, I
+just got news that <a href="https://github.com/DamienCassou/shell-switcher">shell-switcher</a> has joined the party and seems to be <a href="https://travis-ci.org/DamienCassou/shell-switcher">passing
+all tests</a>.
 </p>
 
 <p>
@@ -299,9 +301,10 @@ that it's an absolute <i>delight</i> to not need to worry about all those prefix
 </p>
 
 <p>
-I invite people to try it out. If you do, make sure you <code>(require 'names-dev)</code> in
-your init file. This will enable integration with <code>edebug</code>, <code>eval-defun</code>, and
-<code>eval-last-sexp</code>.
+I invite people to try it out. If you do, make sure you <code>(require 'names-dev)</code>
+in your init file. This will enable integration with <code>edebug</code>, <code>find-function</code>,
+<code>eval-defun</code>, and <code>eval-last-sexp</code>. I've already got news that <a href="https://github.com/DamienCassou/shell-switcher">shell-switcher</a>
+has made the conversion, and <code>alchemist</code> seems to be on the way.
 </p>
 </div>
 </div>
