@@ -55,6 +55,9 @@ media_list:
     icon: '/icons/gplus.png'
 
 projects:
+  Names:
+    url: 'https://github.com/Bruce-Connor/names/'
+    description: 'Namespaces for emacs-lisp.'
   smart-mode-line:
     url: 'https://github.com/Bruce-Connor/smart-mode-line/'
     description: 'A powerful and beautiful mode-line.'
@@ -70,9 +73,6 @@ projects:
   Emacs Online Doc:
     url: 'http://doc.endlessparentheses.com/'
     description: 'An up-to-date online documentation of ALL Emacs functions and variables.'
-  Emacs Doc Android App:
-    url: 'https://play.google.com/store/apps/details?id=com.malabarba.emacsdocumentation'
-    description: 'Consult functions and variables on your Android device.'
   Emacs Archive Tracker:
     url: 'http://tracker.endlessparentheses.com/'
     description: 'Statistics on the growth of Emacs package repositories.'
