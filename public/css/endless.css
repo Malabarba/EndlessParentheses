@@ -28,10 +28,10 @@
  * Themes
  */
 
-@font-face{font-family:"Charter";src:url("charter_regular-webfont.woff") format('woff')}
-@font-face{font-family:"Charter";src:url("charter_bold-webfont.woff") format('woff');font-weight:bold}
-@font-face{font-family:"Charter";src:url("charter_italic-webfont.woff") format('woff');font-style:italic}
-@font-face{font-family:"Charter";src:url("charter_bold_italic-webfont.woff") format('woff');font-style:italic;font-weight:bold}
+/* @font-face{font-family:"Charter";src:url("charter_regular-webfont.woff") format('woff')} */
+/* @font-face{font-family:"Charter";src:url("charter_bold-webfont.woff") format('woff');font-weight:bold} */
+/* @font-face{font-family:"Charter";src:url("charter_italic-webfont.woff") format('woff');font-style:italic} */
+/* @font-face{font-family:"Charter";src:url("charter_bold_italic-webfont.woff") format('woff');font-style:italic;font-weight:bold} */
 
 /*
  * Body resets
@@ -69,6 +69,7 @@ body {
 
 body {
     padding-top: 1rem;
+    font-size: 90%;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
 }
@@ -371,8 +372,8 @@ ul.masthead-links {
     bottom:-0.15em;
 }
 .masthead-links li {
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size:110%;
+    font-family: "Droid Sans Mono", Helvetica, sans-serif;
+    font-size:120%;
     width: inherit;
     margin-top:.8em;
 }
