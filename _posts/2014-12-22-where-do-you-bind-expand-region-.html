@@ -1,0 +1,39 @@
+---
+title: "Where do YOU bind expand-region?"
+date: 2014-12-22
+layout: post
+tags: meta keybind init.el
+series: "Meta Binds"
+---
+<p>
+<a href="https://github.com/magnars/expand-region.el">Expand region</a> is one of those packages that deserves to be built-in. It's so
+simple and useful it makes Emacs worthwhile all by itself. Fundamentally, the
+entire package boils down to a single command, <code>expand-region</code>, which
+incrementally increases the selected region by semantic units. So deciding where
+to bind this command is an important decision.
+</p>
+
+<p>
+<a href="https://github.com/magnars/expand-region.el">The Readme</a> suggests <kbd>C-=</kbd> and I've seen recurring recommendations for <kbd>S-SPC</kbd>,
+which I used for a while, but neither felt quite right for me. After marking a
+small region, the most common operation for me is to copy it, but it's very
+awkward for my fingers to hit <kbd>S-SPC</kbd> <kbd>M-w</kbd>. With that in mind, in one of my
+brightest epiphanies, I defined the following keybind.
+</p>
+{% highlight cl %}
+(global-set-key (kbd "M-2") #'er/expand-region)
+{% endhighlight %}
+<p>
+Not only does <kbd>M-2</kbd> use the same modifier as <kbd>M-w</kbd>, but it's right above the
+latter. I couldn't hope for a better key. Besides, after years of switching tabs
+in Firefox, my fingers are sniper rifles when it comes to hitting <kbd>M-2</kbd>, making
+this combo extra speedy. The downside is that you forgo using Meta for prefix
+arguments, but <a href="/Meta-Binds-Part-1%253A-Drunk-in-the-Dark.html">I'm fine with that</a>.
+</p>
+
+<p>
+When I select large regions, I'm probably killing instead of copying. While
+<kbd>M-2</kbd> <kbd>C-w</kbd> is not terribly natural, it's also not awkward, so the key is good
+enough here. Finally, <kbd>M-2</kbd> also fits well with my <code>multiple-cursors</code> keybinds,
+but that's a topic for another post.
+</p>
