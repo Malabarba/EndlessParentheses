@@ -1,0 +1,36 @@
+---
+title: "Asynchronous package upgrades with Paradox"
+date: 2014-12-29
+layout: post
+tags: emacs-25 package
+---
+<p>
+Two months ago, I listed <a href="/big-things-to-expect-from-emacs-25.html">a few big things</a> I was looking forward to for Emacs 25.
+I knew I was being unrealistically optimistic to mention concurrency in Elisp,
+but there was a point behind it. It bothered me a lot that I had to get up and
+go for a coffee whenever I upgraded more than a few packages, and asynchronous
+upgrades were the only way I saw of fixing that. This Christmas, as promised and
+well ahead of schedule, I've implemented asynchronous execution into <a href="https://github.com/Bruce-Connor/paradox/#paradox">Paradox</a>,
+thanks to the fantastic <a href="https://github.com/jwiegley/emacs-async">async</a> library.
+</p>
+
+<p>
+What this means is that whenever you hit <kbd>x</kbd> on Paradox's Package Menu, be it an
+upgrade, installation, or deletion, if you've installed the <code>async</code> library,
+you'll have the option to perform the operation in the background. Then you can
+get back to work and forget about it. Paradox will message you once it's done,
+and that's it.
+</p>
+
+<p>
+You can customize whether or not you want this feature with the
+<code>paradox-execute-asynchronously</code> variable (the default is to ask you each time).
+It is still considered a beta feature, so you won't find it on Melpa-stable yet.
+You can get it on Melpa or wait a couple of weeks for it to be marked stable.
+</p>
+
+<p>
+As a bonus, there's also a new command <code>paradox-upgrade-packages</code>, inspired by
+<a href="http://emacs.stackexchange.com/a/4052/50">this Emacs.SE question</a>, which upgrades everything without the usual manual
+labor.
+</p>
