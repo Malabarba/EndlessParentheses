@@ -28,10 +28,10 @@
  * Themes
  */
 
-@font-face{font-family:"Charter";src:url("charter_regular-webfont.woff") format('woff')}
-@font-face{font-family:"Charter";src:url("charter_bold-webfont.woff") format('woff');font-weight:bold}
-@font-face{font-family:"Charter";src:url("charter_italic-webfont.woff") format('woff');font-style:italic}
-@font-face{font-family:"Charter";src:url("charter_bold_italic-webfont.woff") format('woff');font-style:italic;font-weight:bold}
+/* @font-face{font-family:"Charter";src:url("charter_regular-webfont.woff") format('woff')} */
+/* @font-face{font-family:"Charter";src:url("charter_bold-webfont.woff") format('woff');font-weight:bold} */
+/* @font-face{font-family:"Charter";src:url("charter_italic-webfont.woff") format('woff');font-style:italic} */
+/* @font-face{font-family:"Charter";src:url("charter_bold_italic-webfont.woff") format('woff');font-style:italic;font-weight:bold} */
 
 /*
  * Body resets
@@ -40,11 +40,9 @@
  */
 
 html {
-    font-family: "Charter", "Helvetica Neue", Helvetica, serif;
-    text-rendering: optimizeLegibility;
-    font-weight: 550;
+    font-family: "Droid Serif", serif;
     font-size: 100%;
-    line-height: 1.3;
+    line-height: 1.5;
     box-sizing: border-box;
 }
 
@@ -71,6 +69,7 @@ body {
 
 body {
     padding-top: 1rem;
+    font-size: 90%;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
 }
@@ -79,11 +78,12 @@ body {
 code,
 pre {
     font-family: 'Droid Sans Mono', monospace;
+    font-weight: 600;
 }
 
 code {
     padding: .1em;
-    font-size: 87%;
+    font-size: 90%;
     color: #401515;
     /* font-weight:bold; */
 }
@@ -229,7 +229,7 @@ abbr[title] {
     margin-top: 0;
 }
 .series-post {
-    font-family: "Charter", serif;
+    font-family: "Droid Serif", serif;
     letter-spacing:.7px;
     margin-top: .2em;
 }
@@ -373,8 +373,8 @@ ul.masthead-links {
     bottom:-0.15em;
 }
 .masthead-links li {
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-size:110%;
+    font-family: "Droid Sans Mono", Helvetica, sans-serif;
+    font-size:120%;
     width: inherit;
     margin-top:.8em;
 }
@@ -753,7 +753,7 @@ a.pagination-item:hover {
     }
 
     .right-sidebar {
-        font-family: "Charter", serif;
+        font-family: "Droid Serif", serif;
         padding-bottom: 0;
         margin-right: 0rem;
         margin-top:1.3rem;

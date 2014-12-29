@@ -1,0 +1,91 @@
+---
+title: "New on Elpa and in Emacs 25.1: let-alist"
+date: 2014-12-15
+layout: post
+tags: package
+series: "New in 25.1"
+---
+<p>
+<code>let-alist</code> is the best thing to happen to associative lists since the
+invention of the cons cell. This little macro lets you easily access the
+contents of an alist, concisely and efficiently, without having to specify them
+preemptively. It comes built-in with 25.1, and is also available on GNU Elpa for
+older Emacsen.
+</p>
+
+<p>
+If you've ever had to process the output of a web API, you've certainly had to
+deal with endless alists returned by <a href="http://doc.endlessparentheses.com/Fun/json-read"><code>json-read</code></a>. I'll spare you the rant and go
+straight to the example. 
+</p>
+
+<p>
+Here's a very simplified version of a function of the <a href="https://github.com/vermiculus/sx.el">SX</a> package, before <code>let-alist</code>.
+</p>
+{% highlight cl %}
+(defun sx-question-list--print-info (question-data)
+  "DOC"
+  (let ((tags               (cdr (assq 'tags               question-data)))
+        (answer_count       (cdr (assq 'answer_count       question-data)))
+        (title              (cdr (assq 'title              question-data)))
+        (last_activity_date (cdr (assq 'last_activity_date question-data)))
+        (score              (cdr (assq 'score              question-data)))
+        (owner-name (cdr (assq 'display_name (cdr (assq 'owner question-data))))))
+    (list
+     question-data
+     (vector
+      (int-to-string score)
+      (int-to-string answer_count)
+      title "     "
+      owner-name
+      last_activity_date 
+      sx-question-list-ago-string
+      " " tags))))
+{% endhighlight %}
+
+<p>
+And this is what the same function looks like now (again, simplified).
+</p>
+{% highlight cl %}
+(defun sx-question-list--print-info (question-data)
+  "DOC"
+  (let-alist question-data
+    (list
+     question-data
+     (vector
+      (int-to-string .score)
+      (int-to-string .answer_count)
+      .title "     "
+      .owner.display_name
+      .last_activity_date sx-question-list-ago-string
+      " " .tags))))
+{% endhighlight %}
+<p>
+How much nicer is that? <code>let-alist</code> detects all those symbols that start with a
+<code>.</code>, and wraps the body in a <code>let</code> form essentially identical to the one above.
+The resulting code is much nicer to write, and the byte-compiled result is
+exactly as efficient as the manually written version. (If it's not
+byte-compiled, there will be a performance difference, though it should be
+small.)
+</p>
+
+<p>
+And just to make things nicer, you can use this snippet to highlight those <code>.</code>
+symbols as if they were keywords.
+</p>
+{% highlight cl %}
+(font-lock-add-keywords
+ 'emacs-lisp-mode
+ '(("\\_<\\.\\(?:\\sw\\|\\s_\\)+\\_>" 0 
+   font-lock-builtin-face)))
+{% endhighlight %}
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-12-20 Sat&gt;</span></span></h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Due to popular demand, <code>let-alist</code> now does nested alists. The example above
+shows how you can use <code>.owner.display_name</code> to access the value of
+<code>display_name</code> inside the value of <code>owner</code>.</p>
+</div>
+</div>
