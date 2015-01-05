@@ -1,0 +1,84 @@
+---
+title: "What's a defconst and why you should use it"
+date: 2015-01-05
+layout: post
+tags: style package emacs-25
+---
+<p>
+Any Emacs package developer worth their salt knows the difference between a
+<a href="http://doc.endlessparentheses.com/Fun/defvar"><code>defvar</code></a> and <a href="http://doc.endlessparentheses.com/Fun/defcustom"><code>defcustom</code></a>. These two comprise the vast majority of variable
+definitions in Elisp code, but there's a third child, the <a href="http://doc.endlessparentheses.com/Fun/defconst"><code>defconst</code></a>. While
+regular variables and customizable variables only really differ when it comes to
+Emacs' <a href="http://doc.endlessparentheses.com/Fun/customize"><code>customize</code></a> system, constants differ in loading logic in a subtle but
+important way.
+</p>
+
+<p>
+When a <code>defvar</code> is evaluated, the value specified is assigned to the variable
+only if the previous value was void (if the variable wasn't defined yet).
+Evaluating a <code>defconst</code>, on the other hand, <i>always</i> sets the symbol's value to
+the (new) given value. This becomes most relevant when a package is upgraded
+<i>after</i> having been loaded in Emacs. Any variables defined by the package will
+retain their old values until Emacs is restarted, whereas constants will be
+updated to their new values.
+</p>
+
+<p>
+In a sense, somewhat ironically, Elisp constants are the least constant of all
+variables. Rest assured though, they were given this name for a reason. This
+behaviour is indeed suited for storing values that should be constant. Here's a
+simple use-case which arose for us in <a href="https://github.com/vermiculus/sx.el#readme">sx.el</a>.
+</p>
+
+<p>
+The StackExchange API requires that we provide filters to specify which
+information we want to receive. Of course, we were storing these filters in
+variables and then using that information while printing the question.
+</p>
+{% highlight cl %}
+(defvar sx-browse-filter
+  '(question.title question.owner))
+
+(defun sx-question--print-info (question-data)
+  (let-alist question-data
+    .title "\nAsked by:" .owner))
+{% endhighlight %}
+<p>
+The problem with this approach would only be seen after an upgrade. Lets say we
+decide to also display a question's score. Without a doubt, we'd change the
+above to something like this.
+</p>
+{% highlight cl %}
+(defvar sx-browse-filter
+  '(question.score question.title question.owner))
+
+(defun sx-question--print-info (question-data)
+  (let-alist question-data
+    (number-to-string .score) " "
+    .title "\nAsked by:" .owner))
+{% endhighlight %}
+<p>
+Now the user upgrades <code>sx.el</code>, tries to run it again, and gets hit on the face
+with an error! 
+</p>
+
+<p>
+<code>sx-browse-filter</code> is still using the old value, so the question score is not
+returned by the API. That means <code>.score</code> is nil and <code>number-to-string</code> throws an
+error. Changing the <code>defvar</code> to <code>defconst</code> was all we needed to prevent this
+problem.
+</p>
+
+<p>
+If you're wondering why you've never run into such an issue, that's because
+<code>package.el</code> used to have another bug, which would never load new package
+versions upon upgrade. That has been fixed in 25.1&#x2014;packages are now reloaded
+on upgrade&#x2014;so you should ensure your package won't run into new problems by
+making proper use of constants.
+</p>
+
+<p>
+Simply put, you should <code>defconst</code> whenever there are functions or macros in a
+package which rely on the variable having that specific value (kind of like a
+proper constant). This way you'll know you never have old values hanging around.
+</p>
