@@ -1,0 +1,152 @@
+---
+title: "Automate a package's group and version number"
+date: 2015-01-12
+layout: post
+tags: package names
+series: "Names Keywords"
+---
+<p>
+One month ago, I <a href="/introducing-names-practical-namespaces-for-emacs-lisp.html">officially announced</a> <b>Names</b>, a package that writes your elisp
+namespaces for you. Today, I go into other ways in which Names can help. Think of
+these as delicious Easter eggs hidden inside the shabby wood cabin that is the
+<code>define-namespace</code> macro (which is built on top of an underground Machiavellic
+engine of infinite cogs and spikes, but that's beyond the point).
+</p>
+
+<p>
+Names is about turning your code into an actual cohesive package, as opposed to
+a collection of functions with a common goal. Since it knows everything about
+your namespace, it can use that information to simplify your code. These
+features are all implemented as keywords you can pass to the macro, and are
+documented inside the <code>names--keyword-list</code> variable. 
+</p>
+
+<p>
+As a practical example, take this simple snippet from <a href="https://github.com/Bruce-Connor/camcorder.el.git">camcorder.el</a>.
+</p>
+{% highlight cl %}
+;;;###autoload
+(define-namespace camcorder-
+:package camcorder
+:group emacs
+:version "0.1"
+
+(defcustom frame-parameters
+  '((height . 20) (width . 65) (top .  80))
+  "Parameters used on the recording frame.
+See `make-frame'."
+  :type '(alist :key-type symbol :value-type sexp))
+)
+{% endhighlight %}
+<p>
+The first two lines should be no surprise to you if you've read my <a href="/introducing-names-practical-namespaces-for-emacs-lisp.html">introduction
+to Names</a>, but next three might. Those three tiny keywords are expressive and
+easy to read, and save you a lot of code. The macro above expands to the
+following.
+</p>
+{% highlight cl %}
+(defgroup camcorder nil
+  "Customization group for camcorder."
+  :prefix "camcorder-"
+  :group 'emacs)
+
+(defconst camcorder-version "0.1"
+  "Version of the camcorder package.")
+(defun camcorder-version ()
+  "Version of the camcorder package."
+  (interactive)
+  (message "camcorder version: 0.1")
+  "0.1")
+
+(defcustom frame-parameters
+  '((height . 20) (width . 65) (top .  80))
+  "Parameters used on the recording frame.
+See `make-frame'."
+  :type '(alist :key-type symbol :value-type sexp)
+  :group 'camcorder)
+{% endhighlight %}
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Package name</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This just defines the name of the package, which is also the name of the group.
+If you don't provide it, Names will calculate it by taking the namespace (here,
+<code>camcorder-</code>) and removing the last character.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Group definition</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Most packages have a customization group. This leads to a bit of repetitive
+code, as every single <code>defcustom</code> and <code>defface</code> needs to &#x2014;or should, at
+least&#x2014; include the <code>:group GROUP-NAME</code> keyword. Names will spare you of that
+chore, all you need to do is give it the <code>:group</code> keyword once, and tell it
+which group is the parent of your package's <code>defgroup</code>.
+</p>
+
+<p>
+The code above is specifying that Names should create a group for this package,
+whose parent is the <code>emacs</code> group, and that every <code>defcustom</code> and <code>defface</code>
+should belong to this group. 
+</p>
+
+<p>
+If the automated~defgroup~ portrayed above is not to your liking, you can pass
+a list instead of a symbol to the <code>:group</code> keyword. This list will be taken as
+the entire <code>defgroup</code> form, sans the leading <code>defgroup</code>. Thus, you can define
+your group however you want, and still benefit from the automatic childing of
+variables and faces. 
+</p>
+
+<p>
+Furthermore, Names is smart enough to not assign a <code>:group</code> to a variable that
+already has one. So you can define additional groups in your package, and use
+them as normal. Only the group-less variables (and faces) will be assigned to
+the parent group.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Version numbers</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+It is considered good practice by many for a package to define its version
+number as both a constant and an interactive command. If you don't believe me,
+see for yourself:
+</p>
+<ol class="org-ol">
+<li>hit <kbd>M-x</kbd>,
+</li>
+<li>type <code>-version</code>,
+</li>
+<li>hit <kbd>TAB</kbd>.
+</li>
+</ol>
+
+<p>
+By using the <code>:version</code> keyword, which is pretty self explanatory, you get a
+constant and a command defined &#x2014;both named <code>PACKAGE-version</code>&#x2014; which return
+the version you specify.
+</p>
+
+<hr  />
+
+<p>
+This concludes the most useful current keywords. The purpose of these
+facilitators is not to write less code, writing is easy to automate. The
+objective here is the same overarching goal behind Names itself, <i>making the
+source code shorter to read and nicer to look at</i>.
+</p>
+
+<p>
+To make use of the described features, make sure you require <code>(names
+"20150000")</code> in your package. Also in the works are <a href="https://github.com/Bruce-Connor/names/issues/11"><code>:require</code> and <code>:use</code></a>, but
+I'll let you know when these come out.
+</p>
+</div>
+</div>
