@@ -1,0 +1,75 @@
+---
+title: "Be a 4clojure hero with Emacs"
+date: 2015-01-19
+layout: post
+tags: clojure programming init.el
+---
+<p>
+This year I made it my resolution to learn clojure. After reading through the
+unexpectedly engaging romance that is <a href="http://braveclojure.com">Clojure for the Brave and True</a>, it was
+time to boldly venture through the dungeons of <a href="http://www.4clojure.com/">4clojure</a>. Sword in hand, I
+install <code>4clojure.el</code> and start hacking, but I felt the interface could use some
+improvements.
+</p>
+
+<p>
+For starters, it's annoying that you need two commands to check the answer and
+move to next question. Sacha has <a href="http://sachachua.com/blog/2014/05/playing-around-clojure-cider-4clojure/">a nice suggestion</a> on this matter, a single
+command which checks the answer and moves to the next question. Nonetheless, I
+needed more. 
+</p>
+
+<p>
+Having to manually erase the <code>__</code> fields to type my answer is absurd. Not to
+mention some answers are cumbersome to type inline. With the following command,
+you type your code at the end of the buffer; a lone archer lining up a shot to
+slay the problems above.
+</p>
+{% highlight cl %}
+(defun endless/4clojure-check-and-proceed ()
+  "Check the answer and show the next question if it worked."
+  (interactive)
+  (unless
+      (save-excursion
+        ;; Find last sexp (the answer).
+        (goto-char (point-max))
+        (forward-sexp -1)
+        ;; Check the answer.
+        (cl-letf ((answer
+                   (buffer-substring (point) (point-max)))
+                  ;; Preserve buffer contents, in case you failed.
+                  ((buffer-string)))
+          (goto-char (point-min))
+          (while (search-forward "__" nil t)
+            (replace-match answer))
+          (string-match "failed." (4clojure-check-answers))))
+    (4clojure-next-question)))
+{% endhighlight %}
+
+<p>
+The second encounter is simple in comparison. Just sharpen the blade, polish the
+shield, and we're ready for battle.
+</p>
+{% highlight cl %}
+(defadvice 4clojure/start-new-problem
+    (after endless/4clojure/start-new-problem-advice () activate)
+  ;; Prettify the 4clojure buffer.
+  (goto-char (point-min))
+  (forward-line 2)
+  (forward-char 3)
+  (fill-paragraph)
+  ;; Position point for the answer
+  (goto-char (point-max))
+  (insert "\n\n\n")
+  (forward-char -1)
+  ;; Define our key.
+  (local-set-key (kbd "M-j") #'my/4clojure-check-and-proceed))
+{% endhighlight %}
+<p>
+These two snippets have me cleaving effortlessly through the initial questions
+and I'm eager for the final challenges. 
+</p>
+
+<p>
+Both of these websites were recommended to me by <a href="https://twitter.com/mwfogleman/status/549916676343750656">Michael Fogleman</a>. Do you know
+any other good clojure resources?</p>
