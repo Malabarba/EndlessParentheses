@@ -1,0 +1,39 @@
+---
+title: "New in Emacs 25.1: Easily install multifile package from a directory"
+date: 2015-01-20
+layout: post
+tags: package emacs-25
+series: "New in 25.1"
+---
+<p>
+When developing a package, <a href="http://doc.endlessparentheses.com/Fun/package-install-from-buffer"><code>package-install-from-buffer</code></a> is a very useful
+command. It installs the current buffer as an Elpa package, so you can test
+installation, byte-compilation, autoloading, and activation, all in one fell
+swoop. If your package has multiple files, however, it gets a little more
+complicated.
+</p>
+
+<p>
+Earlier this month, I <a href="http://emacs.stackexchange.com/q/7284/50">asked on Emacs.SE</a> whether there was a simple way to
+manually install a multifile package. As discussed in <a href="http://emacs.stackexchange.com/a/7285/50">Phils' answer</a>, you need to
+create a <code>-pkg.el</code> file, tar the package, and then invoke a command on the tar
+file. That's two steps too many for me, so a push to <code>master</code> was in order.
+</p>
+
+<p>
+As of today, <a href="http://lists.gnu.org/archive/html/emacs-diffs/2015-01/msg00230.html">Emacs 25.1 has a new feature.</a> From the <code>NEWS</code> file:
+</p>
+<blockquote>
+<p>
+** <code>package-install-from-buffer</code> and <code>package-install-file</code> work on directories.
+This follows the same rules as installing from a <code>.tar</code> file, except the
+<code>-pkg.el</code> file is optional.
+</p>
+</blockquote>
+
+<p>
+There are no new commands to remember. Just issue <a href="http://doc.endlessparentheses.com/Fun/package-install-from-buffer"><code>package-install-from-buffer</code></a>
+from a dired buffer, or invoke <a href="http://doc.endlessparentheses.com/Fun/package-install-file"><code>package-install-file</code></a> and give a directory.
+Whichever package is contained in that directory will be read and installed, be
+it single or multifile, no taring or <code>-pkg.el</code> file necessary.
+</p>
