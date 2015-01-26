@@ -1,0 +1,33 @@
+---
+title: "Implementing comment-line"
+date: 2015-01-26
+layout: post
+tags: programming optimization keybind init.el
+---
+<p>
+Why we don't have a <code>comment/uncomment-line</code> function is beyond me. While we fix
+that, might as well make it as complete as possible.
+</p>
+{% highlight cl %}
+(defun endless/comment-line (n)
+  "Comment or uncomment current line and leave point after it.
+With positive prefix, apply to N lines including current one.
+With negative prefix, apply to -N lines above."
+  (interactive "p")
+  (comment-or-uncomment-region
+   (line-beginning-position)
+   (goto-char (line-end-position n)))
+  (forward-line 1)
+  (back-to-indentation))
+{% endhighlight %}
+<p>
+Short and sweet, isn't it? In analogy to <kbd>M-;</kbd>. I find <kbd>C-;</kbd> to be a great
+binding for it. This way I can quickly comment 3 lines by hitting <kbd>C-3 C-;</kbd>.
+</p>
+{% highlight cl %}
+(global-set-key (kbd "C-;") #'endless/comment-line)
+{% endhighlight %}
+<p>
+Also, because it moves forward after commenting, you can conveniently do things
+like comment every other line by repeatedly doing <kbd>C-; C-n</kbd>.
+</p>
