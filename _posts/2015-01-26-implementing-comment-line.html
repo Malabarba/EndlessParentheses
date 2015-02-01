@@ -14,9 +14,11 @@ that, might as well make it as complete as possible.
 With positive prefix, apply to N lines including current one.
 With negative prefix, apply to -N lines above."
   (interactive "p")
-  (comment-or-uncomment-region
-   (line-beginning-position)
-   (goto-char (line-end-position n)))
+  (let ((range (list (line-beginning-position)
+                     (goto-char (line-end-position n)))))
+    (comment-or-uncomment-region
+     (apply #'min range)
+     (apply #'max range)))
   (forward-line 1)
   (back-to-indentation))
 {% endhighlight %}
@@ -31,3 +33,39 @@ binding for it. This way I can quickly comment 3 lines by hitting <kbd>C-3 C-;</
 Also, because it moves forward after commenting, you can conveniently do things
 like comment every other line by repeatedly doing <kbd>C-; C-n</kbd>.
 </p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-02-01 Sun&gt;</span></span></h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The previous version didn't quite work for negative prefix arguments, so I've
+updated the above snippet to fix that.
+</p>
+
+<p>
+Also, quite a few people requested (or proposed) a version which acts on region
+if active. I already use <kbd>M-;</kbd> for that (and I also its other modes of
+operation), but I can see why people would want that so I've added it below.
+It's similar to <a href="https://github.com/kaushalmodi/.emacs.d/blob/13bc1313e786ce1f1ab41d5aaff3dc39dfc57852/setup-files/setup-editing.el#L110-117">the one suggested by Kaushal Modi</a>. 
+</p>
+{% highlight cl %}
+(defun endless/comment-line-or-region (n)
+  "Comment or uncomment current line and leave point after it.
+With positive prefix, apply to N lines including current one.
+With negative prefix, apply to -N lines above.
+If region is active, apply to active region instead."
+  (interactive "p")
+  (if (use-region-p)
+      (comment-or-uncomment-region
+       (region-beginning) (region-end))
+    (let ((range
+           (list (line-beginning-position)
+                 (goto-char (line-end-position n)))))
+      (comment-or-uncomment-region
+       (apply #'min range)
+       (apply #'max range)))
+    (forward-line 1)
+    (back-to-indentation)))
+{% endhighlight %}
+</div>
+</div>
