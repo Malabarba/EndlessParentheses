@@ -1,0 +1,148 @@
+---
+title: "New on (M)Elpa: speed-of-thought-lisp"
+date: 2015-02-02
+layout: post
+tags: lisp programming
+---
+<p>
+When your computer is feeling slow and you decide to upgrade it, where do you
+start? You start by finding the bottleneck, of course. That awesome CPU won't do
+you any good with crappy RAM disk. The same logic holds for your coding skills.
+</p>
+
+<p>
+Whenever you're writing code, there are two main processes going on &#x2014;this is a
+very rough model, but it gets the job done.
+</p>
+<ol class="org-ol">
+<li>You think of what you'll write,
+</li>
+<li>and you write it. 
+</li>
+</ol>
+<p>
+As you become more experienced with a language, the first part gets faster and
+easier, to the point where you can immediately envisage the solution to any
+problem you encounter. On the other hand, your actual writing speed is much
+slower to improve, and caps at a very disappointing maximum.
+</p>
+
+<p>
+The solution? Upgrade the bottle-neck, i.e., your hands. <code>speed-of-thought-lisp</code>
+(or <code>sotlisp</code>) is all about helping your hands keep up with your brain. The mode
+itself is quite simple, it provides two sets of tools to help your fingers follow
+your thought-flow. To turn it on, just issue <kbd>M-x</kbd> <code>speed-of-thought-mode</code>.
+While you're at it, make sure you've got something like <a href="http://doc.endlessparentheses.com/Fun/electric-pair-mode"><code>electric-pair-mode</code></a> or
+<code>paredit</code> active, <code>sotlisp</code> is a lot more fluid with these.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Minimal typing with abbrevs</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+A large number of intelligent abbrevs which expand a function's initials to its
+name. A few examples:
+</p>
+
+<ul class="org-ul">
+<li><b>i</b> → <code>insert</code>
+</li>
+<li><b>a</b> → <code>and</code>
+</li>
+<li><b>r</b> → <code>require '</code>
+</li>
+<li><b>wcb</b> → <code>with-current-buffer</code>
+</li>
+<li><b>efn</b> → <code>expand-file-name</code>
+</li>
+</ul>
+
+<p>
+It's pointless to list all of them here, there are 136 of them at the moment.
+The whole purpose of these abbrevs is that you don't need to learn them. Instead
+of typing <code>insert SPC</code> or maybe <code>ins TAB</code>, you just write <code>i SPC</code> for the same
+effect. You'll be surprised how quickly this abbreviations become more natural
+to you than the actual names.
+</p>
+
+<p>
+And before you start worrying, these are defined in a way such that they <i>only</i>
+expand in a place where you would use a function. So hitting <kbd>SPC</kbd> after <code>(r</code>
+gives <code>(require '</code>, but hitting <kbd>SPC</kbd> after <code>(delete-region r</code> will <i>not</i> expand
+the <code>r</code>, because that's obviously not a function. You can safely use short
+variable names without running into conflicts.
+</p>
+
+<p>
+You may I have noticed I've only mentioned functions. Variable abbrevs are
+on the way!
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Speedy keybinds</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+It also defines 4 commands, which fit tightly into this <i>“follow the
+thought-flow”</i> way of writing.
+</p>
+
+<dl class="org-dl">
+<dt> <kbd>M-RET</kbd> </dt><dd>Break line and insert <code>()</code> with point in the middle.
+</dd>
+<dt> <kbd>C-RET</kbd> </dt><dd>Do <code>forward-up-list</code> then do the above.
+</dd>
+</dl>
+
+<p>
+Hitting <kbd>RET</kbd> followed by a <kbd>(</kbd> was one of the most common key sequences for me
+while writing elisp, so giving it a quick-to-hit key is a significant
+improvement.
+</p>
+
+<dl class="org-dl">
+<dt> <kbd>C-c f</kbd> </dt><dd>Find function under point. If it is not defined, create a
+definition for it above the current function and leave point
+inside.
+</dd>
+<dt> <kbd>C-c v</kbd> </dt><dd>Same, but for variable.
+</dd>
+</dl>
+
+<p>
+With these commands, you just write your code as you think of it. Once you hit a
+“stop-point” of sorts in your thought-flow, you hit <kbd>C-c v</kbd> on any undefined
+variables. Then you just write its definition, and hit <kbd>C-u C-SPC</kbd>
+(<a href="http://doc.endlessparentheses.com/Fun/pop-global-mark"><code>pop-global-mark</code></a>) to go back to where you were.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Conclusion</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<code>sotlisp</code> is floating around the Elpas, so you can issue the usual <kbd>M-x</kbd>
+<code>package-install</code> <kbd>RET</kbd> <code>sotlisp</code>, and activate it in your init file.
+</p>
+{% highlight cl %}
+(speed-of-thought-mode)
+{% endhighlight %}
+<p>
+Then you'll be able to do magic such as writing 
+</p>
+{% highlight cl %}
+(with-temp-buffer
+  (insert text)
+  (buffer-string))
+{% endhighlight %}
+<p>
+by typing <code>(wtb</code> <kbd>M-RET</kbd> <code>i</code> <kbd>SPC</kbd> <code>text</code> <kbd>C-RET</kbd> <code>bs</code> <kbd>SPC</kbd>.
+</p>
+
+<p>
+Also coming up is a <code>sotlatex</code> package and perhaps even a <code>sotclojure</code>.
+</p>
+</div>
+</div>
