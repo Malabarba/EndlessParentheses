@@ -7,8 +7,8 @@ series: "Mnemonic Keymaps"
 meta_title: "Emacs Keymap for Launching External Applications and Websites"
 ---
 <p>
-The <a href="/launcher-keymap-for-standalone-features.html">launcher-map</a> wouldn’t be half of what it is if not for the <code>run</code>
-macro. With it, we can easily turn Emacs into a quick ’n dirty app
+The <a href="/launcher-keymap-for-standalone-features.html">launcher-map</a> wouldn't be half of what it is if not for the <code>run</code>
+macro. With it, we can easily turn Emacs into a quick 'n dirty app
 launcher.
 </p>
 {% highlight cl %}
@@ -20,7 +20,7 @@ launcher.
          ,(format "Run the %s executable." exec)
          (interactive)
          (start-process "" nil ,exec))
-       ',func-name)))
+       #',func-name)))
 
 (define-key launcher-map "m" (run "Mathematica"))
 (define-key launcher-map "k" (run "keepass"))
@@ -32,7 +32,7 @@ nicely documented function.
 </p>
 
 <p>
-While we’re at it, let’s do something similar for websites.
+While we're at it, let's do something similar for websites.
 </p>
 {% highlight cl %}
 (defmacro browse (url)
@@ -43,7 +43,7 @@ While we’re at it, let’s do something similar for websites.
          ,(format "Browse to the url %s." url)
          (interactive)
          (browse-url ,url))
-       ',func-name)))
+       #',func-name)))
 
 (define-key launcher-map "r" (browse "http://www.reddit.com/r/emacs/"))
 (define-key launcher-map "w" (browse "http://www.emacswiki.org/"))
