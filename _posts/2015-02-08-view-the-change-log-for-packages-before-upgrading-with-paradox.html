@@ -1,0 +1,53 @@
+---
+title: "View the Change-Log for packages before upgrading, with Paradox"
+date: 2015-02-08
+layout: post
+tags: package paradox
+---
+<p>
+<a href="https://github.com/Bruce-Connor/paradox/">Paradox</a> has had this feature 
+for a while, but I've never blogged about it. When you're in the Packages Menu, and you're about to upgrade your
+packages with the always reliable <kbd>U x</kbd>, do you ever wonder what's actually
+changed in them? When I do it, there's usually something between 5 and 20 of
+them just waiting for me to answer <kbd>y</kbd>, but rarely do I see any actual
+difference in the new versions.
+</p>
+
+<p>
+With Paradox you can find out what's been happening to a package, by listing all
+of its commits that happened since the version you have installed. Of course,
+this isn't a proper Change-Log &#x2014;for starters, it's a lot noisier&#x2014; but since
+most packages don't have one, this is the closest thing we have.
+</p>
+
+<ol class="org-ol">
+<li>Open the menu as usual with <code>paradox-list-packages</code> (which really ought to be
+in your <a href="/launcher-keymap-for-standalone-features.html">launcher map</a>).
+</li>
+<li>Hit <kbd>f u</kbd> to filter by upgradeable packages (did you know you could do that,
+by the way?).
+</li>
+<li>Hit <kbd>l</kbd> on any package to list the commits.
+</li>
+</ol>
+
+<p>
+Here's an example of what you might see.
+</p>
+
+
+<div class="figure">
+<p><img src="/images/paradox-commit-list.png" alt="paradox-commit-list.png" />
+</p>
+</div>
+
+<p>
+Note how the first three commits are highlighted. These are the ones I'm about
+to install. It even tells me there a comments discussing one of them, so I might
+want to have a closer look. Hitting <kbd>RET</kbd> on a line will visit the relevant
+commit on Github.
+</p>
+
+<p>
+As you may have guessed, this only applies to packages on Github. But, at this
+point, that's where most of them are.</p>
