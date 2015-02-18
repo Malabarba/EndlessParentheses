@@ -1,0 +1,61 @@
+---
+title: "Paradox 2.0 Released: Execution hook, Interface improvements, Async Execution"
+date: 2015-02-16
+layout: post
+tags: package paradox
+---
+<p>
+I've just released Paradox version 2.0. If you've been following the blog, you
+already know this features the ability to do background upgrades. Below is a list
+of other features.
+</p>
+
+<p>
+However, I'd first like to say this release requires an Emacs version of at
+least 24.4. <code>package.el</code> changed a lot in that release, and the trouble of
+supporting two separate versions was keeping me from writing new features. I may
+implement backwards compatibility if I see people asking for it.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Some new features</h2>
+<div class="outline-text-2" id="text-1">
+<dl class="org-dl">
+<dt> <code>paradox-execute-asynchronously</code> variable </dt><dd>Set to <code>t</code> or <code>nil</code> depending on
+whether you want this feature.
+</dd>
+<dt> <code>paradox-upgrade-packages</code> command </dt><dd>Upgrade everything, wherever you are.
+Combines well with the above.
+</dd>
+<dt> <code>paradox-after-execute-functions</code> variable </dt><dd>A hook run after every
+transaction. Remove functions from it to streamline your experience, or add
+your own functions to extend functionality. For instance, if you don't like
+the new <code>*Paradox Report*</code> buffer, you can prevent its creation by removing
+the relevant functions from the hook:
+</dd>
+</dl>
+{% highlight cl %}
+(remove-hook 'paradox-after-execute-functions
+  #'paradox--report-buffer-print)
+{% endhighlight %}
+
+<dl class="org-dl">
+<dt> Better interaction </dt><dd>Now, when you hit <code>x</code> in the Paradox Menu to execute a
+set of installations and deletions, the buffer narrows to display only
+those packages (see below). Much nicer than the usual message in the echo
+area.
+</dd>
+</dl>
+
+
+<div class="figure">
+<p><img src="/images/paradox-narrowed-buffer.png" alt="paradox-narrowed-buffer.png" />
+</p>
+</div>
+
+<p>
+These are the main changes. You can also <a href="/view-the-change-log-for-packages-before-upgrading-with-paradox.html">view package commit lists</a>, but that's
+been the case for a while.
+</p>
+</div>
+</div>
