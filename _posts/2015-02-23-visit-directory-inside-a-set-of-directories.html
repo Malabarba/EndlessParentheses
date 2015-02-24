@@ -1,0 +1,74 @@
+---
+title: "Visit Directory inside a Set of Directories"
+date: 2015-02-23
+layout: post
+tags: init.el
+meta_title: "Visit Directory inside a Set of Directories with Emacs"
+---
+<p>
+Almost every directory I work with, is either directly under “~/Dropbox/” or
+under “~/Dropbox/Work/”. However, I never actually visit these two directories,
+only the directories inside them. The number of possible targets for `find-file`
+is approaching the outer borders of two-digit land, so there's no hope for my
+brain to remember registers for all of these.
+</p>
+
+<p>
+The best solution I've found is to compile a list of all possible targets
+(directories inside those directories) and offer them using <a href="http://www.emacswiki.org/InteractivelyDoThings">ido</a>. This is
+somewhat similar to using a bookmark for each possible destination, except it
+it's always up to date with the directory contents and doesn't clog up my actual
+bookmarks.
+</p>
+{% highlight cl %}
+(require 'ido)
+(require 'cl-lib)
+
+(defcustom endless/favorite-directories 
+  '("~/Dropbox/Trabalho/" "~/Dropbox/")
+  "List of favorite directories.
+Used in `endless/visit-favorite-dir'. The order here 
+affects the order that completions will be offered."
+  :type '(repeat directory)
+  :group 'endless)
+
+(defun endless/visit-favorite-dir (files-too)
+  "Offer all directories inside a set of directories.
+Compile a list of all directories inside each element of
+`endless/favorite-directories', and visit one of them with
+`ido-completing-read'.
+With prefix argument FILES-TOO also offer to find files."
+  (interactive "P")
+  (let ((completions
+         (mapcar #'abbreviate-file-name
+           (cl-remove-if-not
+            (if files-too #'file-readable-p
+              #'file-directory-p)
+            (apply #'append
+              (mapcar (lambda (x)
+                        (directory-files
+                         (expand-file-name x)
+                         t "^[^\.].*" t))
+                endless/favorite-directories))))))
+    (dired
+     (ido-completing-read "Open directory: "
+                          completions 'ignored nil ""))))
+
+;; Note that C-x d is usually bound to dired. I find
+;; this redundant with C-x C-f, so I don't mind
+;; overriding it, but you should know before you do.
+(define-key ctl-x-map "d" #'endless/visit-favorite-dir)
+{% endhighlight %}
+<p>
+Some random notes:
+</p>
+
+<ul class="org-ul">
+<li>Having a quick key for this is fantastic. Whenever I want to get work done, I
+just hit <kbd>C-x d</kbd> and I'll my options are presented before me.
+</li>
+<li>With a prefix argument it also shows files instead of just directories.
+</li>
+<li>If ido is not your completion engine of choice, that's trivial to change.
+</li>
+</ul>
