@@ -24,9 +24,9 @@ inside a code block.
 
 (defun endless/apostrophe (opening)
   "Insert ’ in prose or `self-insert-command' in code.
-With prefix argument OPENING, insert ‘’ instead and leave 
-point in the middle.
-Inside a code-block, simply calls `self-insert-command'."
+With prefix argument OPENING, insert ‘’ instead and
+leave point in the middle.
+Inside a code-block, just call `self-insert-command'."
   (interactive "P")
   (if (and (derived-mode-p 'org-mode)
            (org-in-block-p '("src" "latex" "html")))
