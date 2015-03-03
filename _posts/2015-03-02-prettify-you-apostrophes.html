@@ -1,0 +1,40 @@
+---
+title: "Prettify you Apostrophes"
+date: 2015-03-02
+layout: post
+tags: writing keybind org-mode init.el
+meta_title: "Prettify you Apostrophes in Emacs"
+---
+<p>
+Now that you’ve started your journey on the Typography Express by <a href="/prettify-your-quotation-marks.html">using round
+double quotes</a>, take a seat and extend that to your apostrophes as well. This
+snippet binds a round apostrophe to the <kbd>'</kbd> key, but also inserts a pair of
+single round quotes with a prefix.
+</p>
+
+<p>
+Finally, like the previous one, it also falls back on <a href="http://doc.endlessparentheses.com/Fun/self-insert-command"><code>self-insert-command</code></a>
+inside a code block.
+</p>
+{% highlight cl %}
+(define-key org-mode-map "'" #'endless/apostrophe)
+;; (eval-after-load 'markdown-mode
+;;   '(define-key markdown-mode-map "'"
+;;      #'endless/apostrophe))
+
+(defun endless/apostrophe (opening)
+  "Insert ’ in prose or `self-insert-command' in code.
+With prefix argument OPENING, insert ‘’ instead and leave 
+point in the middle.
+Inside a code-block, simply calls `self-insert-command'."
+  (interactive "P")
+  (if (and (derived-mode-p 'org-mode)
+           (org-in-block-p '("src" "latex" "html")))
+      (call-interactively #'self-insert-command)
+    (if (looking-at "['’][=_/\\*]?")
+        (goto-char (match-end 0))
+      (if (null opening)
+          (insert "’")
+        (insert "‘’")
+        (forward-char -1)))))
+{% endhighlight %}
