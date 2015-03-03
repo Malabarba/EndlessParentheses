@@ -8,7 +8,7 @@ meta_title: "Prettify your Quotation Marks in Emacs"
 <p>
 Typography is a long and blurry road, of which I know very little.
 There are, still, some simple lessons that take you a long a way.
-Round (unicode) quotation marks is one of them.
+Round (Unicode) quotation marks is one of them.
 </p>
 
 <p>
@@ -18,19 +18,25 @@ text-modes.
 </p>
 {% highlight cl %}
 (define-key org-mode-map "\"" #'endless/round-quotes)
+(eval-after-load 'markdown-mode
+  '(define-key markdown-mode-map "\""
+     #'endless/round-quotes))
 
 (defun endless/round-quotes (italicize)
   "Insert “” and leave point in the middle.
-With prefix argument ITALICIZE, insert /“”/ instead (meant for
-org-mode).
-If inside a code-block, simply calls `self-insert-command'."
+With prefix argument ITALICIZE, insert /“”/ instead
+\(meant for org-mode).
+Inside a code-block, just call `self-insert-command'."
   (interactive "P")
-  (if (and (derived-mode-p 'org-mode) (org-in-src-block-p))
-      (call-interactively 'self-insert-command)
+  (if (and (derived-mode-p 'org-mode)
+           (org-in-block-p '("src" "latex" "html")))
+      (call-interactively #'self-insert-command)
     (if (looking-at "”[/=_\\*]?")
         (goto-char (match-end 0))
       (when italicize
-        (insert "//")
+        (if (derived-mode-p 'markdown-mode)
+            (insert "__")
+          (insert "//"))
         (forward-char -1))
       (insert "“”")
       (forward-char -1))))
