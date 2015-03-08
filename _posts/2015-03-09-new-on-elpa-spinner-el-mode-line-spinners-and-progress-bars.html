@@ -1,0 +1,46 @@
+---
+title: "New on Elpa: Spinner.el, mode-line spinners and progress-bars"
+date: 2015-03-09
+layout: post
+tags: package
+series: "New on Elpa"
+---
+<p>
+After adding <a href="/asynchronous-package-upgrades-with-paradox.html">asynchronous operations</a> to <a href="https://github.com/Bruce-Connor/paradox/">Paradox</a>, I saw the need to provide some
+visual feedback to the user. In the simplest sense, this could be a fixed
+message on the mode-line, such as <i>“Upgrading&#x2026;”</i> or <i>“Working”</i>, but this is
+not enough. I needed movement. Movement implies something is ongoing. It catches
+your eye and gives you that subconscious reassurance that progress is being
+made. A tiny spinning wheel, hourglass, or rainbow is enough to sooth all your
+doubts, unerringly restoring your confidence on the software and those who made
+it.
+</p>
+
+<p>
+Today, I introduce <a href="https://github.com/Bruce-Connor/spinner.el">spinner.el</a>, Emacs’ version of the spinning hourglass.
+</p>
+
+
+<div class="figure">
+<p><img src="https://github.com/Bruce-Connor/spinner.el/raw/master/spinner.gif" alt="spinner.gif" />
+</p>
+</div>
+
+<p>
+The spinner is added to the mode-line of a specific buffer, and stays there
+until stopped by the program. In the case of Paradox, for instance, you get a
+spinner on the <code>*Packages*</code> buffer to indicate background operations are
+ongoing, and it is immediately removed once they are finished.
+</p>
+
+<p>
+Using the package is as simple as calling <code>(spinner-start 'vertical-rising)</code>
+(eventually followed by <code>spinner-stop</code>). There are currently 17 different
+spinners available, and you can also specify the animation speed or even add
+your own animation. 
+</p>
+
+<p>
+Spinner.el is available to all Emacs versions running <code>package.el</code>, so hopefully
+other packages will make use of it as well.
+</p>
