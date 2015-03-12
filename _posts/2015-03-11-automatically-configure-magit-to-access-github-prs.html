@@ -1,0 +1,46 @@
+---
+title: "Automatically configure Magit to access Github PRs"
+date: 2015-03-11
+layout: post
+tags: magit init.el
+series: "GitHub Integration"
+---
+<p>
+Did you know you can fetch <a href="https://github.com/">Github</a> pull requests with git by adding a
+<code>remote.origin.fetch</code> configuration? That insightful tip is <a href="http://oremacs.com/2015/03/11/git-tricks/">a courtesy of</a> Oleh
+at <a href="http://oremacs.com/">(or emacs</a>, a very active blog that has a habit of unbalancing parentheses
+wherever it goes). I like the tip so much I wanted to add something to it.
+Instead of manually adding that line to you <code>.git/config</code> file, why not have
+Magit do that for you?
+</p>
+
+<p>
+The following snippet will ensure that you always have this fetch configured on
+Github repositories as soon as you issue <code>magit-status</code>.
+</p>
+{% highlight cl %}
+(defun endless/add-PR-fetch ()
+  "If refs/pull is not defined on a GH repo, define it."
+  (let ((fetch-address
+         "+refs/pull/*/head:refs/pull/origin/*"))
+    (unless (member
+             fetch-address
+             (magit-get-all "remote" "origin" "fetch"))
+      (when (string-match
+             "github" (magit-get "remote" "origin" "url"))
+        (magit-git-string
+         "config" "--add" "remote.origin.fetch"
+         fetch-address)))))
+
+(add-hook 'magit-mode-hook #'endless/add-PR-fetch)
+{% endhighlight %}
+<p>
+This means you can always access pull requests from Magit by hitting <kbd>b b</kbd>, the
+usual branch command. The reference names start with <code>/refs/pull/origin/</code>, but
+completion does most of the job here.
+</p>
+
+<p>
+This is more lightweight approach than my <a href="/merging-github-pull-requests-from-emacs.html">previous post</a> on the subject, which
+used <code>gh-pulls-mode</code>. You should try both and see which one you prefer.
+</p>
