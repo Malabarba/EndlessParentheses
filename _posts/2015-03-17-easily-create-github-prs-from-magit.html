@@ -1,0 +1,39 @@
+---
+title: "Easily Create Github PRs from Magit"
+date: 2015-03-17
+layout: post
+tags: magit init.el
+series: "GitHub Integration"
+meta_title: "Easily Create Github PRs from Magit in Emacs"
+---
+<p>
+In contrast with fetching pull requests, which either requires <a href="/merging-github-pull-requests-from-emacs.html">a minor-mode</a> or
+some <a href="/automatically-configure-magit-to-access-github-prs.html">long-named branches</a>, <i>creating</i> pull requests is as easy as a one-key deal.
+</p>
+
+<p>
+Because <a href="https://github.com/vermiculus/sx.el">sx.el</a> (a package which I really ought to blog about) was developed as a
+group effort, <a href="https://github.com/vermiculus">Sean</a> and I decided early on to use PRs for everything.
+Predictably, the need arose for a quick way to create them, and I promptly asked
+<a href="http://emacs.stackexchange.com/q/3900/50">Emacs.StackExchange</a> for help. The solution below is a courtesy of <a href="http://emacs.stackexchange.com/users/2355/constantine">Constantine</a>.
+</p>
+{% highlight cl %}
+(defun endless/visit-pull-request-url ()
+  "Visit the current branch's PR on Github."
+  (interactive)
+  (browse-url
+   (format "https://github.com/%s/compare/%s"
+     (replace-regexp-in-string
+      "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
+      (magit-get "remote"
+                 (magit-get-current-remote)
+                 "url"))
+     (magit-get-current-branch))))
+
+(eval-after-load 'magit
+  '(define-key magit-mode-map "V"
+     #'visit-pull-request-url))
+{% endhighlight %}
+<p>
+After hitting <kbd>V</kbd>, you just need to press the big green button at the Github
+page.</p>
