@@ -18,8 +18,8 @@ paginate:         15
 baseurl:          /
 author:
   name:           Artur Malabarba
-  url:            https://github.com/Bruce-Connor
-  email:          bruce.connor.am@gmail.com
+  url:            https://github.com/Malabarba
+  email:          artur@endlessparentheses.com
   twitter:        https://twitter.com/AMalabarba
 
 # Content
@@ -56,19 +56,19 @@ media_list:
 
 projects:
   Names:
-    url: 'https://github.com/Bruce-Connor/names/'
+    url: 'https://github.com/Malabarba/names/'
     description: 'Namespaces for emacs-lisp.'
   smart-mode-line:
-    url: 'https://github.com/Bruce-Connor/smart-mode-line/'
+    url: 'https://github.com/Malabarba/smart-mode-line/'
     description: 'A powerful and beautiful mode-line.'
   Paradox:
-    url: 'https://github.com/Bruce-Connor/paradox/'
+    url: 'https://github.com/Malabarba/paradox/'
     description: 'A modern and customizable Packages Menu .'
   # latex-extra:
-  #   url: 'https://github.com/Bruce-Connor/latex-extra/'
+  #   url: 'https://github.com/Malabarba/latex-extra/'
   #   description: 'A series of usability improvements for LaTeX-mode.'
   google-this:
-    url: 'https://github.com/Bruce-Connor/emacs-google-this/'
+    url: 'https://github.com/Malabarba/emacs-google-this/'
     description: 'A set of functions and bindings to Google under point.'
   Emacs Online Doc:
     url: 'http://doc.endlessparentheses.com/'
