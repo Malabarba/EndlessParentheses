@@ -1,0 +1,44 @@
+---
+title: "New on Elpa and in Emacs 25.1: seq.el"
+date: 2015-03-23
+layout: post
+tags: emacs-25 elpa package
+series: "New in 25.1"
+---
+<p>
+Thanks to Nicolas Petton, Emacs is getting a new built-in sequence library in
+25.1, and it’s already <a href="http://elpa.gnu.org/packages/seq.html">available on GNU Elpa</a> for everyone. There’s not much to
+be said about this besides the obvious <i>“it’s about time”</i>. 
+</p>
+
+<p>
+The popularity of <a href="https://github.com/magnars/dash.el">dash.el</a> speaks volumes about the need for this feature.
+Combined with the recent inclusion of <code>if-let</code>, <code>when-let</code>, and the threading
+macros into Emacs core, this should eventually allow most packages to phase out
+that extra dependency. Not that there’s anything wrong with <code>dash</code>, of course,
+but it’s nice to retire an external dependency if a built-in one becomes
+available.
+</p>
+
+<p>
+Still, in the field of sequence-processing, there are some noteworthy
+differences that may lead you to prefer one over the other.
+</p>
+
+<ul class="org-ul">
+<li><code>seq</code> provides a unified interface for lists, vectors, and strings (i.e.,
+sequences).
+</li>
+<li>At least for now, <code>dash</code> still covers a range of operations that <code>seq</code>
+doesn’t. Paradox, for instance, still uses dash because of <code>-difference</code> and
+<code>-intersection</code>.
+</li>
+<li>Some functions take arguments in a different order, such as <code>(-take n list)</code>
+  versus <code>(seq-take list n)</code>.
+</li>
+</ul>
+
+<p>
+Are there any operations you feel ought to be added to this arsenal? What about
+other utility libraries that really should be built-in?
+</p>
