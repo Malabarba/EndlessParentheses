@@ -1,0 +1,70 @@
+---
+title: "Kill Sexp or Directory"
+date: 2015-04-07
+layout: post
+tags: convenience keybind init.el
+---
+<p>
+Cluttered as our keyboards are with key-binds, it's always nice when we can
+combine two disjoint functionalities in the same key. I have <kbd>M-k</kbd> and <kbd>C-M-k</kbd>
+bound to killing the next and previous sexp, respectively, but that is never
+something I need inside a string or when typing a file name in the minibuffer.
+Then these keys become utterly useless!
+</p>
+
+<p>
+The solution to this conundrum is, of course, to find another use for them in
+these cases. Something that comes up regularly inside strings (or file-name
+prompts) is killing an entire directory name. 
+</p>
+
+<p>
+The code below, binds <kbd>M-k</kbd> to a command that automatically decides whether to
+kill a sexp or a directory name. The decision making is a little tricky, but it
+has yet to let me down.
+</p>
+{% highlight cl %}
+;; Note you may want to swap the following two keybinds.
+;; Emacs' default keymap has `kill-sexp' on `C-M-k'.
+(global-set-key (kbd "M-k")
+                #'endless/forward-kill-sexp-or-dir)
+(global-set-key (kbd "C-M-k")
+                #'endless/backward-kill-sexp-or-dir)
+
+(defun endless/forward-kill-sexp-or-dir (&optional p)
+  "Kill forward sexp or directory.
+If inside a string or minibuffer, and if it looks like
+we're typing a directory name, kill forward until the next
+/. Otherwise, `kill-sexp'"
+  (interactive "p")
+  (if (< p 0)
+      (endless/backward-kill-sexp-or-dir (- p))
+    (let ((r (point)))
+      (if (and (or (in-string-p)
+                   (minibuffer-window-active-p
+                    (selected-window)))
+               (looking-at "[^[:blank:]\n\r]*[/\\\\]"))
+          (progn (search-forward-regexp
+                  "[/\\\\]" nil nil p)
+                 (kill-region r (point)))
+        (kill-sexp p)))))
+
+(defun endless/backward-kill-sexp-or-dir (&optional p)
+  "Kill backwards sexp or directory."
+  (interactive "p")
+  (if (< p 0)
+      (endless/forward-kill-sexp-or-dir (- p))
+    (let ((r (point))
+          (l (save-excursion
+               (point))))
+      (if (and (or (in-string-p)
+                   (minibuffer-window-active-p
+                    (selected-window)))
+               (looking-back "[/\\\\][^[:blank:]\n\r]*"))
+          (progn (backward-char)
+                 (search-backward-regexp
+                  "[/\\\\]" (point-min) nil p)
+                 (forward-char)
+                 (kill-region (point) l))
+        (kill-sexp (- p))))))
+{% endhighlight %}
