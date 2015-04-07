@@ -55,15 +55,18 @@ media_list:
     icon: '/icons/gplus.png'
 
 projects:
+  Paradox:
+    url: 'https://github.com/Malabarba/paradox/'
+    description: 'A modern and customizable Packages Menu.'
+  Bug Hunter:
+    url: 'https://github.com/Malabarba/elisp-bug-hunter/'
+    description: 'Track down issues in your init file.'
   Names:
     url: 'https://github.com/Malabarba/names/'
     description: 'Namespaces for emacs-lisp.'
   smart-mode-line:
     url: 'https://github.com/Malabarba/smart-mode-line/'
     description: 'A powerful and beautiful mode-line.'
-  Paradox:
-    url: 'https://github.com/Malabarba/paradox/'
-    description: 'A modern and customizable Packages Menu .'
   # latex-extra:
   #   url: 'https://github.com/Malabarba/latex-extra/'
   #   description: 'A series of usability improvements for LaTeX-mode.'
@@ -73,9 +76,9 @@ projects:
   Emacs Online Doc:
     url: 'http://doc.endlessparentheses.com/'
     description: 'An up-to-date online documentation of ALL Emacs functions and variables.'
-  Emacs Archive Tracker:
-    url: 'http://tracker.endlessparentheses.com/'
-    description: 'Statistics on the growth of Emacs package repositories.'
+  # Emacs Archive Tracker:
+  #   url: 'http://tracker.endlessparentheses.com/'
+  #   description: 'Statistics on the growth of Emacs package repositories.'
 
 gems:
   - jekyll-sitemap
