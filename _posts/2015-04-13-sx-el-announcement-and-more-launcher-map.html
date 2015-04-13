@@ -1,0 +1,54 @@
+---
+title: "(Very Late) SX.el Announcement, and more launcher-map"
+date: 2015-04-13
+layout: post
+tags: sx.el intuitive keymap init.el
+series: "SX.el"
+meta_title: "SX.el Announcement and the launcher-map"
+---
+<p>
+<a href="https://github.com/vermiculus/sx.el#sx--stack-exchange-for-emacs">SX.el</a>, the awesome Emacs client for the <a href="http://emacs.stackexchange.com/">StackExchange network</a>, has been stable
+and happy for many months now, and it’s about time I mentioned it here. We have
+put considerable effort into making the interface intuitive, teaching you how to
+use it without the need for explanations. In fact, it would probably be a
+disservice to the package for me to post a tutorial, so I won’t just yet.
+Instead, I’ll just urge you to give it a try.
+</p>
+
+<p>
+After installing it from <a href="http://stable.melpa.org/#/sx">Melpa</a>, the only thing you need to do is authenticate
+with <kbd>M-x</kbd> <code>sx-authenticate</code>. Once that is done, you’re ready to invoke any of
+the entry commands.
+</p>
+
+<p>
+The main command is <code>sx-tab-all-questions</code>. But that’s so many letters, we
+simply must to bind it to a key. And if you read the post title, you know <a href="/launcher-keymap-for-standalone-features.html">where
+I’m going</a> with this.
+</p>
+{% highlight cl %}
+;; Ordered by frequency of use, for no particular reason.
+(define-key launcher-map "qq" #'sx-tab-all-questions)
+(define-key launcher-map "qi" #'sx-inbox)
+(define-key launcher-map "qo" #'sx-open-link)
+(define-key launcher-map "qu" #'sx-tab-unanswered-my-tags)
+(define-key launcher-map "qa" #'sx-ask)
+(define-key launcher-map "qs" #'sx-search)
+{% endhighlight %}
+
+<p>
+Before signing off, I will also bring to your attention the magnitude of the
+<code>SX.el</code> feature set. This is not just a cute toy that lets you browse or search
+questions. The client has so many features it could take the website itself in a
+fight. Voting, editing, commenting, answering, asking, deleting, inbox viewing,
+and source code font-locking are all things that just popped into my head. And
+that’s without mentioning a host of Emacs-oriented features like tabbing through
+buttons, or folding (hiding) comments like org headlines.
+</p>
+
+<p>
+I’m probably saying too much already, let’s leave some content for future posts.
+If you have any questions or would like to give feedback, <a href="https://github.com/vermiculus">Sean</a>, <a href="https://github.com/jleechpe">Jonathan</a> and I
+are always floating around our <a href="https://gitter.im/vermiculus/sx.el">Gitter chat room</a> (and we do love to hear
+compliments).
+</p>
