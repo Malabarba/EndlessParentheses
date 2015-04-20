@@ -1,0 +1,33 @@
+---
+title: "Better backspace during isearch"
+date: 2015-04-20
+layout: post
+tags: init.el
+series: "Emacs.SE Lessons"
+---
+<p>
+I’ve never been too pleased with the default behaviour of <kbd>Backspace</kbd> during
+<code>isearch</code>. If the last key you hit was <kbd>C-s</kbd>, then it does the same as <kbd>C-r</kbd>
+(albeit with less repetition), and if your match failed several characters ago,
+you need to hit it that many times to get back on track. Fortunately, <a href="http://emacs.stackexchange.com/users/118/asmeurer">asmeurer</a>
+took the time to <a href="http://emacs.stackexchange.com/q/10359/50">phrase this problem</a> I barely realised I had.
+</p>
+
+<p>
+In response, <a href="http://emacs.stackexchange.com/users/105/drew">Drew</a> provides a command to:
+</p>
+<ol class="org-ol">
+<li>delete the entire portion of <code>isearch</code> string that doesn’t match,
+</li>
+<li>if everything matches, fallback on deleting last char instead of moving backwards.
+</li>
+</ol>
+
+<p>
+I’ll let you follow <a href="http://emacs.stackexchange.com/q/10359/50">the link</a> for the code, but I’ll say I had to use a different
+keybind for it to work.
+</p>
+{% highlight cl %}
+(define-key isearch-mode-map (kbd "<backspace>") 
+  #'mydelete)
+{% endhighlight %}
