@@ -24,10 +24,11 @@ In response, <a href="http://emacs.stackexchange.com/users/105/drew">Drew</a> pr
 </ol>
 
 <p>
-I’ll let you follow <a href="http://emacs.stackexchange.com/q/10359/50">the link</a> for the code, but I’ll say I had to use a different
-keybind for it to work.
+Finally, John Mastro has <a href="https://gist.github.com/johnmastro/508fb22a2b4e1ce754e0">yet another improvement</a> for the command, which is the
+one I’m using now. I’ll let you follow <a href="https://gist.github.com/johnmastro/508fb22a2b4e1ce754e0">the link</a> for the code, and just give you
+the keybind you need for it to work.
 </p>
 {% highlight cl %}
 (define-key isearch-mode-map (kbd "<backspace>") 
-  #'mydelete)
+  #'isearch-delete-something)
 {% endhighlight %}
