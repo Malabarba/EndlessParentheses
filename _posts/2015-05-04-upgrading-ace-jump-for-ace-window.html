@@ -1,0 +1,43 @@
+---
+title: "Upgrading ace-jump for ace-window"
+date: 2015-05-04
+layout: post
+tags: init.el
+---
+<p>
+It was a few years ago that I learned about <a href="https://github.com/winterTTr/ace-jump-mode"><code>ace-jump-mode</code></a> in one of Magnar’s
+<a href="http://emacsrocks.com/e10.html">Emacs Rocks</a> episodes. Over this time, slowly but surely, this one simple command
+has completely taken over my workflow. It was only last week that I realised how
+ingrained it is on my muscle memory. As I <a href="https://twitter.com/AMalabarba/status/594575241638182912">shared this thought</a> on twitter,
+<a href="http://twitter.com/_abo_abo">@_abo_abo</a>’s <a href="https://github.com/abo-abo/ace-window"><code>ace-window</code></a> was mentioned in the conversation and I decided to
+give it a try. 
+</p>
+
+<p>
+Until now, I was under the impression that it was just <code>ace-jump</code> for windows,
+but it’s a little more than that. It is actually a full replacement for
+<code>ace-jump</code>, with small improvements here and there (plus quite a bit of parallel
+functionality which I haven’t explored yet).
+</p>
+
+<ul class="org-ul">
+<li>By default, the buffer text doesn’t get shadowed while you’re doing a jump. I
+didn’t like this at first, but now I much prefer it. Shadowing the text is
+prettier, but I would commonly get lost if I didn’t focus intently on that
+letter before the shadowing was applied.
+</li>
+<li>When more than one key is needed for a jump, it’ll show you the full path,
+instead of one key at a time.
+</li>
+</ul>
+
+<p>
+And this is all the configuration I needed.
+</p>
+{% highlight cl %}
+(setq avi-keys 
+      '(?a ?s ?d ?e ?f ?h ?j ?k ?l ?n ?m ?v ?r ?u))
+(setq aw-keys '(?a ?s ?d ?f ?j ?k ?l))
+(global-set-key (kbd "M-s")     #'avi-goto-word-1)
+(global-set-key (kbd "C-x C-o") #'ace-window)
+{% endhighlight %}
