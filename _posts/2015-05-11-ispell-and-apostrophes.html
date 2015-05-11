@@ -1,0 +1,67 @@
+---
+title: "Ispell and Apostrophes"
+date: 2015-05-11
+layout: post
+tags: writing ispell keybind init.el
+series: "Typography"
+meta_title: "Ispell and Apostrophes in Emacs"
+---
+<p>
+If you’ve been following our journey of typography, you must now have <a href="/prettify-you-apostrophes.html">pretty
+apostrophes</a> all over your org documents. But if that’s the case, you probably
+also noticed a drawback. Ispell doesn’t like them very much. Now how are we
+supposed to use our amazing <a href="/ispell-and-abbrev-the-perfect-auto-correct.html">auto-correct</a>?
+</p>
+
+<p>
+Don’t despair, dear reader, I have the solution. It wasn’t trivial to come up
+with, but it’s quite simple to understand.
+</p>
+
+<ol class="org-ol">
+<li>Tell Ispell that apostrophes are just like hard-quotes, where it comes
+to constituting a word.
+</li>
+<li>Convert all ’ to ' as they’re being sent to the Aspell subprocess.
+</li>
+<li>Convert them back when reading the subprocess output. We even take care to
+only do that in <code>org-mode</code>, so that it won’t get in the way of your LaTeX
+buffers.
+</li>
+</ol>
+
+<p>
+The following code uses the new advice system in Emacs 24.4. It can certainly be
+made to work on older Emacs by changing it to use <a href="http://doc.endlessparentheses.com/Fun/defadvice"><code>defadvice</code></a>.
+</p>
+{% highlight cl %}
+(require 'ispell)
+
+;;; Tell ispell.el that ’ can be part of a word.
+(setq ispell-local-dictionary-alist
+      `((nil "[[:alpha:]]" "[^[:alpha:]]"
+             ,(rx (not (any alnum space)))
+             nil ("-B") nil utf-8)))
+
+;;; Don't send ’ to the subprocess.
+(defun endless/replace-apostrophe (args)
+  (cons (replace-regexp-in-string
+         "’" "'" (car args))
+        (cdr args)))
+(advice-add #'ispell-send-string :filter-args
+            #'endless/replace-apostrophe)
+
+;;; Convert ' back to ’ from the subprocess.
+(defun endless/replace-quote (args)
+  (if (not (derived-mode-p 'org-mode))
+      args
+    (cons (replace-regexp-in-string
+           "'" "’" (car args))
+          (cdr args))))
+(advice-add #'ispell-parse-output :filter-args
+            #'endless/replace-quote)
+{% endhighlight %}
+<p>
+This is, admittedly, a hacky solution. But it’s been working well for me for the
+last few weeks. Feel free to shout and scream at me if you run into issues.
+</p>
