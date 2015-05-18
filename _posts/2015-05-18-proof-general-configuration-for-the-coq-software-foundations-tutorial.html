@@ -1,0 +1,82 @@
+---
+title: "Proof general configuration for the Coq Software Foundations tutorial"
+date: 2015-05-18
+layout: post
+tags: programming init.el
+---
+<p>
+<a href="http://proofgeneral.inf.ed.ac.uk/">Proof-general</a> is a powerful client for the <a href="https://coq.inria.fr/">Coq proof assistant</a>, and <a href="http://www.cis.upenn.edu/~bcpierce/sf/current/index.html">Software
+Foundations</a> is great interactive tutorial for the language. As I was following
+the tutorial, I felt the need to speed things up a little bit. Today’s post is
+just some configuration code I wrote for that effect. 
+</p>
+
+<p>
+Parts of it might be useful for coq in general, but its mostly optimized to
+minimize keystrokes in the tutorial, and sometimes it leaves bad indentation or
+extra lines all over the place.
+</p>
+{% highlight cl %}
+;; I appreciate the effort of writing a splash-screen, but the angry
+;; general on the gif scares me.
+(setq proof-splash-seen t)
+
+;;; Hybrid mode is by far the best.
+(setq proof-three-window-mode-policy 'hybrid)
+
+;;; I don't know who wants to evaluate comments
+;;; one-by-one, but I don't.
+(setq proof-script-fly-past-comments t)
+
+(with-eval-after-load 'coq
+  ;; The most common command by far. Having a 3(!)
+  ;; keys long sequence for this command is just a
+  ;; crime.
+  (define-key coq-mode-map "\M-n"
+    #'proof-assert-next-command-interactive)
+
+  ;; Proof navigation didn't work for me. So please
+  ;; stand aside for my paragraph navigation.
+  ;; http://endlessparentheses.com/meta-binds-part-2-a-peeve-with-paragraphs.html
+  (define-key coq-mode-map "\M-e" nil)
+  (define-key coq-mode-map "\M-a" nil)
+
+  ;; Small convenience for commonly written commands.
+  (define-key coq-mode-map "\C-c\C-m" "\nend\t")
+  (define-key coq-mode-map "\C-c\C-e"
+    #'endless/qed)
+  (defun endless/qed ()
+    (interactive)
+    (unless (memq (char-before) '(?\s ?\n ?\r))
+      (insert " "))
+    (insert "Qed.")
+    (proof-assert-next-command-interactive)))
+
+(defun open-after-coq-command ()
+  (when (looking-at-p " *(\\*")
+    (open-line 1)))
+
+(advice-add 'proof-assert-next-command-interactive
+            :after #'open-after-coq-command)
+{% endhighlight %}
+
+<p>
+These are some common abbrevs, and an advice so you don’t have to hit <kbd>SPC</kbd>
+before <kbd>M-n</kbd>.
+</p>
+{% highlight cl %}
+(define-abbrev coq-mode-abbrev-table "re" "reflexivity.")
+(define-abbrev coq-mode-abbrev-table "id" "induction")
+(define-abbrev coq-mode-abbrev-table "si" "simpl.")
+(advice-add 'proof-assert-next-command-interactive
+            :before #'expand-abbrev)
+{% endhighlight %}
+
+<p>
+And finally, the most important snippet. Just make sure you install
+<code>company-coq</code> from Melpa.
+</p>
+{% highlight cl %}
+(when (fboundp 'company-coq-initialize)
+  (add-hook 'coq-mode-hook #'company-coq-initialize))
+{% endhighlight %}
