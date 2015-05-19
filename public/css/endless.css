@@ -652,6 +652,9 @@ a.pagination-item:hover {
 .se-flair {
     height: 50px;
 }
+.gratipay {
+    padding-top: 3px;
+}
 .left-sidebar-ad {
     width: 200px;
     height: 200px;
