@@ -1,0 +1,72 @@
+---
+title: "New in Package.el in Emacs 25.1: Better dependency management"
+date: 2015-05-21
+layout: post
+tags: emacs-25 package
+series: "New in Package.el"
+---
+<p>
+Package.el has gotten a series of improvements after the release of 24.4.
+Since I’ve found that people like to read about upcoming features, I’m starting
+a new series exclusively about our favorite package manager. Today, we talk
+dependencies.
+</p>
+
+<p>
+Package.el’s dependency management has always been just enough to do the job
+it’s supposed to do. If you install a package that has dependencies, those
+requirements get installed as well. End of story.
+</p>
+
+<p>
+This leaves a little to be desired for two reasons. Firstly, if you later remove
+the first package, the dependencies will be left on your computer. Secondly,
+even if you notice those dependencies lying around and want to remove them, you
+never know if that’s safe because Package.el won’t tell you if another package
+depends on them and, what’s worse, it will let you remove it even if another
+installed package does depend on them (which will lead to breakage).
+</p>
+
+<p>
+The situation is being improved on both accounts, thanks to <a href="https://github.com/thierryvolpiatto">Thierry Volpiatto</a>.
+</p>
+<ol class="org-ol">
+<li>Package.el will differentiate between packages you’ve installed explicitly
+and those which were just pulled along as dependencies. So you get a new
+<code>package-autoremove</code> command to cleanup dependencies that are no longer
+needed.
+</li>
+<li>Package.el will never let you remove a package if some other package depends
+on it. So you’re free to try to delete anything you don’t want, and nothing
+is going to break if it happens to be a dependency (you’ll just fail).
+</li>
+</ol>
+
+<p>
+And this led to some UI improvements to the package menu, thanks to yours truly.
+</p>
+<ol class="org-ol">
+<li>Packages that were pulled in as dependencies are marked as such in the
+package menu.
+</li>
+<li>The description buffer (the one you get when hitting <kbd>RET</kbd> on a package) is
+now kind enough to list all packages that depend on this one.
+</li>
+</ol>
+
+<p>
+<a href="/images/package-menu-dependencies-1.png"><img src="/images/package-menu-dependencies-1.png" alt="package-menu-dependencies-1.png" /></a>
+<a href="/images/package-menu-dependencies-2.png"><img src="/images/package-menu-dependencies-2.png" alt="package-menu-dependencies-2.png" /></a>
+</p>
+
+<p>
+As a whole, this is a great user experience improvement. Instead of seeing
+<code>installed</code> packages that they never actually installed, the user will see
+<code>dependency</code> packages. Every once in a while, after removing some package, they
+might get notified that <i>“these dependencies are no longer necessary”</i>, and can
+easily clean them up with <code>package-autoremove</code>.
+</p>
+
+<p>
+If you want more 25.1 news, there’s also a <a href="/new-in-emacs-25-1-query-replace-history-is-enhanced-.html">whole series</a> just about that, and you
+can always just check out the <a href="/tags-expanded.html#emacs-25">emacs-25</a> tag.</p>
