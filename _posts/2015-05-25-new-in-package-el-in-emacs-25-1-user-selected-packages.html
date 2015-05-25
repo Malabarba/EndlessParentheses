@@ -1,0 +1,51 @@
+---
+title: "New in Package.el in Emacs 25.1: User-selected packages"
+date: 2015-05-25
+layout: post
+tags: emacs-25 package
+series: "New in Package.el"
+---
+
+<p>
+In <a href="/new-in-package-el-in-emacs-25-1-better-dependency-management.html">Thurday's post</a> on dependency management, I briefly mentioned that
+<code>package.el</code> now keeps track of which packages the user explicitly requested,
+and which were pulled in as dependencies. But there’s a bit more to this
+feature, so it deserves some time in the spolight.
+</p>
+
+<p>
+Simply put, there is now a new custom variable <code>package-selected-packages</code>. This
+variable stores the names of packages installed explicitly by user. So every
+time you do <kbd>M-x</kbd> <a href="http://doc.endlessparentheses.com/Fun/package-install"><code>package-install</code></a> or you do <kbd>i x</kbd> in the Package Menu, the
+name of that package gets added to this list. Packages which get pulled in as
+dependencies are <b>not</b> added to this list, and those which are explictly deleted
+get removed from the list. This is how <code>package-autoremove</code> knows what to
+remove, it just finds packages which <i>(a)</i> are not on this list and <i>(b)</i> are
+not required by anything else.
+</p>
+
+<p>
+But this variable comes with other benefits too. First, the user can edit it
+manually with the usual <a href="http://doc.endlessparentheses.com/Fun/customize-variable"><code>customize-variable</code></a> and use it to keep track of their
+list of wanted packages. Second, there’s now another command,
+<code>package-install-selected-packages</code>, which ensures that all packages on the
+list are installed. This means you can safely move to a new computer, or even
+just delete your <code>elpa/</code> subdir. As long as you keep your custom settings you
+can just invoke the command and all your packages will be reinstalled.
+</p>
+
+<p>
+There’s one small caveat, which some of you may have noticed. This bookkeeping is
+done during installation. So, when you finally upgrade to Emacs 25.1, how is it
+going to know which of your installed packages were user-selected and which were
+dependencies?
+</p>
+
+<p>
+Well, it’s just impossible to know for sure, so it makes an educated guess. It
+takes all installed packages that are not required by any other installed
+package, and considers them to have been explicitly installed. This can (and
+probably will) yield both false positives and negatives, but that only happens
+the very first time you start Emacs 25. So just keep in mind you may need to
+<code>customize-variable</code> and fine-tune this list.
+</p>
