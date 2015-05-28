@@ -1,0 +1,55 @@
+---
+title: "New in Emacs 25.1: Asynchronous Package Menu"
+date: 2015-05-28
+layout: post
+tags: emacs-25 package
+series: "New in Package.el"
+---
+<p>
+It was six months ago, to the day, when I alluded to the fact that Emacs’
+package menu <a href="/big-things-to-expect-from-emacs-25.html">needed to go async</a>. The time it took to do a simple <code>list-packages</code>
+bothered me the most, closely followed by having to go play Minesweeper every
+time I did a package upgrade. The latter was partially addressed when I added
+<a href="/asynchronous-package-upgrades-with-paradox.html">asynchronous package transactions</a> to Paradox, but the former took a bit more
+work. In Emacs 25.1, at last, the package menu is going async. 
+</p>
+
+<p>
+You don’t need to do anything special to benefit from this. As soon as you issue
+<kbd>M-x</kbd> <code>list-packages</code>, instead of those “<code>Contacting host: ...</code>” messages which
+always foretell a many-second hang, the package menu will come up almost
+instantly. The download of archive information will go on in the background, and
+once it is done the new information is updated in place.
+</p>
+
+<p>
+This has two big advantages.
+</p>
+<ol class="org-ol">
+<li>A fraction of a second after issuing the command you’re already in the menu,
+free to navigate, search, or mark stuff while the background download is
+happening.
+</li>
+<li>If you have multiple archives configured (which you should), they are fetched
+simultaneously. So the entire download will be 2&#x2013;4 times faster now, even if
+you decide to sit and wait for it to finish.
+</li>
+</ol>
+
+<p>
+It should be noted this only applies to refreshing. Package transactions
+(installation, upgrade, and deletion) are still synchronous in <code>package.el</code>.
+Async transactions where implemented for a while, but the outcome was quite far
+from satisfactory. However, so as not to end on a sad note, you can always go to
+<a href="https://github.com/Malabarba/paradox">Paradox</a> for that.
+</p>
+
+<p>
+Lastly, if you’re the kind of person that hates nice things, you can disable
+this feature with the <code>package-menu-async</code> variable.
+</p>
+
+<p>
+That should be enough about (a)synchronicity for the moment. Come back on
+Monday, when we go into some big improvements on the filtering engine.
+</p>
