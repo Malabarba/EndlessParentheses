@@ -1,0 +1,79 @@
+---
+title: "New in Emacs 25.1: Filtering by status and archive"
+date: 2015-06-01
+layout: post
+tags: emacs-25 package
+series: "New in Package.el"
+---
+<p>
+For several reasons, the Package Menu’s <kbd>f</kbd> key has always flown a bit under the
+radar for me. Though the <a href="http://doc.endlessparentheses.com/Fun/package-menu-filter"><code>package-menu-filter</code></a> command is great in principle, in
+practice its usefulness falls a little short for several reasons.
+</p>
+
+<p>
+One reason, which is in no way its own fault, is that Emacs already has great
+searching facilities such as <code>isearch</code> or <code>occur</code>. It’s just easier and faster
+to fall back on what you know rather than try out something new. This not
+exactly something that needs fixing, but it can be improved by focusing the
+filter command on doing things what other facilities can’t do.
+</p>
+
+<p>
+Now you might be thinking, <i>“doesn’t this command filter by package keywords?
+Isearch can’t do that.”</i>
+</p>
+
+<p>
+And that takes us to the second (probably most relevant) reason. The list of
+keywords used by packages is <a href="https://lists.gnu.org/archive/html/emacs-devel/2015-04/msg01192.html">an ugly mess</a>. And that’s not something easy to fix.
+Before investing too much resource on this never-ending struggle against entropy,
+Emacs 25.1 will make a simple improvement that goes a long way. You can filter
+multiple comma-separated keywords at once. So, for instance, you can mitigate
+the redundancy between the <code>theme</code> and <code>themes</code> keywords by just searching for
+<code>theme,themes</code>.
+</p>
+
+<p>
+Furthermore, sometimes there’s a good improvement available that is completely
+orthogonal to the problem you have. Instead of fixing up keywords, we can also
+have <code>package-menu-filter</code> offer <i>other</i> features that alternate facilities
+don’t &#x2014;preferably one that doesn’t rely on the supernatural cooperation of a
+thousand monkeys typing elisp. As of Emacs 25.1, you may now filter packages by
+status or by archive, by writing <code>arc:ARCHIVE</code> and <code>status:STATUS</code> respectively
+when you invoke the command.
+</p>
+
+<p>
+Of lesser importance, there was also a third usability issue with the command.
+It took a couple of seconds to load every time you invoked it. That,
+fortunately, was much simpler to solve, and I’ll even leave it as an exercise to
+the reader! 
+</p>
+
+<p>
+In the following (very streamline) function, place point anywhere you want and
+then invoke a single keybind (from <code>emacs -q</code>, your custom keybinds don’t
+count). If you do it right, you can improve its speed a hundred-fold. Can you
+see how?
+</p>
+
+{% highlight cl %}
+(defun package-all-keywords ()
+  "Collect all package keywords"
+  ;; `package--mapc' simply calls the lambda on each
+  ;; known package. `package-desc--keywords' returns
+  ;; the package's list of keywords.
+  (let ((key-list))
+    (package--mapc
+     (lambda (pkg)
+       (setq key-list
+             (append key-list
+                     (package-desc--keywords pkg)))))
+    key-list))
+{% endhighlight %}
+
+<p>
+Check in again next Monday for the last post on this series, where we talk about
+prioritizing your package archives.
+</p>
