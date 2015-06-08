@@ -1,0 +1,72 @@
+---
+title: "New in Emacs 25.1: Archive priorities and downgrading packages"
+date: 2015-06-08
+layout: post
+tags: emacs-25 package
+series: "New in Package.el"
+---
+
+<p>
+This is the feature I’ve been wanting to show off the most. Anyone who’s
+configured Emacs to use more than one package archive knows this problem.
+The package menu displays countless redundant entries, as it must list a package
+once for each archive that offers it. Even worse, if you install a package from
+one archive, the package menu will gladly upgrade it to a newer version on
+another archive, clueless to the fact that it may be giving you unstable code.
+</p>
+
+<p>
+All of this has been addressed now, with the <code>package-archive-priorities</code>
+variable. It is an alist where you can assign a priority number to each archive
+you use. Thanks to Jorgen Schaefer, the first thing it does is change the
+<a href="http://doc.endlessparentheses.com/Fun/package-install"><code>package-install</code></a> command to download the package from the highest priority
+archive instead of just choosing the highest version.
+</p>
+
+<p>
+Here’s an example configuration.
+</p>
+{% highlight cl %}
+(setq package-archive-priorities
+      '(("melpa-stable" . 20)
+        ("marmalade" . 20)
+        ("gnu" . 10)
+        ("melpa" . 0)))
+{% endhighlight %}
+
+<p>
+Since you all know I’m a bit of a menu fanatic, I took my time extending that
+functionality to the package menu. Now, instead of listing all entries for a
+given package, the menu will only list the package that’s offered by the highest
+priority archive. With the above configuration, you will only see Melpa packages
+if they are not also available from another archive. More importantly, after
+installing a stable version you will never be inadvertently upgraded to an
+unstable version.
+</p>
+
+<p>
+This behaviour can be permanently configured with the
+<code>package-menu-hide-low-priority</code> variable, and you can temporarily toggle it on
+and off with <kbd>(</kbd>. Therefore, if a package has stable version available but you
+prefer the Melpa version, you can display it with <kbd>(</kbd> and then install it as
+usual. And what’s more, <code>package.el</code> will identify that situation and will keep
+upgrading you on the bleeding-edge for that specific package, even though Melpa
+is the lowest priority archive.
+</p>
+
+<p>
+Furthermore, the <kbd>(</kbd> key is now a general key for displaying possibly unwanted
+packages (much like it hides/displays details in <code>dired</code> buffers). In addition
+to the behaviour above, this key will also display packages that are considered
+obsolete. That is, those whose version is lower than something you already have
+installed. This was not previously possible, and it can be used to downgrade a
+package. As long as the older version is available from some archive, you can
+mark it for installation and mark the current version for deletion.
+</p>
+
+<p>
+This concludes our series on package.el. There are other small improvements here
+and there, but it’s time we go back to our weekly code snippets and productivity
+tips. Hopefully, this was enough to inspire some of you to clone the Emacs repo
+and start building the master branch.
+</p>
