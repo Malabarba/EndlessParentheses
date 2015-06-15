@@ -1,0 +1,37 @@
+---
+title: "Better compile command"
+date: 2015-06-15
+layout: post
+tags: programming compilation init.el
+---
+<p>
+Having to confirm-before-save buffers every time you call <a href="http://doc.endlessparentheses.com/Fun/compile"><code>compile</code></a> is nearly as
+outrageous as having no key bound to <a href="http://doc.endlessparentheses.com/Fun/compile"><code>compile</code></a> in the first place. This snippet
+takes care of both and, as a bonus, makes the compilation window follow a
+predetermined size and ensures that point will follow the output.
+</p>
+{% highlight cl %}
+(define-key prog-mode-map [C-f9] #'compile)
+(define-key prog-mode-map [f9] #'endless/compile-please)
+
+(defcustom endless/compile-window-size 60
+  "Width given to the compilation window."
+  :type 'integer
+  :group 'endless)
+
+(defun endless/compile-please ()
+  "Compile without confirmation."
+  (interactive)
+  ;; I'm not scared of saving everything.
+  (save-some-buffers t)
+  ;; Do the command.
+  (save-window-excursion
+    (compile compile-command))
+  ;; Create a compile window of the desired width.
+  (pop-to-buffer (get-buffer "*compilation*"))
+  (enlarge-window
+   (- endless/compile-window-size (window-width))
+   'horizontal)
+  ;; Place point at the end so it follows the output.
+  (goto-char (point-max)))
+{% endhighlight %}
