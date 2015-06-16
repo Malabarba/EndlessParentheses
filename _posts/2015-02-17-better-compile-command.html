@@ -11,8 +11,18 @@ takes care of both and, as a bonus, makes the compilation window follow a
 predetermined size and ensures that point will follow the output.
 </p>
 {% highlight cl %}
+;; This gives a regular `compile-command' prompt.
 (define-key prog-mode-map [C-f9] #'compile)
-(define-key prog-mode-map [f9] #'endless/compile-please)
+;; This just compiles immediately.
+(define-key prog-mode-map [f9]
+  #'endless/compile-please)
+
+;; I'm not scared of saving everything.
+(setq compilation-ask-about-save nil)
+;; Stop on the first error.
+(setq compilation-scroll-output 'next-error)
+;; Don't stop on info or warnings.
+(setq compilation-skip-threshold 2)
 
 (defcustom endless/compile-window-size 60
   "Width given to the compilation window."
@@ -22,16 +32,24 @@ predetermined size and ensures that point will follow the output.
 (defun endless/compile-please ()
   "Compile without confirmation."
   (interactive)
-  ;; I'm not scared of saving everything.
-  (save-some-buffers t)
-  ;; Do the command.
+  ;; Do the command without a prompt.
   (save-window-excursion
     (compile compile-command))
   ;; Create a compile window of the desired width.
   (pop-to-buffer (get-buffer "*compilation*"))
   (enlarge-window
    (- endless/compile-window-size (window-width))
-   'horizontal)
-  ;; Place point at the end so it follows the output.
-  (goto-char (point-max)))
+   'horizontal))
 {% endhighlight %}
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-06-16 Tue&gt;</span></span></h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Thanks to Clément and abo-abo for the variable suggestions, which also led me to
+find the <a href="http://doc.endlessparentheses.com/Var/compilation-skip-threshold"><code>compilation-skip-threshold</code></a> variable. Warnings are important to fix,
+but in some languages it’s common to have warnings you can’t fix, so it’s nice
+for the compilation buffer to not stop scrolling on them.
+</p>
+</div>
+</div>
