@@ -1,0 +1,44 @@
+---
+title: "Create Github PRs from Emacs with Magit (again)"
+date: 2015-06-22
+layout: post
+tags: magit init.el
+series: "GitHub Integration"
+---
+<p>
+I don’t usually dedicate an entire post to something I’ve already done in a
+previous one, but this nugget is so useful it deserves the attention. Remember
+how you can <a href="/easily-create-github-prs-from-magit.html">create Github PRs</a> straight from Magit? Magit <code>2.1.0</code> is barely <a href="https://twitter.com/magit_emacs/status/611204423906426880">two
+weeks away</a>, and it brings so many (awesome) changes that our little snippet is
+going to break.
+</p>
+
+<p>
+Luckily for you, I’ve been using Magit’s next version for a couple of months
+now, so I have a fix all shiny and ready for you. This function is also slightly
+more robust, and fixes some corner-case issues in the other. So if you found
+that the previous function didn’t cover your use-case, you should definitely try
+the new one.
+</p>
+{% highlight cl %}
+(defun endless/visit-pull-request-url ()
+  "Visit the current branch's PR on Github."
+  (interactive)
+  (browse-url
+   (format "https://github.com/%s/pull/new/%s"
+     (replace-regexp-in-string
+      "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
+      (magit-get "remote"
+                 (magit-get-remote)
+                 "url"))
+     (cdr (magit-get-remote-branch)))))
+
+(eval-after-load 'magit
+  '(define-key magit-mode-map "v"
+     #'endless/visit-pull-request-url))
+{% endhighlight %}
+<p>
+Note that I’ve changed the keybind to <kbd>v</kbd>. In Magit <code>2.1</code>, that key is bound in
+buffer overlays, not on the mode-map, which means we can just bind it in the map
+and we’ll get a semi “do-what-I-mean” functionality.
+</p>
