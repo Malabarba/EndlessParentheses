@@ -2,14 +2,15 @@
 title: "init.org Without org-mode"
 date: 2014-06-26
 layout: post
-tags: blog org-mode init.el
+tags: init.el org-mode blog
+series: "About the Blog"
 ---
 <p>
-When I decided to share my limited wisdom, I realized I'd
+When I decided to share my limited wisdom, I realized I’d
 need something better than a 4-year-old, thrown together,
 init file. The words <i>“init dot org”</i> had crossed my ears
-through one of <a href="http://sachachua.com/blog/emacs-chat/">Sacha Chua's previous videos</a>; however, due to
-63m of water above my head, internet searches weren't quite
+through one of <a href="http://sachachua.com/blog/emacs-chat/">Sacha Chua’s previous videos</a>; however, due to
+63m of water above my head, internet searches weren’t quite
 operating at top efficiency.
 </p>
 
@@ -37,7 +38,7 @@ moment&#x2014; the simplest way of implementing such a feature.
                endless/init.org-message-depth))
       (message "%s" (match-string 0)))
      ;; Evaluate Code Blocks
-     ((looking-at "^#\\+BEGIN_SRC +emacs-lisp.*$")
+     ((looking-at "^#\\+BEGIN_SRC +emacs-lisp *$")
       (let ((l (match-end 0)))
         (search-forward "\n#+END_SRC")
         (eval-region l (match-beginning 0))))
@@ -65,7 +66,7 @@ Primarily for stubbornness, but also a few other reasons:
 <dt> Fine grained control </dt><dd>I can choose exactly what gets
 evaluated. In this case, anything inside the
 <code>init.el</code> header. This is important because this blog
-<b>is</b> my init file, and I don't want to evaluate everything
+<b>is</b> my init file, and I don’t want to evaluate everything
 I post.
 </dd>
 <dt> Lots of messaging </dt><dd>It calls <a href="http://doc.endlessparentheses.com/Fun/message"><code>message</code></a> on each header it
@@ -73,9 +74,9 @@ finds (up to a configurable level). Whenever something goes
 wrong, forget about restarting with <code>--debug-init</code>, the
 messages buffer tells me exactly where it happened.
 </dd>
-<dt> It doesn't <code>(require 'org)</code> </dt><dd>This might sound silly, but
+<dt> It doesn’t <code>(require 'org)</code> </dt><dd>This might sound silly, but
 that inconspicuous line forms one of the most
-time-consuming statements you could possibly write. I'd
+time-consuming statements you could possibly write. I’d
 challenge anyone to find a 14-character statement that
 takes longer than that (other than an empty loop or a
 sleep command, of course).
