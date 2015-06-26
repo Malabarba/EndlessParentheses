@@ -1,0 +1,197 @@
+---
+title: "How I blog: One year of posts in a single org file"
+date: 2015-06-26
+layout: post
+tags: org-mode blog
+series: "About the Blog"
+meta_title: "How I blog with Emacs: One year of posts in a single org file"
+---
+<p>
+When this blog was conceived, I decided that I wanted it to be entirely
+contained in a single org file, and that this would also be my Emacs init file.
+On the blog’s <a href="/init-org-Without-org-mode.html">very first post</a> I explained how to implement the latter, an init
+file that also serves other purposes. Today, Endless Parentheses turns 1 year
+old, and it’s time to explain the former, how to turn a file into a blog.
+</p>
+
+<p>
+As is usually the case with first birthdays, the child has no clue of what’s
+going on, and it’s really just an excuse to indulge the parents into praising
+themselves for keeping the kid alive 12 whole months. As such, this will not be
+a productive post. Expect no code snippets, no Emacs news, and no productivity
+tips, as I release myself from my usual shackles and go off on a tangent for a
+change. Still, just in case someone else likes the idea, I’ve <a href="https://github.com/Malabarba/ox-jekyll-subtree">pushed the code</a> to
+Github.
+</p>
+
+<p>
+Before anything else, it should go without saying that the content of the posts
+is written in <code>org-mode</code>. The engine I use for exporting is a large wrapper
+around <a href="https://github.com/yoshinari-nomura/org-octopress/blob/master/ox-jekyll.el">ox-jekyll</a>, and the posts are all pushed to Github and rendered by their
+built-in Jekyll support.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Why keep a blog in a single file?</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+First of all because org, once you learn its knobs and bobs, is just plain
+powerful. This is all the more true because the post contents are also in org
+format, so you’re effectively removing one layer of distance between you and the
+content. For example, if I want to reschedule a post, I just find it with <kbd>C-c
+C-j</kbd> and hit <kbd>C-c C-s</kbd>; whereas, if the posts were separate files, I’d have to
+find it in <code>dired</code>, then visit it, and <i>then</i> hit <kbd>C-c C-s</kbd>. 
+</p>
+
+<p>
+This is a small difference, but it applies all around. If I want to link to a
+previous post, I find it with <kbd>C-c C-j</kbd> and then move back with <kbd>C-u C-SPC</kbd>, all
+without leaving the buffer. When I look at the posts list, the tags are listed
+right beside the title, I don’t have to open a file to see them.
+</p>
+
+<p>
+Now let me be honest with you. I didn’t predict these advantages before I
+started the blog, so it’s not why I chose this approach. Rather, it was linked
+to the fact that I wanted to blog about all these elisp snippets I had built
+over years and accumulated in my init file.
+</p>
+
+<p>
+You see, if posts were separate files I would have to copy the snippets to a
+separate org file, and then write about them there, and <i>then</i> export them to
+Jekyll. In this scenario, I just know I would eventually change some snippet (a
+healthy init file is a fluid creature) and forget to update the corresponding
+org file, and the thought of leaving out-dated code lying around sent a chill
+through my spine. Not to mention, this whole flow of “init file → org post →
+jekyll post” has one layer too many for my taste, and redundancy is an evil I
+slay with a chainsaw.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">How it works</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+First of all, here’s what I see when Emacs starts up.
+</p>
+
+
+<div class="figure">
+<p><a href="/images/init-org-1.png"><img src="/images/init-org-1.png" alt="init-org-1.png" /></a>
+</p>
+</div>
+
+<p>
+If you read (and remember) the <a href="/init-org-Without-org-mode.html">first post</a>, you’ll know that the actual init file
+is composed of code blocks inside that <code>init.el</code> headline. Everything else is
+text. Also, notice that last <code>SEQ_TODO</code> header. It specifies that headlines in
+this file have three possible <code>TODO</code> states, <code>TODO</code>, <code>READY</code> and <code>DONE</code>.
+</p>
+
+
+<div class="figure">
+<p><a href="/images/init-org-meta-binds.png"><img src="/images/init-org-meta-binds.png" alt="init-org-meta-binds.png" /></a>
+</p>
+</div>
+
+<p>
+Every post is marked with one of these states, and that is what defines them.
+<code>TODO</code> is something I plan on writing about; <code>READY</code> is, well, ready to publish;
+and <code>DONE</code> is published.
+</p>
+
+<p>
+This three-states setup has several uses, mainly:
+</p>
+<ul class="org-ul">
+<li>I can review my entire history and my future schedule with a <a href="http://emacs.stackexchange.com/a/680/50">custom agenda
+command</a>, leveraging all the features of <code>org-agenda</code>.
+</li>
+<li>Whenever I change a snippet, and the headline above it is marked <code>DONE</code>, I’m
+immediately reminded to update the post (as simple as <kbd>C-c b</kbd>). So I’ll never
+leave outdated code around.
+</li>
+<li>When Monday arrives sooner than expected, and I didn’t write anything new, I
+can issue <kbd>C-c / T READY</kbd> and get an <a href="http://doc.endlessparentheses.com/Fun/org-sparse-tree"><code>org-sparse-tree</code></a> of all <code>READY</code> posts.
+</li>
+</ul>
+
+
+<div class="figure">
+<p><a href="/images/init-org-ready-state.png"><img src="/images/init-org-ready-state.png" alt="init-org-ready-state.png" /></a>
+</p>
+</div>
+
+<p>
+See how practical that is? This file is not just the blog and the init file,
+it’s also the future posts queue and the “vague ideas” list. All without having
+to do manual maintenance. Of course, the headline is automatically marked <code>DONE</code>
+when posted.
+</p>
+
+<p>
+Then there are a few more advantages that arise simply from the fact we’re using
+org-mode.
+</p>
+<ul class="org-ul">
+<li>I can physically move posts around with <kbd>M-up/down</kbd> and <kbd>M-S-right/left</kbd>, to
+whatever order makes more sense, instead of being constrained by alphabetical
+or historical order of files.
+</li>
+<li>By nesting several posts under a headline, any tags or properties applied to
+the parent are inherited by the posts. (Killing redundancy, remember?)
+
+
+<div class="figure">
+<p><a href="/images/init-org-news.png"><img src="/images/init-org-news.png" alt="init-org-news.png" /></a>
+</p>
+</div>
+</li>
+
+<li>The <kbd>C-c C-j</kbd> (<a href="http://doc.endlessparentheses.com/Fun/org-goto"><code>org-goto</code></a>) command makes it a breeze to jump around.
+</li>
+<li>It feels more Emacsy than anything else you could possibly do.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Last, but not least</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+This part applies to any of the org blogging methods (not just my setup), but
+still, the org-export engine is extensive and even more so if you know where to
+hack it (org links, in particular, are <a href="/use-org-mode-links-for-absolutely-anything.html">extremely versatile</a>).
+</p>
+
+<p>
+With a single <kbd>C-c b</kbd>, Emacs will spell-check the contents, export to Jekyll,
+clean up some links, move the file to the right directory, bring up
+<code>magit-status</code>, and even save a commit message to the kill-ring. You could
+even have it commit and push automatically too, if you’re a bit of a thrill
+seeker.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Good night, and thanks for coming</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Well, now that I’ve finished monologuing, the cake is completely gone, there’s
+more candy on the floor than on the tables, and I think I hear a child crying
+somewhere, so it’s clearly time to wind down the party. Thanks for reading, and
+I mean that generally. Thanks for commenting too. Thanks for the emails and the
+tweets. Thanks for the bug reports and the pull requests, and any other form of
+positive interaction. This was a fun year.
+</p>
+
+<p>
+Oh, and thanks for coming to the party. Little EP totally didn’t notice that
+you didn’t bring a gift. (Though he might notice next year&#x2026; just saying.)
+</p>
+</div>
+</div>
