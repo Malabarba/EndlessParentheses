@@ -1,4 +1,4 @@
-/*
+/* Heavily modified
  *                        ___
  *                       /\_ \
  *  _____     ___     ___\//\ \      __
@@ -70,8 +70,8 @@ body {
 body {
     padding-top: 1rem;
     font-size: 90%;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
+    /* -webkit-text-size-adjust: 100%; */
+    /* -ms-text-size-adjust: 100%; */
 }
 
 /* Code */
@@ -235,7 +235,7 @@ abbr[title] {
 }
 
 .series {
-    font-size: 85%;
+    font-size: 95%;
     -moz-border-radius:8px;
     -webkit-border-radius:8px;
     border-radius:8px;
@@ -425,7 +425,7 @@ a.author:focus {
  */
 
 .post-with-comments {
-    /* font-size: 100%; */
+    font-size: 105%;
     margin:.3rem;
     max-width: 30rem;
     /* padding-left: 0; */
