@@ -1,0 +1,37 @@
+---
+title: "Fine-tuning subtree visibility in org-mode"
+date: 2015-06-29
+layout: post
+tags: 
+---
+<p>
+Org is one of those packages that you can use for a lifetime and still not know
+all of its features. One of the first things you learn is how to use the
+<code>#+STARTUP</code> header to define the initial visibility of headlines when you first
+open an org-mode file. But did you know you can also use that on a per headline
+basis?
+</p>
+
+<p>
+Besides the usual 4 attributes you can chose from for the header (<code>overview</code>,
+<code>content</code>, <code>showall</code> and <code>showeverything</code>), you can also assign similar options
+to the <code>VISIBILITY</code> property of any headline. The <a href="http://orgmode.org/manual/Initial-visibility.html#Initial-visibility">specific options</a> are <code>folded</code>,
+<code>children</code>, <code>content</code>, and <code>all</code>, and their names are fairly self-explanatory.
+</p>
+
+<p>
+As an example, remember this screenshot of my <code>init.org</code> from the <a href="/how-i-blog-one-year-of-posts-in-a-single-org-file.html">birthday post</a>?
+</p>
+
+
+<div class="figure">
+<p><a href="/images/init-org-1.png"><img src="/images/init-org-1.png" alt="init-org-1.png" /></a>
+</p>
+</div>
+
+<p>
+To achieve that, you just had to set the <code>* init.el</code> headline to have
+<code>:VISIBILITY: children</code>, along with the usual startup header you see in the
+image. I was almost implementing this myself, when I decided to Google first and
+wasn’t surprised to find org-mode already had it.
+</p>
