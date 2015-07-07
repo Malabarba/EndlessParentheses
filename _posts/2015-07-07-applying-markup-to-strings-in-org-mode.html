@@ -1,0 +1,26 @@
+---
+title: "Applying Markup to Strings in org-mode"
+date: 2015-07-07
+layout: post
+tags: org-mode init.el
+---
+<p>
+Normally, <code>org-mode</code> ignores your attempts to markup text that starts with
+    " or '. That’s probably a safe measure because <code>"~/"</code> is a very
+    common string to write but <code>~</code> is one of Org’s markup elements.
+</p>
+
+<p>
+Fixing that is a simple matter, but it takes a bit of digging around. We just
+need to remove those two characters from the 3rd element of
+<a href="http://doc.endlessparentheses.com/Var/org-emphasis-regexp-components"><code>org-emphasis-regexp-components</code></a>.
+</p>
+{% highlight cl %}
+;; This HAS to come before (require 'org)
+(setq org-emphasis-regexp-components
+      '("     ('\"{“”"
+        "-   .,!?;''“”\")}/\\“”"
+        "    \r\n,"
+        "."
+        1))
+{% endhighlight %}
