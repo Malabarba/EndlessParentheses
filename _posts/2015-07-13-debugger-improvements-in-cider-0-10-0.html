@@ -1,0 +1,56 @@
+---
+title: "Debugger improvements in Cider 0.10.0"
+date: 2015-07-13
+layout: post
+tags: debugging clojure
+---
+<p>
+Over the last couple of weeks I had a few more days to work on the Cider
+debugger, and it’s getting a slew of improvements on the next release
+(<code>0.10.0</code>). This starts with a complete rewrite, so it now supports almost
+everything, and ends with some small features and UI improvements. Without
+further delay, here’s a video.
+</p>
+
+<p>
+<iframe width="440" height="335" src="https://www.youtube.com/embed/A3JAlWM8qRM" frameborder="0" allowfullscreen></iframe>
+</p>
+
+<p>
+There’s a lot going on in there, so let’s start dissecting. 
+</p>
+
+<ol class="org-ol">
+<li>Maps are now supported. This may sound trivial, but the previous version
+couldn’t debug inside maps (it’s trickier than it seems).
+</li>
+<li>More specifically, pre- and post-maps are supported! If this sounds sweet,
+that’s because it is. <a href="/images/cider-debug-prepost.png"><img src="/images/cider-debug-prepost.png" alt="cider-debug-prepost.png" /></a>
+</li>
+<li>Even some code-rewriting stuff is supported, like beloved threading macros. 
+<a href="/images/cider-debug-threading-macros.png"><img src="/images/cider-debug-threading-macros.png" alt="cider-debug-threading-macros.png" /></a>
+</li>
+<li>Function literals are also supported.
+<a href="/images/cider-debug-function-literals.png"><img src="/images/cider-debug-function-literals.png" alt="cider-debug-function-literals.png" /></a>
+</li>
+<li>The <kbd>n</kbd>, <kbd>c</kbd>, <kbd>i</kbd>, and <kbd>q</kbd> keys were already available in the previous
+version, so I’ll just link you to the <a href="/cider-debug-a-visual-interactive-debugger-for-clojure.html">previous post</a> on them.
+</li>
+<li>The <kbd>o</kbd> key, showcased halfway through the video, moves you *o*ut of a sexp,
+without moving back in. It’s useful in <code>while</code> loops and in <code>map</code>-like
+operations.
+</li>
+<li>The <kbd>l</kbd> key presents an inspector buffer detailing local variables.
+<a href="/images/cider-debug-inspect-locals.png"><img src="/images/cider-debug-inspect-locals.png" alt="cider-debug-inspect-locals.png" /></a>
+</li>
+<li>Unlike in the previous version, you are allowed to move around and do other
+stuff while the debugger waits for input. You can even evaluate stuff in the
+current lexical environment with <kbd>e</kbd> or the usual <kbd>C-x C-e</kbd>.
+</li>
+</ol>
+
+<p>
+The next planned step for the debugger is ClojureScript support, but that’s
+likely going to take a while. In the meantime, why not try the Cider <code>0.10.0</code>
+snapshots and help us find any bugs?
+</p>
