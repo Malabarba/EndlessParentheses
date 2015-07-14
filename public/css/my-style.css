@@ -15,6 +15,6 @@ kbd
     font-size: inherit;
     line-height: inherit;
     margin: 0 .1em;
-    padding: .08em .4em;
+    padding: .1em .4em .06em .4em;
     text-shadow: 0 1px 0 #fff;
 }
