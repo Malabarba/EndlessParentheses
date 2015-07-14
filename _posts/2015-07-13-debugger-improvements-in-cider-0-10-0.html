@@ -24,8 +24,8 @@ There’s a lot going on in there, so let’s start dissecting.
 <li>Maps are now supported. This may sound trivial, but the previous version
 couldn’t debug inside maps (it’s trickier than it seems).
 </li>
-<li>More specifically, pre- and post-maps are supported! If this sounds sweet,
-that’s because it is. <a href="/images/cider-debug-prepost.png"><img src="/images/cider-debug-prepost.png" alt="cider-debug-prepost.png" /></a>
+<li>More specifically, prepost-maps are supported! If this sounds sweet, that’s
+because it is. <a href="/images/cider-debug-prepost.png"><img src="/images/cider-debug-prepost.png" alt="cider-debug-prepost.png" /></a>
 </li>
 <li>Even some code-rewriting stuff is supported, like beloved threading macros. 
 <a href="/images/cider-debug-threading-macros.png"><img src="/images/cider-debug-threading-macros.png" alt="cider-debug-threading-macros.png" /></a>
@@ -46,6 +46,20 @@ operations.
 <li>Unlike in the previous version, you are allowed to move around and do other
 stuff while the debugger waits for input. You can even evaluate stuff in the
 current lexical environment with <kbd>e</kbd> or the usual <kbd>C-x C-e</kbd>.
+</li>
+<li>In addition to the command used the video (which simply debugs an entire
+function) you can also debug specific forms with <code>#dbg</code>, and you can place a
+single breakpoint anywhere with <code>#break</code>. If you use one of these, just
+evaluate the form with your usual evaluation commands (like <kbd>C-x C-e</kbd> or <kbd>C-c
+   C-c</kbd>) and you’re good to go.
+</li>
+<li>Functions which are currently instrumented are marked with a red box around
+the name.
+<a href="/images/cider-debug-red-box.png"><img src="/images/cider-debug-red-box.png" alt="cider-debug-red-box.png" /></a>
+</li>
+<li>You can list all instrumented functions with <kbd>M-x</kbd>
+<code>cider-browse-instrumented-defs</code>.
+<a href="/images/cider-debug-browse-instrumented.png"><img src="/images/cider-debug-browse-instrumented.png" alt="cider-debug-browse-instrumented.png" /></a>
 </li>
 </ol>
 
