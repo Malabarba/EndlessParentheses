@@ -1,0 +1,23 @@
+---
+title: "Fixing DOuble CApitals as you type"
+date: 2015-07-20
+layout: post
+tags: abbrev writing init.el
+---
+<p>
+This is something that’s bothered me for a very long time. My pinky is slow when
+it comes to releasing the <kbd>Shift</kbd> key, and frequently leads to typos. MOst typos
+(hitting letters in the wrong order) are already covered by <a href="/ispell-and-abbrev-the-perfect-auto-correct.html">auto-correction</a>, but
+there’s another common typo that it doesn’t fix. EVery now and then, I’ll start
+a sentence with two uppercase letters.
+</p>
+
+<p>
+After the billionth time that it happened to me, I finally took the time to
+write up <a href="http://emacs.stackexchange.com/q/13970/50">a question</a> on <a href="http://emacs.stackexchange.com/">Emacs.StackExchange</a>. The answers were fast, and so high
+quality that I don’t even have improvements to suggest. Instead, I’ll just point
+you straight to <a href="http://emacs.stackexchange.com/a/13975/50">Dan's answer</a>, and show how I activate it.
+</p>
+{% highlight cl %}
+(add-hook 'text-mode-hook #'dubcaps-mode)
+{% endhighlight %}
