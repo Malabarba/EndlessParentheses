@@ -57,7 +57,7 @@ body {
     margin: 0;
     padding: 0;
     color: #222;
-    background-color: #f3f3f3;
+    background-color: #F1EED9;
 }
 
 @media (min-width: 38em) {
@@ -119,7 +119,7 @@ a code {
 
 /* No `:visited` state is required by default (browsers will use `a`) */
 a {
-    color: #3a41c9;
+    color: #CE534D;
     /* color: #134bb2; */
     text-decoration: none;
 }
@@ -291,7 +291,7 @@ th {
 }
 tbody tr:nth-child(odd) td,
 tbody tr:nth-child(odd) th {
-    background-color: #f9f9f9;
+    background-color: #F1EED9;
 }
 
 
@@ -448,20 +448,20 @@ a.author:focus {
     margin-bottom: 1em;
 
     color: #333;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-    box-shadow: .1rem .1rem .1rem #666;
-    border:2px solid #e7e7e7;
-    border-radius:6px;
-    background-color: #e7e7e7;
+    /* -moz-border-radius:6px; */
+    /* -webkit-border-radius:6px; */
+    /* box-shadow: .1rem .1rem .1rem #666; */
+    /* border:2px solid #e7e7e7; */
+    /* border-radius:6px; */
+    /* background-color: #e7e7e7; */
 }
 
-.border-box:active {
-    box-shadow: 0 0 .1rem #666;
-    position:relative;
-    left:.2em;
-    top:.2em;
-}
+/* .border-box:active { */
+/*     box-shadow: 0 0 .1rem #666; */
+/*     position:relative; */
+/*     left:.2em; */
+/*     top:.2em; */
+/* } */
 
 /* Blog post or page title */
 .page-title,
@@ -619,7 +619,7 @@ ul.archive {
 
 /* Only provide a hover state for linked pagination items */
 a.pagination-item:hover {
-    background-color: #fff;
+    background-color: #FFF1EE;
 }
 
 .pagination {
