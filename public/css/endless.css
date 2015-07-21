@@ -815,5 +815,5 @@ kbd
     font-size: 70%;
     font-family: 'Droid Sans Mono', monospace;
     border-radius: 6px;
-    width: 100%;
+    /* width: 100%; */
 }
