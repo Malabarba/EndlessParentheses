@@ -114,12 +114,13 @@ pre code {
 }
 
 a code {
-    color: #3a3199;
+    color: #aa433d;
+    /* color: #3a3199; */
 }
 
 /* No `:visited` state is required by default (browsers will use `a`) */
 a {
-    color: #CE534D;
+    color: #aa433d;
     /* color: #134bb2; */
     text-decoration: none;
 }
