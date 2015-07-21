@@ -120,7 +120,7 @@ a code {
 
 /* No `:visited` state is required by default (browsers will use `a`) */
 a {
-    color: #aa433d;
+    color: #aa1300;
     /* color: #134bb2; */
     text-decoration: none;
 }
@@ -355,7 +355,7 @@ tbody tr:nth-child(odd) th {
 }
 
 .masthead-title {
-    line-height: 93%;    
+    line-height: 93%;
     font-size: 200%;
 }
 
@@ -428,7 +428,7 @@ a.author:focus {
 .post-with-comments {
     font-size: 105%;
     margin:.3rem;
-    max-width: 30rem;
+    max-width: 32rem;
     /* padding-left: 0; */
     /* padding-right:0; */
     /* margin-left:  auto; */
@@ -436,7 +436,7 @@ a.author:focus {
 }
 
 .post-with-comments p {
-    text-align: justify;    
+    text-align: justify;
 }
 
 .post, .page {
@@ -570,7 +570,23 @@ ul.archive {
 /* Right sidebar
  */
 
-.right-sidebar {display:none;}
+.right-sidebar {
+    font-family: "Droid Serif", serif;
+    padding-bottom: 0;
+    margin-right: 0rem;
+    margin-top:1.3rem;
+    margin-left:21rem;
+    margin-bottom: 0;
+    /* text-align:right; */
+    position:fixed;
+    top:0;
+    left:50%;
+    display:inline-block;
+    width:13rem;
+    height:100%;
+    /* background-color:blue; */
+    align-content: right;
+}
 .right-sidebar dl a {
     color: black;
 }
@@ -579,7 +595,7 @@ ul.archive {
     /* padding-left: 0; */
     margin-left: 1em;
     font-size: 93%;
-    letter-spacing: 0.5px;    
+    letter-spacing: 0.5px;
     color: #777;
 }
 
@@ -648,7 +664,7 @@ a.pagination-item:hover {
 .bottom {
     position:absolute;
     bottom:3rem;
-    left:0;
+    right:0;
 }
 .se-flair {
     height: 50px;
@@ -680,6 +696,7 @@ a.pagination-item:hover {
         margin-right: auto;
     }
 
+    .right-sidebar {display:none;}
     .post-ad {display: none;}
     .left-sidebar-ad {display:none;}
 
@@ -738,6 +755,7 @@ a.pagination-item:hover {
         /* overflow:scroll; */
     }
     
+    .right-sidebar {display:none;}
     .left-sidebar-ad {display:initial;}
     .post-ad-mobile {display:none;}
 }
@@ -745,7 +763,7 @@ a.pagination-item:hover {
 @media (min-width: 76.3rem) {
     .container {
         /* overflow:hidden; */
-        max-width: 31rem;
+        max-width: 33rem;
         /* width:34rem; */
         margin-left:  auto;
         margin-right: auto;
@@ -753,27 +771,12 @@ a.pagination-item:hover {
     }
     
     .post-with-comments {
-        margin-left: 0;
+        margin-left: 1rem;
         margin-right: 0;
     }
 
-    .right-sidebar {
-        font-family: "Droid Serif", serif;
-        padding-bottom: 0;
-        margin-right: 0rem;
-        margin-top:1.3rem;
-        margin-left:20rem;
-        margin-bottom: 0;
-        /* text-align:right; */
-        position:fixed;
-        top:0;
-        left:50%;
-        display:inline-block;
-        width:15rem;
-        height:100%;
-        /* background-color:blue; */
-    }
-
+    .right-sidebar {display:initial;}
+    
     .masthead {
         /* background-color:blue; */
         margin-right:20rem;
