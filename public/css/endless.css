@@ -658,9 +658,10 @@ a.pagination-item:hover {
     border-bottom-right-radius: 0;
 }
 
-.gad {}
-.adsbygoogle {}
-
+.gad {
+    width: 100%;
+    height: 100px;
+}
 .bottom {
     position:absolute;
     bottom:3rem;
@@ -672,10 +673,7 @@ a.pagination-item:hover {
 .gratipay {
     padding-top: 3px;
 }
-.left-sidebar-ad {
-    width: 100%;
-    height: 200px;
-}
+
 
 /* Responsiveness */
 @media (max-height: 34rem) {
