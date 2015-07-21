@@ -39,9 +39,11 @@ be global."
     (call-interactively 'ispell-word)
     (setq aft (downcase
                (or (thing-at-point 'word) "")))
-    (unless (string= aft bef)
+    (unless (or (string= aft bef)
+                (string= aft "")
+                (string= bef ""))
       (message "\"%s\" now expands to \"%s\" %sally"
-        bef aft (if p "loc" "glob"))
+               bef aft (if p "loc" "glob"))
       (define-abbrev
         (if p local-abbrev-table global-abbrev-table)
         bef aft))))
