@@ -72,7 +72,7 @@ projects:
   #   description: 'A series of usability improvements for LaTeX-mode.'
   google-this:
     url: 'https://github.com/Malabarba/emacs-google-this/'
-    description: 'A set of functions and bindings to Google under point.'
+    description: 'Commands and keybinds for Googling at point.'
   Emacs Online Doc:
     url: 'http://doc.endlessparentheses.com/'
     description: 'An up-to-date online documentation of ALL Emacs functions and variables.'
