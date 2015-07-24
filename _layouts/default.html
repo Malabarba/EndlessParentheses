@@ -16,18 +16,21 @@
           {% for page in site.pages_list %}
             <li><a href="{{ page[1][0]  }}"><img src="{{ page[1][1]  }}" class="masthead-icon" /><span class="link-name">{{page[0]}}</span></a></li>
           {% endfor %}
-          <li>{% include search-box.html %}</li>
-          <li>{% include twitter_follow.html %}</li>
+        {% comment %} <li>{% include search-box.html %}</li> {% endcomment %}
         </ul>
 
-        {% include sidebar_ad.html %}
+        {% include twitter_follow.html %}
+        {% comment %} {% include sidebar_ad.html %} {% endcomment %}
       </div>
 
       <div class="post-with-comments">{{ content }}
         {% include copyright.html %}</div>
       <div class="right-sidebar">
         {% include sidebar_entries.html %}
-        {% include stack_exchange.html %}
+        <div class="bottom">
+          {% include stack_exchange.html %}
+          {% include gratipay.html %}
+        </div>
       </div>
     </div>
   </body>

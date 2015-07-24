@@ -658,6 +658,10 @@ a.pagination-item:hover {
     border-bottom-right-radius: 0;
 }
 
+.twitter-follow {
+    height: 28px;
+    width: 157px;
+}
 .gad {
     width: 100%;
     height: 100px;
@@ -665,27 +669,37 @@ a.pagination-item:hover {
 .bottom {
     position:absolute;
     bottom:3rem;
-    right:0;
+    /* right:0; */
+    /* background-color: green; */
 }
+
 .se-flair {
-    height: 50px;
+    /* height: 50px; */
+    /* width: 100%; */
+    padding: 0;
+    margin: 0;
 }
 .gratipay {
-    padding-top: 3px;
+    /* padding-top: 3px; */
+    width: 95%;
+    padding: 0;
+    margin: 0;
+    /* background-color: blue; */
 }
 
 
 /* Responsiveness */
-@media (max-height: 34rem) {
+@media (max-height: 599px) {
     .left-sidebar-ad {display:none;}
     .se-flair {display:none;}
+    .gratipay {display:none;}
 }
-@media (min-height: 34.1rem) {
+@media (min-height: 600px) {
     .left-sidebar-ad {display:initial;}
     .se-flair {display:initial;}
 }
 
-@media (max-width: 62.2rem) {
+@media (max-width: 799px) {
     .post-ad-mobile {
         display: initial;
         width: 320px;
