@@ -352,6 +352,7 @@ tbody tr:nth-child(odd) th {
     margin-bottom: 1.5em;
     margin-left: 0.3rem;
     margin-right: 0.3rem;
+    /* text-align: right; */
 }
 
 .masthead-title {
@@ -427,7 +428,7 @@ a.author:focus {
 
 .post-with-comments {
     font-size: 105%;
-    margin:.3rem;
+    margin:0;
     max-width: 32rem;
     /* padding-left: 0; */
     /* padding-right:0; */
@@ -444,9 +445,9 @@ a.author:focus {
     margin-bottom:2.5rem;
 }
 .border-box {
-    padding: .8em 1em 0 1em;
+    padding: 0;
     margin: 0;
-    margin-bottom: 1em;
+    margin-bottom: 3em;
 
     color: #333;
     /* -moz-border-radius:6px; */
@@ -471,8 +472,10 @@ a.author:focus {
     color: #303030;
 }
 .page-title,
+.post-title a,
 .post-title {
     margin-top: 0;
+    padding-top: 0;
 }
 
 /* Meta data line below post title */
@@ -573,8 +576,9 @@ ul.archive {
 .right-sidebar {
     font-family: "Droid Serif", serif;
     padding-bottom: 0;
+    padding-top: 0;
     margin-right: 0rem;
-    margin-top:1.3rem;
+    margin-top:2rem;
     margin-left:21rem;
     margin-bottom: 0;
     /* text-align:right; */
@@ -590,7 +594,9 @@ ul.archive {
 .right-sidebar dl a {
     color: black;
 }
-
+.right-sidebar h1 {
+    margin-top: 0;
+}
 .right-sidebar dd {
     /* padding-left: 0; */
     margin-left: 1em;
@@ -736,7 +742,8 @@ a.pagination-item:hover {
         width: 99%;
     }
 }
-@media (min-width: 62.3rem) {
+
+@media (min-width: 800px) {
 
     .container {
         /* overflow:hidden; */
@@ -761,7 +768,7 @@ a.pagination-item:hover {
     }
     .post-with-comments {
         /* float:left; */
-        margin-left:20rem;
+        margin-left:18rem;
         /* width:34rem; */
         display:inline-block;
         /* overflow:scroll; */
@@ -772,7 +779,7 @@ a.pagination-item:hover {
     .post-ad-mobile {display:none;}
 }
 
-@media (min-width: 76.3rem) {
+@media (min-width: 1110px) {
     .container {
         /* overflow:hidden; */
         max-width: 33rem;
