@@ -429,6 +429,7 @@ a.author:focus {
 .post-with-comments {
     font-size: 105%;
     margin:0;
+    margin-left: 0.3rem;
     max-width: 32rem;
     /* padding-left: 0; */
     /* padding-right:0; */
@@ -717,6 +718,7 @@ a.pagination-item:hover {
     .right-sidebar {display:none;}
     .post-ad {display: none;}
     .left-sidebar-ad {display:none;}
+    .twitter-follow {display:none;}
 
     .masthead-links {
         margin-top: .3rem;
