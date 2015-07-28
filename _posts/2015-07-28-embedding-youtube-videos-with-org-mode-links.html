@@ -23,7 +23,7 @@ to your init file, and you’re good to go.
      ;; You may want to change your width and height.
      (html (format "<iframe width=\"440\" height=\"335\" src=\"https://www.youtube.com/embed/%s\" frameborder=\"0\" allowfullscreen>%s</iframe>"
                    path (or desc "")))
-     (latex (format "\href{%s}{%s}" path (or desc "video"))))))
+     (latex (format "\href{{"{%"}}s}{{"{%"}}s}" path (or desc "video"))))))
 {% endhighlight %}
 <p>
 To use this, just write your org links the following (optionally adding a description).
