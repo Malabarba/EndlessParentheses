@@ -1,13 +1,7 @@
-{% if page.series %}
-{% assign series_number = 0 %}
-{% for post in site.posts %}
-{% if post.series == page.series %}
-{% assign series_number = series_number | plus:1 %}
-{% endif %}
-{% endfor %}
+{% if page.series %}{% assign series_number = 0 %}{% for post in site.posts %}{% if post.series == page.series %}{% assign series_number = series_number | plus:1 %}{% endif %}{% endfor %}
 {% if series_number > 1 %}
 <div class="series">
-  <h4>Posts in the <i>{{ page.series }}</i> series</h4>
+  <h4><span class="series-title">{{ page.series }}</span> post series</h4>
   <ul>
     {% assign series_number = 0 %}
     {% for post in site.posts reversed %}

@@ -228,6 +228,13 @@ abbr[title] {
 .series h4 {
     font-family: 'Droid Sans', "Helvetica Neue", Helvetica, sans-serif;
     margin-top: 0;
+    weight: normal;
+}
+.series-title {
+    font-family: "Droid Serif", serif;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    weight:bold;
 }
 .series-post {
     font-family: "Droid Serif", serif;
@@ -240,8 +247,8 @@ abbr[title] {
     -moz-border-radius:8px;
     -webkit-border-radius:8px;
     border-radius:8px;
-    border: 2px solid #b0c0a0;
-    background-color: #d9e9c9;
+    border: 2px solid #d1cEb9;
+    /* background-color: #d9e9c9; */
     display: inline-block;
     /* margin-top: 0; */
     margin-bottom: 1rem;
@@ -685,12 +692,14 @@ a.pagination-item:hover {
     /* width: 100%; */
     padding: 0;
     margin: 0;
+    margin-top: 10px;
 }
 .gratipay {
     /* padding-top: 3px; */
     width: 95%;
     padding: 0;
     margin: 0;
+    margin-top: 10px;
     /* background-color: blue; */
 }
 
