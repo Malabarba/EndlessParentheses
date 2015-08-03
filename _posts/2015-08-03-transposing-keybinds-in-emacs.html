@@ -1,0 +1,30 @@
+---
+title: "Transposing keybinds in Emacs"
+date: 2015-08-03
+layout: post
+tags: keybind init.el
+---
+<p>
+Transposing is another of <a href="/hungry-delete-mode.html">those features</a> that I really miss when not in Emacs.
+It took me several months of actively reminding myself in order to finally
+incorporate it into my regular arsenal. Now, not a day goes by that I don’t
+transpose a few lines, and usually some words and sexps as well, but the
+usefulness of <code>transpose-char</code> still seems to elude me. 
+</p>
+
+<p>
+I hear this command is great at fixing some typos, so perhaps I don’t find it as
+useful because <a href="/ispell-and-abbrev-the-perfect-auto-correct.html">auto-correct</a> takes care of those for me. Meanwhile, the other
+transpose commands have the very different role of refactoring code or moving
+text around (<code>transpose-lines</code> is specially nice with <a href="/longlines-mode-in-latex.html">one-line-per-sentence text</a>).
+</p>
+
+<p>
+Whatever the reason, the point is that <kbd>C-t</kbd> is too good a key for a command
+that I’m not going to use and <kbd>C-x C-t</kbd> is too long for a command I use so
+often. The answer, of course, is to swap the two around.
+</p>
+{% highlight cl %}
+(global-set-key "\C-t" #'transpose-lines)
+(define-key ctl-x-map "\C-t" #'transpose-chars)
+{% endhighlight %}
