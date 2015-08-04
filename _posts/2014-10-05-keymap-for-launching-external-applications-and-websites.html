@@ -13,7 +13,7 @@ launcher.
 </p>
 {% highlight cl %}
 (defmacro run (exec)
-  "Return a function that runs the executable EXEC."
+  "Return a named function that runs EXEC."
   (let ((func-name (intern (concat "endless/run-" exec))))
     `(progn
        (defun ,func-name ()
@@ -24,7 +24,7 @@ launcher.
 
 (define-key launcher-map "m" (run "Mathematica"))
 (define-key launcher-map "k" (run "keepass"))
-(define-key launcher-map "v" (run "steam"))
+(define-key launcher-map "v" (run "steam")) ; Vapor =P
 {% endhighlight %}
 <p>
 We could use a lambda instead of the macro, but the macro defines a
@@ -36,7 +36,7 @@ While we're at it, let's do something similar for websites.
 </p>
 {% highlight cl %}
 (defmacro browse (url)
-  "Return a function that calls `browse-url' on URL."
+  "Return a named function that calls `browse-url' on URL."
   (let ((func-name (intern (concat "endless/browse-" url))))
     `(progn
        (defun ,func-name ()
@@ -45,8 +45,14 @@ While we're at it, let's do something similar for websites.
          (browse-url ,url))
        #',func-name)))
 
-(define-key launcher-map "r" (browse "http://www.reddit.com/r/emacs/"))
-(define-key launcher-map "w" (browse "http://www.emacswiki.org/"))
-(define-key launcher-map "?" (browse "http://emacs.stackexchange.com/"))
-(define-key launcher-map "+" (browse "https://plus.google.com/communities/114815898697665598016"))
+(define-key launcher-map "p"
+  (browse "http://twitter.com/"))
+(define-key launcher-map "?" ;; See also SX.el.
+  (browse "http://emacs.stackexchange.com/"))
+(define-key launcher-map "r"
+  (browse "http://www.reddit.com/r/emacs/"))
+(define-key launcher-map "w"
+  (browse "http://www.emacswiki.org/"))
+(define-key launcher-map "+"
+  (browse "https://plus.google.com/communities/114815898697665598016"))
 {% endhighlight %}
