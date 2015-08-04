@@ -15,14 +15,15 @@ light of day.
 </p>
 
 <p>
-To remember the keybinds, think of <i>“Emacs launch calc”</i> for instance.
+To remember these keybinds, think of <i>“Emacs launch calc”</i> for instance.
 </p>
 {% highlight cl %}
 (define-prefix-command 'launcher-map)
-;; C-x l is `count-lines-page' by default. If you
+;; `C-x l' is `count-lines-page' by default. If you
 ;; use that, you can try s-l or <C-return>.
 (define-key ctl-x-map "l" 'launcher-map)
 (global-set-key (kbd "s-l") 'launcher-map)
+(define-key launcher-map "p" #'paradox-list-packages)
 (define-key launcher-map "c" #'calc)
 (define-key launcher-map "d" #'ediff-buffers)
 (define-key launcher-map "f" #'find-dired)
@@ -31,12 +32,10 @@ To remember the keybinds, think of <i>“Emacs launch calc”</i> for instance.
 (define-key launcher-map "h" #'man) ; Help
 (define-key launcher-map "i" #'package-install-from-buffer)
 (define-key launcher-map "n" #'nethack)
-(define-key launcher-map "p" #'paradox-list-packages)
 (define-key launcher-map "s" #'shell)
-(define-key launcher-map "t" #'proced) ; top
 {% endhighlight %}
 <p>
-<code>calc</code>, <code>man</code>, <code>list-packages</code>&#x2026; I use these features, on average,
-once or twice every other moon. An intuitive keymap is exactly what I
-need to always remember their keybinds.
+<code>calc</code>, <code>man</code>, <code>list-packages</code>&#x2026; I use these features, on average, once or
+twice every other moon. An intuitive keymap is exactly what I need to always
+remember their keybinds and not have to <kbd>M-x</kbd> their whole name.
 </p>
