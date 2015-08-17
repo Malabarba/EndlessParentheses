@@ -1,0 +1,125 @@
+---
+title: "A comment-or-uncomment-sexp command"
+date: 2015-08-17
+layout: post
+tags: clojure lisp programming init.el
+meta_title: "A comment-or-uncomment-sexp command in Emacs"
+---
+<p>
+Commenting is a very frequent piece of a programmer’s workflow, and it’s
+important to make it seamless and simple. For the more statemental languages,
+that’s as easy as writing a <a href="/implementing-comment-line.html">custom <code>comment-line</code> command</a>. However, when
+you’re writing in Lisp languages, that just won’t do. Trying to comment out
+lines in a sexp-oriented structure, feels a lot like trying to hit a nail with a
+heavy screwdriver&#x2014;it sometimes gets the job done, but it mostly just leads to
+frustration.
+</p>
+
+<p>
+That said, a <code>comment-sexp</code> command is considerably more complicated to write.
+Not because commenting sexps is hard, but because it is quite difficult to
+identify sexps when <i>removing</i> comments. Still, I’m nothing if not stubborn. So
+after much hair pulling and teeth gritting, I have finally found a version I’m
+happy with.
+</p>
+
+
+<div class="figure">
+<p><a href="/images/comment-or-uncomment-sexp.gif"><img src="/images/comment-or-uncomment-sexp.gif" alt="comment-or-uncomment-sexp.gif" /></a>
+</p>
+</div>
+
+<p>
+The gif above speaks for itself, so I’ll just give you the code and let you play
+with it.
+</p>
+{% highlight cl %}
+(defun uncomment-sexp (&optional n)
+  "Uncomment a sexp around point."
+  (interactive "P")
+  (let* ((initial-point (point-marker))
+         (p)
+         (end (save-excursion
+                (when (elt (syntax-ppss) 4)
+                  (re-search-backward comment-start-skip
+                                      (line-beginning-position)
+                                      t))
+                (setq p (point-marker))
+                (comment-forward (point-max))
+                (point-marker)))
+         (beg (save-excursion
+                (forward-line 0)
+                (while (= end (save-excursion
+                                (comment-forward (point-max))
+                                (point)))
+                  (forward-line -1))
+                (goto-char (line-end-position))
+                (re-search-backward comment-start-skip
+                                    (line-beginning-position)
+                                    t)
+                (while (looking-at-p comment-start-skip)
+                  (forward-char -1))
+                (point-marker))))
+    (unless (= beg end)
+      (uncomment-region beg end)
+      (goto-char p)
+      ;; Indentify the "top-level" sexp inside the comment.
+      (while (and (ignore-errors (backward-up-list) t)
+                  (>= (point) beg))
+        (setq p (point-marker)))
+      ;; Re-comment everything before it. 
+      (ignore-errors
+        (comment-region beg p))
+      ;; And everything after it.
+      (goto-char p)
+      (forward-sexp (or n 1))
+      (skip-chars-forward "\r\n[:blank:]")
+      (if (< (point) end)
+          (ignore-errors
+            (comment-region (point) end))
+        ;; If this is a closing delimiter, pull it up.
+        (goto-char end)
+        (skip-chars-forward "\r\n[:blank:]")
+        (when (= 5 (car (syntax-after (point))))
+          (delete-indentation))))
+    ;; Without a prefix, it's more useful to leave point where
+    ;; it was.
+    (unless n
+      (goto-char initial-point))))
+
+(defun comment-sexp--raw ()
+  "Comment the sexp at point or ahead of point."
+  (pcase (or (bounds-of-thing-at-point 'sexp)
+             (save-excursion
+               (skip-chars-forward "\r\n[:blank:]")
+               (bounds-of-thing-at-point 'sexp)))
+    (`(,l . ,r)
+     (goto-char r)
+     (skip-chars-forward "\r\n[:blank:]")
+     (comment-region l r)
+     (skip-chars-forward "\r\n[:blank:]"))))
+
+(defun comment-or-uncomment-sexp (&optional n)
+  "Comment the sexp at point and move past it.
+If already inside (or before) a comment, uncomment instead.
+With a prefix argument N, comment that many sexps."
+  (interactive "p")
+  (if (or (elt (syntax-ppss) 4)
+          (< (save-excursion
+               (skip-chars-forward "\r\n[:blank:]")
+               (point))
+             (save-excursion
+               (comment-forward 1)
+               (point))))
+      (uncomment-sexp)
+    (dotimes (_ n)
+      (comment-sexp--raw))))
+{% endhighlight %}
+<p>
+And, of course, don’t forget to bind it.
+</p>
+{% highlight cl %}
+(define-key emacs-lisp-mode-map (kbd "C-M-;") #'comment-sexp)
+(eval-after-load 'clojure-mode
+  '(define-key clojure-mode-map (kbd "C-M-;") #'comment-sexp))
+{% endhighlight %}
