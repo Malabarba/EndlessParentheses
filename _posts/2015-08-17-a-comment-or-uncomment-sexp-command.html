@@ -97,7 +97,8 @@ with it.
     (`(,l . ,r)
      (goto-char r)
      (skip-chars-forward "\r\n[:blank:]")
-     (comment-region l r)
+     (save-excursion
+       (comment-region l r))
      (skip-chars-forward "\r\n[:blank:]"))))
 
 (defun comment-or-uncomment-sexp (&optional n)
@@ -120,9 +121,5 @@ With a prefix argument N, (un)comment that many sexps."
 And, of course, don’t forget to bind it.
 </p>
 {% highlight cl %}
-(define-key emacs-lisp-mode-map (kbd "C-M-;")
-  #'comment-or-uncomment-sexp)
-(eval-after-load 'clojure-mode
-  '(define-key clojure-mode-map (kbd "C-M-;")
-     #'comment-or-uncomment-sexp))
+(global-set-key (kbd "C-M-;") #'comment-or-uncomment-sexp)
 {% endhighlight %}
