@@ -1,6 +1,6 @@
 ---
 title: "Org-mode subtrees and file-local variables"
-date: 2015-08-30
+date: 2015-09-01
 layout: post
 tags: org-mode init.el
 ---
@@ -76,7 +76,7 @@ real end of buffer.
     (goto-char (point-min))
     (if (search-forward "\n* COMMENT Footer"
                         nil 'noerror)
-        (goto-char (1- (match-beginning 0)))
+        (goto-char (match-beginning 0))
       (goto-char (point-max)))))
 (define-key org-mode-map [remap end-of-buffer]
   #'endless/org-eob)
