@@ -702,7 +702,10 @@ a.pagination-item:hover {
     margin-top: 10px;
     /* background-color: blue; */
 }
-
+.centered-image {
+    margin-left: auto;
+    margin-right: auto;
+}
 
 /* Responsiveness */
 @media (max-height: 599px) {
