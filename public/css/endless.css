@@ -707,6 +707,23 @@ a.pagination-item:hover {
     margin-right: auto;
 }
 
+.PageNavigation {
+    font-size: 14px;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    margin: 1em 0;
+}
+
+.PageNavigation a {
+    display: block;
+    width: 100%;
+    float: left;
+}
+
+.PageNavigation .next {
+    text-align: right;
+}
 /* Responsiveness */
 @media (max-height: 599px) {
     .left-sidebar-ad {display:none;}
