@@ -40,11 +40,14 @@ Nameless is available from <a href="https://elpa.gnu.org/packages/nameless.html"
 <code>package-install</code> it, and turn on the minor-mode wherever you want.
 </p>
 {% highlight cl %}
-(add-hook 'emacs-lisp-mode-hook #'nameless-mode)
-(setq nameless-global-aliases '(("fl" . "font-lock")
-                                ("s" . "seq")
-                                ("me" . "macroexp")
-                                ("q" . "queue")))
+(add-hook 'emacs-lisp-mode-hook
+          #'nameless-mode-from-hook)
+(setq nameless-global-aliases
+      '(("fl" . "font-lock")
+        ("s" . "seq")
+        ("me" . "macroexp")
+        ("c" . "cider")
+        ("q" . "queue")))
 {% endhighlight %}
 <p>
 See the <a href="https://github.com/Malabarba/Nameless">Readme</a> for more information.</p>
