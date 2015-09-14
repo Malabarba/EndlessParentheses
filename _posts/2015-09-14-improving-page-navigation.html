@@ -1,0 +1,79 @@
+---
+title: "Improving page (section) navigation"
+date: 2015-09-14
+layout: post
+tags: clojure lisp navigation init.el
+---
+<p>
+If you’ve taken the time to browse some Elisp source files, you’ve no doubt run
+into that odd little <code>^L</code>, a.k.a. the form feed character. Emacs uses these
+white space characters as page delimiters. This makes for a very convenient way
+to split a file into sections, and quickly navigate between them. I won’t go too
+deep into them, as Eric James has already written a great <a href="http://ericjmritz.name/2015/08/29/using-page-breaks-in-gnu-emacs/">crash course on pages</a>
+that you should go check out.
+</p>
+
+<p>
+What I wanted to write about is the way that I do page navigation in Emacs.
+Firstly, I find the default keys to be nothing short of abhorrent. Take a prefix
+key with the <kbd>Control</kbd>, attach to it a non-modified key, and then make that key
+be something not-so-easy to hit, like <kbd>]</kbd>, and you have the recipe for painful
+fingers.
+</p>
+{% highlight cl %}
+(define-key prog-mode-map "\C-x\C-n" #'forward-page)
+(define-key prog-mode-map "\C-x\C-p" #'backward-page)
+{% endhighlight %}
+<p>
+These keys would normally be bound to <code>set-goal-column</code> and <code>mark-page</code>, which
+I’ve never ever <i>ever</i> used.
+</p>
+
+<p>
+Then there’s a minor peeve. In some corner cases Emacs might leave the cursor at
+the bottom of the screen after moving. Here we make sure that never happens.
+</p>
+{% highlight cl %}
+;; Requires Emacs 24.5
+(advice-add #'backward-page :after #'recenter)
+(advice-add #'forward-page  :after #'recenter)
+{% endhighlight %}
+
+<p>
+And then there’s the best part. It turns out you don’t need the form-feed
+character to delimit pages. That’s important because some languages aren’t that
+nice about them, and some dev teams might prefer you don’t stick those
+<code>^L</code> all over the place. In Clojure, for instance, <code>cljfmt</code> confuses it for a
+blank line and freaks out a little.
+</p>
+
+<p>
+Fortunately, Elisp style already recommends using <code>;;;</code> to indicate comment
+sections, and the form feed character is most commonly placed right above these
+sections. So why not use that instead?
+</p>
+{% highlight cl %}
+(setq page-delimiter
+      (rx bol ";;;" (not (any "#")) (* not-newline) "\n"
+          (* (* blank) (opt ";" (* not-newline)) "\n")))
+;; Expanded regexp:
+;; "^;;;[^#].*\n\\(?:[[:blank:]]*\\(?:;.*\\)?\n\\)*"
+{% endhighlight %}
+<p>
+The regexp above is a bit special. We’re setting the page delimiter to be a
+<code>;;;</code> at the start of a line, plus any number of empty lines or comment lines
+that follow it (that <code>#</code> part is to exclude <code>;;;###autoload</code> cookies).
+</p>
+
+<p>
+Consequently, when we hit <kbd>C-x C-n</kbd> or <kbd>C-x C-p</kbd>, the point is left right at the
+start of the first code-line after the <code>;;;</code>. That’s usually where I want to be,
+and it works even on buffers without <code>^L</code>, Clojure and Elisp. No doubt you can
+extended that to your programming language of choice by replacing the semicolons
+with the appropriate comment character.
+</p>
+
+<p>
+Even better, why not write up a general solution based on the <a href="http://doc.endlessparentheses.com/Var/comment-start"><code>comment-start</code></a>
+variable?
+</p>
