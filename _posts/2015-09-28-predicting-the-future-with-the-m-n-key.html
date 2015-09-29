@@ -16,17 +16,20 @@ know you can even step into the future?
 Well, sort of&#x2026; At least that’s the spirit. If you type <kbd>M-p</kbd> at the prompt,
 Emacs fills the prompt with previous items from the history. On the other hand,
 if you type <kbd>M-n</kbd>, Emacs will try to guess from context what your <i>next</i> input
-is going to be. The meaning of this depends on the command.
+is going to be. The meaning of this depends on the command (some of these
+require Emacs 24.5).
 </p>
 
 <ul class="org-ul">
 <li>In file prompts, hitting <kbd>M-n</kbd> fills in the name of the current file. This is
 very useful with <a href="http://doc.endlessparentheses.com/Fun/write-file"><code>write-file</code></a> or with dired commands like <code>copy</code> or <code>move</code>.</li>
-<li>In <a href="http://doc.endlessparentheses.com/Fun/query-replace"><code>query-replace</code></a>, it fills in the symbol at point, which is usually a pretty
-good guess of what you want to replace.</li>
-<li>In <a href="http://doc.endlessparentheses.com/Fun/query-replace-regexp"><code>query-replace-regexp</code></a> it does the same thing, but you can hit <kbd>M-n</kbd> a
-second time to get <code>\_&lt;symbol-delimiters\_&gt;</code> around the symbol.</li>
 <li><kbd>M-x</kbd> tries to find a command name under point.</li>
+<li>In <a href="http://doc.endlessparentheses.com/Fun/query-replace-regexp"><code>query-replace-regexp</code></a> it fills in the symbol at point, which is usually a
+pretty good guess of what you want to replace. And you can hit <kbd>M-n</kbd> a second
+time to get <code>\_&lt;symbol-delimiters\_&gt;</code> around the symbol.</li>
+<li>As Marco points out in the comments, if you have two dired windows open, file
+or directory prompts in one window fill in the directory name of the other
+window.</li>
 </ul>
 
 <p>
