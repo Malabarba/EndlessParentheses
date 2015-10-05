@@ -495,7 +495,7 @@ a.author:focus {
 .post-date .comment-link {
     float:right;
 }
-.post-date .comment-link .timestamp {
+.post-date, .post-date .comment-link, .timestamp {
     color: #9a9a9a;
 }
 
