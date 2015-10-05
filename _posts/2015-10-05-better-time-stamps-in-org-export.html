@@ -1,0 +1,60 @@
+---
+title: "Better time-stamps in org-export"
+date: 2015-10-05
+layout: post
+tags: org-mode init.el
+meta_title: "Better time-stamps in org-export with Emacs"
+---
+<p>
+<code>org-mode</code> has a very useful command, <a href="http://doc.endlessparentheses.com/Fun/org-time-stamp"><code>org-time-stamp</code></a>, which helps you insert
+dates from a calendar. So you can quickly type <kbd>C-c . RET</kbd> to insert
+<code>&lt;2015-10-05 Mon&gt;</code>, for instance. These time-stamps are used by Org in a variety
+of ways, so they are wrapped in <code>&lt;&gt;</code> to make them easy to parse. The downside
+being that they look less than optimal when exported.
+</p>
+
+<p>
+I was bit by this again today while updating the <a href="/donations-donations-donations.html">post on donations</a>, and I
+finally decided to look for a way to fix it. Of course, <code>org-mode</code> is nothing if
+not configurable, so the answer wasn’t very far away.
+</p>
+{% highlight cl %}
+(add-to-list 'org-export-filter-timestamp-functions
+             #'endless/filter-timestamp)
+(defun endless/filter-timestamp (trans back _comm)
+  "Remove <> around time-stamps."
+  (pcase back
+    ((or `jekyll `html)
+     (replace-regexp-in-string "&[lg]t;" "" trans))
+    (`latex
+     (replace-regexp-in-string "[<>]" "" trans))))
+{% endhighlight %}
+<p>
+The loyal readers might notice how similar this is to the second <code>lambda</code> we
+used for <a href="/embedding-youtube-videos-with-org-mode-links.html">exporting Youtube links</a>. Org is quite consistent in its use of export
+filters.
+</p>
+
+<p>
+The above is enough to remove the surrounding <code>&lt;&gt;</code>, but we can still make it
+better. The <code>YYYY-MM-DD weekday</code> format isn’t commonly used in prose, so let’s
+switch that as well.
+</p>
+{% highlight cl %}
+(setq-default org-display-custom-times t)
+;;; Before you ask: No, removing the <> here doesn't work.
+(setq org-time-stamp-custom-formats
+      '("<%d %b %Y>" . "<%d/%m/%y %a %H:%M>"))
+{% endhighlight %}
+<p>
+As a bonus, this format will also be used to display time-stamps in your
+<code>org-mode</code> buffers. If don’t want that, you can let-bind the
+<code>org-display-custom-times</code> variable when calling the export function, instead of
+setting it globally.
+</p>
+
+<p>
+<b>If any of this doesn’t work for you</b>, you might need to update your Org
+package. Fortunately, <a href="https://elpa.gnu.org/packages/org.html">Org is on GElpa</a>, so anyone can do that with <kbd>M-x</kbd>
+<code>list-packages</code>.
+</p>
