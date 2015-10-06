@@ -34,9 +34,16 @@ Then there’s a minor peeve. In some corner cases Emacs might leave the cursor 
 the bottom of the screen after moving. Here we make sure that never happens.
 </p>
 {% highlight cl %}
+(defun endless/-recenter-advice (&rest _)
+  "Recenter to page start."
+  (when (called-interactively-p 'any)
+    (recenter 10)))
+
 ;; Requires Emacs 24.5
-(advice-add #'backward-page :after #'recenter)
-(advice-add #'forward-page  :after #'recenter)
+(advice-add #'backward-page :after
+            #'endless/-recenter-advice)
+(advice-add #'forward-page  :after
+            #'endless/-recenter-advice)
 {% endhighlight %}
 
 <p>
