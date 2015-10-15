@@ -1,0 +1,33 @@
+---
+title: "Paradoxical Hydras"
+date: 2015-10-15
+layout: post
+tags: keymap hydra paradox
+---
+<p>
+Quick update to say that I’m quite pleased with the <a href="https://github.com/abo-abo/hydra">Hydra</a> package. Turns out
+it’s not just eye-candy on top of keymaps, it also offers convenient
+functionality that is rather dull to implement on plain keymaps.
+</p>
+
+<p>
+If you use <a href="https://github.com/Malabarba/paradox">Paradox</a>, next time you upgrade you’ll find that a sneaky hydra has
+made its way into it. It’s a very simple one under the <kbd>f</kbd> key, but it’s a nice
+improvement over the plain keymap. 
+</p>
+
+<p>
+Also, if you happen to follow the Emacs master branch, you’ll see that this new
+hydra is actually not that simple and includes some filtering options that the
+previous keymap didn’t even have. You have <a href="https://github.com/kaushalmodi/.emacs.d/blob/17e5cdc46e2e0a71070bf63e98be2ba727d1a579/setup-files/setup-paradox.el#L21-L41">Kaushal Modi</a> to thank for this.
+</p>
+
+<p>
+If you’re the kind of person who hates mythical creatures, you can revert to the
+plain keymap with this snippet.
+</p>
+{% highlight cl %}
+(eval-after-load 'paradox
+  '(define-key paradox-menu-mode-map "f"
+     #'paradox--filter-map))
+{% endhighlight %}
