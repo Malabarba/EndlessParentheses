@@ -1,0 +1,52 @@
+---
+title: "Improving LaTeX equations with font-lock"
+date: 2015-10-19
+layout: post
+tags: font-lock latex init.el
+meta_title: "Improving LaTeX equations with font-lock in Emacs"
+---
+<p>
+It’s difficult for me to spend much time interacting with a major-mode and not
+find something to tweak. Even when that mode is my oldest companion in the world
+of Emacs, something will surely pop up. So it’s only fitting that in the final
+week of my thesis submission deadline I start tinkering with <code>latex-mode</code> again.
+</p>
+
+<p>
+I wrote the following snippet after upgrading to the latest AucTeX from Gelpa,
+which has a myriad of rules defined for <code>prettify-symbols-mode</code>. Equations
+become much easier to read when you replace the verbose math symbols like
+<code>\alpha</code> with <code>α</code>, but that only makes all the LaTeX styling commands stand out
+even more. Suddenly, all those <code>\left</code>, <code>\right</code>, <code>\!</code> and <code>\;</code>, are sticking
+out like that mole on a hag’s nose.
+</p>
+
+<p>
+What do we do about that? We hide them away. Not completely, of course. We still
+need to see those commands. We just tuck them away a little, where we <i>can</i> see
+them without <i>having</i> to see them.
+</p>
+{% highlight cl %}
+(defface endless/unimportant-latex-face
+  '((t :height 0.6
+       :inherit font-lock-comment-face))
+  "Face used on less relevant math commands.")
+
+(font-lock-add-keywords
+ 'latex-mode
+ `((,(rx "\\" (or (any ",.!;")
+                  (and (or "left" "right")
+                       symbol-end)))
+    0 'endless/unimportant-latex-face prepend))
+ 'end)
+{% endhighlight %}
+
+<p>
+Here’s a sample of what it might look like for you.
+</p>
+
+
+<div class="figure">
+<p><a href="/images/latex-unimportant-font-lock.png"><img src="/images/latex-unimportant-font-lock.png" alt="latex-unimportant-font-lock.png" /></a>
+</p>
+</div>
