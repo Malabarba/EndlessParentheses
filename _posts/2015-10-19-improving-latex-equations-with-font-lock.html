@@ -28,15 +28,17 @@ them without <i>having</i> to see them.
 </p>
 {% highlight cl %}
 (defface endless/unimportant-latex-face
-  '((t :height 0.6
+  '((t :height 0.7
        :inherit font-lock-comment-face))
   "Face used on less relevant math commands.")
 
 (font-lock-add-keywords
  'latex-mode
- `((,(rx "\\" (or (any ",.!;")
-                  (and (or "left" "right")
-                       symbol-end)))
+ `((,(rx (or (and "\\" (or (any ",.!;")
+                           (and (or "left" "right"
+                                    "big" "Big")
+                                symbol-end)))
+             (any "_^")))
     0 'endless/unimportant-latex-face prepend))
  'end)
 {% endhighlight %}
