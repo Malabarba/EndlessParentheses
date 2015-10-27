@@ -1,0 +1,39 @@
+---
+title: "Beacon &#x2014; Never lose your cursor again"
+date: 2015-10-27
+layout: post
+tags: package convenience init.el
+meta_title: "Emacs Beacon &#x2014; Never lose your cursor again"
+---
+<p>
+What started out as a cute idea I was playing around with, eventually turned to
+be one of my favorite packages. Beacon won’t help you type faster, code
+better, or cure cancer like some of the other packages. Its effect is mostly
+cosmetic, but with practical benefits. Put simply, if you turn on this minor
+mode, whenever the window scrolls up or down a light will blink on your cursor.
+That’s it.
+</p>
+
+<p>
+At first, I thought this would be purely cosmetic. But my super scientific
+experience has been that there’s actually a practical benefit to it. The amount
+of brain energy you save and the level of eye strain you avoid by having this
+simple “eye-guide” is noticeable, specially during those late-night writing
+marathons.
+</p>
+
+<p>
+Just install from Gelpa with the usual <kbd>M-x</kbd> <code>list-packages</code> and turn it on.
+</p>
+{% highlight cl %}
+(beacon-mode 1)
+(setq beacon-push-mark 35)
+(setq beacon-color "#666600")
+{% endhighlight %}
+
+<p>
+It has a lot of configuration options for you to specify situations where it
+shouldn’t blink, as well as different details like duration, delay, size, and
+color. Either have a look at the <a href="https://github.com/Malabarba/beacon">Readme</a> or just issue <kbd>M-x</kbd> <code>customize-group</code> to
+see them all.
+</p>
