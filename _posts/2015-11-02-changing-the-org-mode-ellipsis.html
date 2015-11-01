@@ -1,0 +1,31 @@
+---
+title: "Changing the org-mode ellipsis"
+date: 2015-11-02
+layout: post
+tags: org-mode init.el
+series: "Emacs.SE Lessons"
+---
+<p>
+The dot-dot-dot ellipsis that org-mode uses to indicate hidden content is
+usually just fine. It’s only when you’re staring at a document where every line
+is a folded headline, that you start to feel like they’re a little too much “in
+your face”. I have a few org files with thousands of lines and hundreds of
+headlines, and changing that <code>...</code> to something shorter greatly reduces visual
+clutter.
+</p>
+
+<p>
+The more straightforward option is to use a proper ellipsis character (the same
+effect with a third the length).
+</p>
+{% highlight cl %}
+(setq org-ellipsis "…")
+{% endhighlight %}
+<p>
+The one I’m currently using is a cornered arrow.
+</p>
+{% highlight cl %}
+(setq org-ellipsis "⤵")
+{% endhighlight %}
+<p>
+Other interesting characters are <code>↴</code>, <code>⬎</code>, <code>⤷</code>, and <code>⋱</code>.</p>
