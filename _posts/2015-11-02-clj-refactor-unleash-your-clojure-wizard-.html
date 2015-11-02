@@ -1,0 +1,96 @@
+---
+title: "clj-refactor &#x2014; Unleash your Clojure wizard."
+date: 2015-11-02
+layout: post
+tags: CIDER clojure programming init.el
+---
+<p>
+When I first started learning Clojure, I was charmed by how well integrated
+CIDER was with Emacs. In many ways, it felt just like writing Emacs-lisp.
+Nowadays, that feeling has gone slightly past the goal mark, and there are
+actually features I miss when I’m writing elisp. <a href="https://github.com/clojure-emacs/clj-refactor.el#readme">Clj-refactor</a> is one of them.
+</p>
+
+<p>
+This package is a Swiss knife of refactoring utilities for Clojure. From simple
+operations like turning a form into a <code>-&gt;</code> thread, to the more complex
+situations like renaming entire namespaces, it’s hard to find something
+clj-refactor can’t do.
+</p>
+
+<p>
+I won’t list all of them here, they already have a nice <a href="https://github.com/clojure-emacs/clj-refactor.el/wiki">wiki page</a> for that. The
+point here is to expose a few features (the ones I find most useful) and
+hopefully that’ll get you started on the road to enlightenment. To see some of
+the features in play (at a pretty quick pace), you can check out Magnar’s <a href="http://www.parens-of-the-dead.com/">Parens
+of the dead</a> videos. I also plan on doing a proper and thorough video review of
+this package in the future.
+</p>
+
+<p>
+First, and most importantly, are the threading commands. These allow you to
+instantly turn something like <code>(filter odd? (map inc (range n)))</code> into
+</p>
+{% highlight clojure %}
+(->> (range n)
+     (map inc)
+     (filter odd?))
+{% endhighlight %}
+<p>
+or back again. Clj-refactor default keybinds are pretty well thought out, but I
+use these commands so frequently that I felt the need to shorten them to just 2
+or 3 keys.
+</p>
+{% highlight cl %}
+(require 'clj-refactor)
+(setq cljr-thread-all-but-last t)
+(define-key clj-refactor-map "\C-ctf" #'cljr-thread-first-all)
+(define-key clj-refactor-map "\C-ctl" #'cljr-thread-last-all)
+(define-key clj-refactor-map "\C-cu" #'cljr-unwind)
+(define-key clj-refactor-map "\C-cU" #'cljr-unwind-all)
+{% endhighlight %}
+
+<p>
+Next is another feature that comes up a lot, but this one doesn’t even take up a
+keybind. When you type <code>/</code>, clj-refactor will look at the alias you’ve just
+written, and try to add a require for it in the <code>ns</code> form. The current snapshot
+release is very smart about it, and actually learns what alias you use for each
+namespace by looking at other files in the same project. You can also define
+your preferences with the <code>cljr-magic-require-namespaces</code> variable.
+</p>
+{% highlight cl %}
+(add-to-list 'cljr-magic-require-namespaces
+             '("s"  . "clojure.string"))
+{% endhighlight %}
+
+<p>
+Another command you should definitely memorize is <code>cljr-create-fn-from-example</code>.<br  />
+<a href="/images/create-fn-from-example.gif"><img src="/images/create-fn-from-example.gif" alt="create-fn-from-example.gif" /></a><br  />
+Instead of specifying a custom key for this one, we’ll just let the package
+define all other keys for us.
+</p>
+{% highlight cl %}
+(ignore-errors
+  (cljr-add-keybindings-with-prefix "\C-cr"))
+{% endhighlight %}
+<p>
+The nice thing about the default keys is that they’re mnemonic, and you might
+remember I have an <a href="/the-toggle-map-and-wizardry.html">entire series</a> on this topic. The point being: it’s very easy
+to remember that <code>cljr-create-fn-from-example</code> is bound to <kbd>C-c r f e</kbd> when you
+can actually sing <i>“clojure refactor from example”</i> as you’re typing.
+</p>
+
+<p>
+A few others I use a lot (and the keys they’re bound to) are <code>introduce-let</code> (<kbd>i
+l</kbd>), <code>move-to-let</code> (<kbd>m l</kbd>), and <code>promote-function</code> (<kbd>p f</kbd>).
+</p>
+
+<p>
+Lastly, some miscellaneous configurations that simply reflect my personal
+preferences, but which you should be aware of nonetheless.
+</p>
+{% highlight cl %}
+(setq cljr-auto-sort-ns t)
+(setq cljr-favor-prefix-notation nil)
+(setq cljr-favor-private-functions nil)
+{% endhighlight %}
