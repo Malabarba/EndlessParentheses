@@ -1,0 +1,123 @@
+---
+title: "Using prettify-symbols in Clojure and Elisp without breaking indentation"
+date: 2015-11-09
+layout: post
+tags: lisp clojure init.el
+series: "prettify-symbols-mode"
+---
+<p>
+<code>prettify-symbols-mode</code> is a very nice minor-mode that is a little too modest
+for its own good. You can turn it on right now if you’re using a recent Emacs,
+but it’ll do nothing more than turn <code>lambda</code> into <code>λ</code> in <code>emacs-lisp-mode</code>.
+Still, it’s powerful and versatile and deserves that you give it a try. To
+extend its feature-set you can install packages or customize it yourself, and
+that’s what we’re here to do today, specifically in <code>clojure-mode</code>.
+</p>
+
+<p>
+First of all, let’s make sure it’s turned on.
+</p>
+{% highlight cl %}
+(global-prettify-symbols-mode 1)
+;; We're going to play with this below.
+(defvar endless/clojure-prettify-alist '())
+{% endhighlight %}
+
+<p>
+If you read the docstring for this mode, it’ll explain that any symbol can be
+displayed as any character, so the first thing that comes to my mind is
+displaying <code>&lt;=</code> or <code>&gt;=</code> as <code>≤</code> or <code>≥</code>. But that comes with a drawback. Suddenly
+that symbol is 1 character shorter, so Emacs is going to indent sexps
+accordingly, and people reading your code will see bad indentation.
+</p>
+
+<p>
+The solution is to configure <code>prettify-symbols-mode</code> to compose these symbols in
+a special way. This feature is somewhat accidental, and wasn’t even documented
+in the last release. The composition rules are slightly complicated to write,
+and for that I’ll point to the docstrings of <a href="http://doc.endlessparentheses.com/Fun/compose-region"><code>compose-region</code></a> (see the third
+argument) and <a href="http://doc.endlessparentheses.com/Var/reference-point-alist"><code>reference-point-alist</code></a>. Below are several examples you can toy
+around with.
+</p>
+
+<p>
+One way to fix the width, is to join two spaces together, and then stick the
+inequality on top of them.
+</p>
+{% highlight cl %}
+(add-to-list 'endless/clojure-prettify-alist
+             '(">=" . (?\s (Br . Bl) ?\s (Bc . Bc) ?≥)))
+(add-to-list 'endless/clojure-prettify-alist
+             '("<=" . (?\s (Br . Bl) ?\s (Bc . Bc) ?≤)))
+{% endhighlight %}
+<p>
+However, I find this looks a little “too spacey”.<br  />
+<a href="/images/prettify-inequalities-2.png"><img src="/images/prettify-inequalities-2.png" alt="prettify-inequalities-2.png" /></a>
+</p>
+
+<p>
+The option I prefer is to just add a small dot before the symbol. This makes it
+clear that the symbol occupies the space of two characters, while still looking
+nicer than a plain <code>&lt;=</code>.
+</p>
+{% highlight cl %}
+(add-to-list 'endless/clojure-prettify-alist
+             '("<=" . (?· (Br . Bl) ?≤)))
+(add-to-list 'endless/clojure-prettify-alist
+             '(">=" . (?· (Br . Bl) ?≥)))
+{% endhighlight %}
+<p>
+Which will look like this:<br  />
+<a href="/images/prettify-inequalities-1.png"><img src="/images/prettify-inequalities-1.png" alt="prettify-inequalities-1.png" /></a>
+</p>
+
+<p>
+Then there are the <code>-&gt;</code> and <code>-&gt;&gt;</code> macros, which are in dire need of a makeover
+if you ask me. The solution I currently use is a spaced-out version of <code>🠊</code>
+(you could also use <code>⇨</code>, <code>🡒</code>, or <code>→</code>).
+</p>
+{% highlight cl %}
+(add-to-list 'endless/clojure-prettify-alist
+             '("->" . (?\s (Br . Bl) ?\s (Bc . Bc) ?🠊)))
+(add-to-list 'endless/clojure-prettify-alist
+             '("->>" . (?\s (Br . Bl) ?\s (Br . Bl) ?\s
+                            (Bc . Br) ?🠊 (Bc . Bl) ?🠊)))
+{% endhighlight %}
+<p>
+Because the <code>🠊</code> character is wider than a regular character (at least on my
+font), this turns out look quite nice.<br  />
+<a href="/images/prettify-threading-2.png"><img src="/images/prettify-threading-2.png" alt="prettify-threading-2.png" /></a>
+</p>
+
+<p>
+If you don’t like that, there’s also the option of adding one or two dashes
+inside the symbols to make our fake arrow prettier.
+</p>
+{% highlight cl %}
+(add-to-list 'endless/clojure-prettify-alist
+             '("->" . (?- (Br . Bc) ?- (Br . Bc) ?>)))
+(add-to-list 'endless/clojure-prettify-alist
+             '("->>" .  (?\s (Br . Bl) ?\s (Br . Bl) ?\s
+                             (Bl . Bl) ?- (Bc . Br) ?- (Bc . Bc) ?>
+                             (Bc . Bl) ?- (Br . Br) ?>)))
+{% endhighlight %}
+<p>
+Here’s what they look like with this, compared to what they usually look like.<br  />
+<a href="/images/prettify-threading-1.png"><img src="/images/prettify-threading-1.png" alt="prettify-threading-1.png" /></a>
+</p>
+
+<p>
+And finally, none of this will work if we don’t set it up. Note that
+<code>clojure-mode</code> already defines <code>fn</code> to display as <code>λ</code>, so we don’t need to
+configure this one.
+</p>
+{% highlight cl %}
+(eval-after-load 'clojure-mode
+  '(setq clojure--prettify-symbols-alist
+         (append endless/clojure-prettify-alist
+                 clojure--prettify-symbols-alist)))
+(eval-after-load 'lisp-mode
+  '(setq lisp--prettify-symbols-alist
+         (append endless/clojure-prettify-alist
+                 lisp--prettify-symbols-alist)))
+{% endhighlight %}
