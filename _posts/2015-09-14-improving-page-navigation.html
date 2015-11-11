@@ -37,7 +37,7 @@ the bottom of the screen after moving. Here we make sure that never happens.
 (defun endless/-recenter-advice (&rest _)
   "Recenter to page start."
   (when (called-interactively-p 'any)
-    (recenter 10)))
+    (recenter 5)))
 
 ;; Requires Emacs 24.5
 (advice-add #'backward-page :after
@@ -61,7 +61,8 @@ sections. So why not use that instead?
 </p>
 {% highlight cl %}
 (setq page-delimiter
-      (rx bol ";;;" (not (any "#")) (* not-newline) "\n"
+      (rx bol (or "\f" ";;;")
+          (not (any "#")) (* not-newline) "\n"
           (* (* blank) (opt ";" (* not-newline)) "\n")))
 ;; Expanded regexp:
 ;; "^;;;[^#].*\n\\(?:[[:blank:]]*\\(?:;.*\\)?\n\\)*"
