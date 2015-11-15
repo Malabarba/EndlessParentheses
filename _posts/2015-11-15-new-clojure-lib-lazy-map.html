@@ -1,0 +1,99 @@
+---
+title: "New Clojure lib: lazy-map"
+date: 2015-11-15
+layout: post
+tags: clojure
+---
+<p>
+The concept of a <a href="https://github.com/Malabarba/lazy-map-clojure#the-lazy-map">lazy-map</a> might sounds odd at first. How do you know if a map
+contains an entry without resolving the whole map? But it’s not the entries that
+are lazy, it’s the values they hold. See this example from the Readme:
+</p>
+
+{% highlight clojure %}
+user> (def my-map
+        (lazy-map {:cause (do (println "Getting Cause")
+                              :major-failure)
+                   :name (do (println "Getting Name")
+                             "Some Name")}))
+#'user/my-map
+
+user> (:name my-map)
+Getting Name
+"Some Name"
+
+user> (:name my-map)
+"Some Name"
+
+user> (:cause my-map)
+Getting Cause
+:major-failure
+{% endhighlight %}
+
+<p>
+<a href="https://github.com/Malabarba/lazy-map-clojure#the-lazy-map">Lazy-map</a> is on Clojars, so you can just add it as a dep and play around:
+</p>
+
+
+<div class="figure">
+<p><a href="https://clojars.org/malabarba/lazy-map"><img src="https://clojars.org/malabarba/lazy-map/latest-version.svg"></a>
+</p>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">How would this ever be useful?</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+One of my side projects a few months ago (when I was playing around with
+Clojure-on-Android) was an Android client for a desktop Java application.
+Because of this, a lot of the code was about interfacing with Java objects
+defined by this package.  These objects were from many different classes, but
+the one thing they had in common is that they were full of <code>get</code> methods.
+</p>
+
+<p>
+I wanted so much to be able to use these objects as maps that I wrote <a href="https://github.com/Malabarba/lazy-map-clojure#the-to-lazy-map-protocol">a protocol</a>
+for converting general objects to Clojure maps. Here’s an example of how it
+worked on a string.
+</p>
+{% highlight clojure %}
+user> (to-map "My own String!")
+{:to-char-array #object["[C" 0xdf4ddb3 "[C@df4ddb3"],
+ :empty? false,
+ :to-string "My own String!",
+ :chars #object[java.util.stream.IntPipeline$Head 0xad35343 "java.util.stream.IntPipeline$Head@ad35343"],
+ :class java.lang.String,
+ :length 14,
+ :trim "My own String!",
+ :bytes #object["[B" 0x75ef7d8f "[B@75ef7d8f"],
+ :hash-code 1673659170,
+ :object "My own String!",
+ :to-upper-case "MY OWN STRING!"}
+{% endhighlight %}
+<p>
+For comparison, here’s how <code>bean</code> works (a similar function from
+<code>clojure.core</code>).
+</p>
+{% highlight clojure %}
+user> (bean "My own String!")
+{:bytes #object["[B" 0x1ad60072 "[B@1ad60072"],
+ :class java.lang.String,
+ :empty false}
+{% endhighlight %}
+
+<p>
+The protocol is actually quite smart. It uses a number of heuristics to only
+convert methods that look like they’re side-effect free. Of course, it’s not
+foolproof (this <i>is</i> Java we’re talking about), but the macro used to extend the
+protocol lets you specify methods to exclude.
+</p>
+
+<p>
+The only problem was the performance cost. Some of these methods were very
+expensive to run, and eagerly calling all methods of all objects just so I could
+later access some of these was obviously a bad deal. The solution, clearly, was
+to only call these methods when the map entries were actually accessed. And so
+<code>lazy-map</code> was born.
+</p>
+</div>
+</div>
