@@ -1,0 +1,43 @@
+---
+title: "Test-Driven-Development in CIDER and Emacs"
+date: 2015-11-16
+layout: post
+tags: tests CIDER clojure programming init.el
+---
+<p>
+As I was catching up on a few <a href="http://www.parens-of-the-dead.com/">Parens of the Dead</a> episodes this weekend, I was
+amused at how Magnar set up his Emacs to run the tests whenever the file is
+saved. At first I thought it wasn’t for me (I’m one of those who obsessively
+saves files every few seconds), but I’ve been trying it out lately and it’s
+starting to grow on me.
+</p>
+
+<p>
+I wrote a minor mode for this, so I can easily call <kbd>M-x</kbd> <code>tdd-mode</code> to disable
+it if it ever gets on my nerves.
+</p>
+{% highlight cl %}
+(defun tdd-test ()
+  "Thin wrapper around `cider-test-run-tests'."
+  (when (cider-connected-p)
+    (cider-test-run-tests nil)))
+
+(define-minor-mode tdd-mode
+  "Run all tests whenever a file is saved."
+  nil " TDD" nil
+  (if tdd-mode
+      (add-hook 'after-save-hook #'tdd-test nil 'local)
+    (remove-hook 'after-save-hook #'tdd-test 'local)))
+
+(add-hook 'cider-mode-hook #'tdd-mode)
+(add-hook 'cider-repl-mode-hook #'tdd-mode)
+{% endhighlight %}
+
+<p>
+I also had to change the <code>cider-test-success-face</code> to something a little less
+“screamy”.
+</p>
+{% highlight cl %}
+(custom-set-faces
+ '(cider-test-success-face ((t (:foreground "green" :background nil)))))
+{% endhighlight %}
