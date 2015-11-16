@@ -2,19 +2,20 @@
 title: "Test-Driven-Development in CIDER and Emacs"
 date: 2015-11-16
 layout: post
-tags: tests CIDER clojure programming init.el
+tags: CIDER clojure programming init.el
 ---
 <p>
 As I was catching up on a few <a href="http://www.parens-of-the-dead.com/">Parens of the Dead</a> episodes this weekend, I was
-amused at how Magnar set up his Emacs to run the tests whenever the file is
-saved. At first I thought it wasn’t for me (I’m one of those who obsessively
-saves files every few seconds), but I’ve been trying it out lately and it’s
-starting to grow on me.
+amused at how Magnar set up his Emacs to run tests whenever the file is saved.
+At first I thought it wasn’t for me (I’m one of those who obsessively saves
+every few seconds), but I’ve been trying it out lately and it’s starting to grow
+on me.
 </p>
 
 <p>
-I wrote a minor mode for this, so I can easily call <kbd>M-x</kbd> <code>tdd-mode</code> to disable
-it if it ever gets on my nerves.
+At its core, all you really need is an <code>after-save-hook</code>. But I walked the extra
+yard and wrote a minor mode for it, so I can easily call <kbd>M-x</kbd> <code>tdd-mode</code> to
+disable it if it ever gets on my nerves.
 </p>
 {% highlight cl %}
 (defun tdd-test ()
