@@ -13,25 +13,25 @@ on me.
 </p>
 
 <p>
-At its core, all you really need is an <code>after-save-hook</code>. But I walked the extra
-yard and wrote a minor mode for it, so I can easily call <kbd>M-x</kbd> <code>tdd-mode</code> to
-disable it if it ever gets on my nerves.
+At its core, all you really need is an hook. But I walked the extra yard and
+wrote a minor mode for it, so I can easily call <kbd>M-x</kbd> <code>tdd-mode</code> to disable it
+if it ever gets on my nerves.
 </p>
 {% highlight cl %}
 (defun tdd-test ()
   "Thin wrapper around `cider-test-run-tests'."
   (when (cider-connected-p)
-    (cider-test-run-tests nil)))
+    (let ((cider-auto-select-test-report-buffer nil)
+          (cider-test-show-report-on-success nil))
+      (cider-test-run-tests nil))))
 
 (define-minor-mode tdd-mode
   "Run all tests whenever a file is saved."
-  nil " TDD" nil
+  t nil nil
+  :global t
   (if tdd-mode
-      (add-hook 'after-save-hook #'tdd-test nil 'local)
-    (remove-hook 'after-save-hook #'tdd-test 'local)))
-
-(add-hook 'cider-mode-hook #'tdd-mode)
-(add-hook 'cider-repl-mode-hook #'tdd-mode)
+      (add-hook 'cider-file-loaded-hook #'tdd-test)
+    (remove-hook 'cider-file-loaded-hook #'tdd-test)))
 {% endhighlight %}
 
 <p>
@@ -42,3 +42,13 @@ I also had to change the <code>cider-test-success-face</code> to something a lit
 (custom-set-faces
  '(cider-test-success-face ((t (:foreground "green" :background nil)))))
 {% endhighlight %}
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;21 Nov 2015&gt;</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+Made it a global mode, so it’s easy to disable everywhere, and set the initial
+value to <code>t</code>.
+</p>
+</div>
+</div>
