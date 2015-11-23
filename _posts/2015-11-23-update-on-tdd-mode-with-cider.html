@@ -1,0 +1,27 @@
+---
+title: "Update on tdd-mode with CIDER"
+date: 2015-11-23
+layout: post
+tags: CIDER clojure programming init.el
+---
+<p>
+I can’t write a whole new post this week due to being buried under some
+once-in-a-lifetime stuff. Still, the Monday post is one I refuse to miss, so I
+leave you today with an update on last weeks post.
+</p>
+
+<p>
+Running tests on file save really didn’t work out for me, because I’ve configured
+CIDER to save files before loading them when I use <code>cider-load-file</code>. So the
+tests were always being run against outdated definitions.
+</p>
+
+<p>
+The fix is simple, though. Just run the tests after <code>load-file</code>. CIDER even had
+a hook for that already. I also made the minor-mode global (even though it only
+applies to clojure buffers) so that it’s easier to disable everywhere with a
+single command.
+</p>
+
+<p>
+The new code is in the <a href="/test-driven-development-in-cider-and-emacs.html">original post</a>.</p>
