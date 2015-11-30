@@ -1,0 +1,85 @@
+---
+title: "Using Paradox for Github notifications"
+date: 2015-11-30
+layout: post
+tags: paradox github init.el
+---
+<p>
+A few weeks ago I noticed a new package on Melpa called <a href="https://github.com/xuchunyang/github-notifier.el">github-notifier</a> by
+Chunyang, which displays a count of your Github notifications on the mode-line.
+Instead of just installing the package like a normal person, I had an urge to
+try and see how hard it would be to write from scratch. Paradox already has a
+function for interacting with the Github API, so it’s just a matter of putting
+it to work.
+</p>
+
+<p>
+The first thing you need to do is visit your <a href="https://github.com/settings/tokens">Github tokens</a> page, and edit the
+Paradox token to allow access to your notifications.
+</p>
+
+<p>
+Next, define a command to visit your notifications, and a function to display a
+button in the mode-line.
+</p>
+{% highlight cl %}
+(defun endless/visit-notifications ()
+  (interactive)
+  (endless/count-for-mode-line nil)
+  (browse-url "https://github.com/notifications"))
+
+(defvar endless/gh-mode-line nil)
+
+(defun endless/count-for-mode-line (data)
+  (setq endless/gh-mode-line
+        (when data
+          (format " GH-%s" (length data))))
+  (force-mode-line-update))
+
+(add-to-list 'global-mode-string
+             '(endless/gh-mode-line
+               (:propertize endless/gh-mode-line
+                            local-map (keymap (mode-line keymap (mouse-1 . endless/visit-notifications)))
+                            mouse-face mode-line-highlight)))
+{% endhighlight %}
+<p>
+For convenience, I’ve also added <code>visit-notifications</code> to my <a href="/launcher-keymap-for-standalone-features.html">launcher-map</a> under
+<kbd>n</kbd>.
+</p>
+
+<p>
+Next, write a function to query the Github API and pass the vector of
+results to <code>count-for-mode-line</code>.
+</p>
+{% highlight cl %}
+;; If already installed, this does nothing.
+(package-install 'paradox)
+(autoload 'paradox--github-action "paradox-github")
+(defun endless/check-gh-notifications ()
+  "Check for github notifications and update the mode-line."
+  (paradox--github-action "notifications"
+    :reader (lambda ()
+              (let ((json-false nil)
+                    (json-array-type 'list))
+                (json-read)))
+    :callback #'endless/count-for-mode-line))
+{% endhighlight %}
+
+<p>
+Finally, just set the timer to some convenient interval. I run it at every 30
+seconds of idle time.
+</p>
+{% highlight cl %}
+(defvar endless/gh-timer
+  (when (bound-and-true-p paradox-github-token)
+    (run-with-idle-timer 30 'repeat
+                         #'endless/check-gh-notifications)))
+{% endhighlight %}
+
+<p>
+And that’s all! Roughly 30 lines of code and you have a convenient notification
+system. Whenever you see that <code>GH-2</code> show up at the corner of your mode-line,
+just click on it (or type <kbd>C-x l n</kbd>). That will remove the button and take you
+to Github. On Github you can navigate with <kbd>j</kbd>, <kbd>k</kbd>, and <kbd>RET</kbd>, and “mark as
+read” with <kbd>m</kbd>.
+</p>
