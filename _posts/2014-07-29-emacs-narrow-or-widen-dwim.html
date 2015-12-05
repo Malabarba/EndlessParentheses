@@ -2,7 +2,7 @@
 title: "Emacs narrow-or-widen-dwim"
 date: 2014-07-29
 layout: post
-tags: org-mode narrow intuitive keybind init.el
+tags: narrow intuitive keybind init.el
 series: "Mnemonic Keymaps"
 ---
 <p>
@@ -12,49 +12,53 @@ wouldn’t want to be without this feature, I’m all for simplification.
 </p>
 
 <p>
-<a href="https://github.com/mwfogleman">Michael Fogleman</a> (the same justicier who took matters to his own hands
-on <a href="/hungry-delete-mode.html">Hungry Delete Mode</a>) mentioned the following gem on the <a href="/the-toggle-map-and-wizardry.html">The
-Toggle-Map and Wizardry</a> post. I took the liberty of adding a bit of
-functionality. To use it, you’ll also need the
-<a href="/fixing-org-in-src-block-p.html">endless/inside-org-code-block-p</a> function.
+<a href="https://github.com/mwfogleman">Michael Fogleman</a> (the same justicier who took matters to his own hands on <a href="/hungry-delete-mode.html">Hungry
+Delete Mode</a>) mentioned the following gem on the <a href="/the-toggle-map-and-wizardry.html">The Toggle-Map and Wizardry</a>
+post. I took the liberty of adding a bit of functionality. To use it, you’ll
+also need the <a href="/fixing-org-in-src-block-p.html">endless/inside-org-code-block-p</a> function.
 </p>
 {% highlight cl %}
 (defun narrow-or-widen-dwim (p)
-  "If the buffer is narrowed, it widens. Otherwise, it narrows intelligently.
-Intelligently means: region, org-src-block, org-subtree, or defun,
-whichever applies first.
-Narrowing to org-src-block actually calls `org-edit-src-code'.
+  "Widen if buffer is narrowed, narrow-dwim otherwise.
+Dwim means: region, org-src-block, org-subtree, or defun,
+whichever applies first. Narrowing to org-src-block actually
+calls `org-edit-src-code'.
 
-With prefix P, don't widen, just narrow even if buffer is already
-narrowed."
+With prefix P, don't widen, just narrow even if buffer is
+already narrowed."
   (interactive "P")
   (declare (interactive-only))
   (cond ((and (buffer-narrowed-p) (not p)) (widen))
         ((region-active-p)
          (narrow-to-region (region-beginning) (region-end)))
         ((derived-mode-p 'org-mode)
-         ;; `org-edit-src-code' is not a real narrowing command.
-         ;; Remove this first conditional if you don't want it.
+         ;; `org-edit-src-code' is not a real narrowing
+         ;; command. Remove this first conditional if you
+         ;; don't want it.
          (cond ((ignore-errors (org-edit-src-code))
                 (delete-other-windows))
-               ((org-at-block-p)
-                (org-narrow-to-block))
+               ((ignore-errors (org-narrow-to-block) t))
                (t (org-narrow-to-subtree))))
+        ((derived-mode-p 'latex-mode)
+         (LaTeX-narrow-to-environment))
         (t (narrow-to-defun))))
 
 (define-key endless/toggle-map "n" #'narrow-or-widen-dwim)
-;; This line actually replaces Emacs' entire narrowing keymap, that's
-;; how much I like this command. Only copy it if that's what you want.
+;; This line actually replaces Emacs' entire narrowing
+;; keymap, that's how much I like this command. Only copy it
+;; if that's what you want.
 (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
+(eval-after-load 'latex
+  '(define-key LaTeX-mode-map "\C-xn" nil))
 {% endhighlight %}
 <p>
-If you’re the kind of person who knowns how to use <a href="http://doc.endlessparentheses.com/Fun/narrow-to-page"><code>narrow-to-page</code></a>,
+If you’re the kind of person who knows how to use <a href="http://doc.endlessparentheses.com/Fun/narrow-to-page"><code>narrow-to-page</code></a>,
 this command might not be for you. Meanwhile, for us mortals, it more
 than fits the bill.
 </p>
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><a id="ID-629511b6-fc25-4a8e-914d-939d5908a801" name="ID-629511b6-fc25-4a8e-914d-939d5908a801"></a>Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-09-05 Fri&gt;</span></span></h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><a id="ID-629511b6-fc25-4a8e-914d-939d5908a801"></a>Update <span class="timestamp-wrapper"><span class="timestamp">&lt;05 Sep 2014&gt;</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
 <p>
 Sacha Chua’s comment below gave me a glimpse of inspiration. 
 </p>
@@ -62,7 +66,7 @@ Sacha Chua’s comment below gave me a glimpse of inspiration.
 <p>
 I’ve never liked org’s default keybind for editing a source code
 block, <kbd>C-c '</kbd>, and have been looking for a better
-one. But if you medidate on it for a minute, the effect of
+one. But if you meditate on it for a minute, the effect of
 <kbd>C-c '</kbd> is a narrow command with some bells
 attached. So it fits perfectly into <code>narrow-or-widen-dwim</code> (updated
 above).
@@ -80,13 +84,22 @@ blocks, I also need a better key to finish editing code blocks, and
 {% endhighlight %}
 </div>
 </div>
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><a id="ID-3ca97e87-2b3e-4b1e-8550-205341585b65" name="ID-3ca97e87-2b3e-4b1e-8550-205341585b65"></a>Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-09-23 Tue&gt;</span></span></h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2"><a id="ID-3ca97e87-2b3e-4b1e-8550-205341585b65"></a>Update <span class="timestamp-wrapper"><span class="timestamp">&lt;23 Sep 2014&gt;</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline2">
 <p>
 I’ve updated it to no longer use the <a href="http://doc.endlessparentheses.com/Fun/org-in-src-block-p"><code>org-in-src-block-p</code></a> function and
-just try callling <a href="http://doc.endlessparentheses.com/Fun/org-edit-src-code"><code>org-edit-src-code</code></a> instead. <code>org-in-src-block-p</code>
+just try calling <a href="http://doc.endlessparentheses.com/Fun/org-edit-src-code"><code>org-edit-src-code</code></a> instead. <code>org-in-src-block-p</code>
 has proven quite unreliable.
 </p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;05 Dec 2015&gt;</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline3">
+<p>
+Now it should also work with any type of org-block supported by
+<a href="http://doc.endlessparentheses.com/Fun/org-narrow-to-block"><code>org-narrow-to-block</code></a>.</p>
 </div>
 </div>
