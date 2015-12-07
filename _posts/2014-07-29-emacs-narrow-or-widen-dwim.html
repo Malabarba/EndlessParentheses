@@ -48,8 +48,8 @@ already narrowed."
 ;; keymap, that's how much I like this command. Only copy it
 ;; if that's what you want.
 (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
-(eval-after-load 'latex
-  '(define-key LaTeX-mode-map "\C-xn" nil))
+(add-hook 'LaTeX-mode-hook
+          (lambda () (define-key LaTeX-mode-map "\C-xn" nil)))
 {% endhighlight %}
 <p>
 If you’re the kind of person who knows how to use <a href="http://doc.endlessparentheses.com/Fun/narrow-to-page"><code>narrow-to-page</code></a>,
@@ -100,6 +100,16 @@ has proven quite unreliable.
 <div class="outline-text-2" id="text-orgheadline3">
 <p>
 Now it should also work with any type of org-block supported by
-<a href="http://doc.endlessparentheses.com/Fun/org-narrow-to-block"><code>org-narrow-to-block</code></a>.</p>
+<a href="http://doc.endlessparentheses.com/Fun/org-narrow-to-block"><code>org-narrow-to-block</code></a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;07 Dec 2015&gt;</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline4">
+<p>
+Use <code>LaTeX-mode-hook</code> instead of <code>eval-after-load</code>, as suggested by Omar in the
+comments.</p>
 </div>
 </div>
