@@ -1,0 +1,45 @@
+---
+title: "Marking Emacs chat buffers as read (erc, jabber, etc)"
+date: 2015-12-07
+layout: post
+tags: erc keybind
+---
+<p>
+I’m an occasional user of some of the Emacs chat clients. Erc and jabber are
+both powerful packages, and it’s great to be able to use Slack, Gitter, and
+Google Chat from the cosy comfort of my Emacs frame. If I have one complain,
+though, it’s that neither of them has a functionality for keeping track of what
+part of the conversation I’ve already read.
+</p>
+
+<p>
+Of course, this is Emacs. And the solution is but a hack away.
+</p>
+{% highlight cl %}
+(defun endless/mark-read ()
+  "Mark buffer as read up to current line."
+  (let ((inhibit-read-only t))
+    (put-text-property
+     (point-min) (line-beginning-position)
+     'face       'font-lock-comment-face)))
+
+(defun endless/bury-buffer ()
+  "Bury buffer and maybe close its window."
+  (interactive)
+  (endless/mark-read)
+  (bury-buffer)
+  (when (cdr (window-list nil 'nomini))
+    (delete-window)))
+
+(eval-after-load 'jabber
+  '(define-key jabber-chat-mode-map (kbd "<escape>")
+     #'endless/bury-buffer))
+
+(eval-after-load 'erc
+  '(define-key erc-mode-map (kbd "<escape>")
+     #'endless/bury-buffer))
+{% endhighlight %}
+<p>
+Whenever you’re done reading a conversation, just hit <kbd>Esc</kbd>. The buffer will be
+buried, and next time you open it again everything you had read before will be
+marked in grey.</p>
