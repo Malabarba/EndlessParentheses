@@ -1,0 +1,34 @@
+---
+title: "Improving Emacs file-name completion"
+date: 2015-12-14
+layout: post
+tags: completion init.el
+---
+<p>
+Although there’s a surprising number of packages offering alternative minibuffer
+selection systems, the default minibuffer completion in Emacs is nothing to be
+scoffed at. Hitting <kbd>Tab</kbd> in the minibuffer gives you a slightly beefed up
+version of the bash completion, and after all these years that is still my
+preferred method for completing file-names (though I do have some <a href="/visit-directory-inside-a-set-of-directories.html">custom-written
+alternatives</a>).
+</p>
+
+<p>
+Still, there are two small changes you can make that significantly improve the
+convenience of this feature. The simplest one is to make it case-insensitive.
+The second, and more fine-tuned, is to exclude extensions which you never really
+want. These are usually auto-generated files whose names are similar to files
+you care about. My list is useful for elisp and LaTeX, so you may need to figure
+out yours.
+</p>
+{% highlight cl %}
+(setq read-file-name-completion-ignore-case t)
+(setq read-buffer-completion-ignore-case t)
+(mapc (lambda (x)
+        (add-to-list 'completion-ignored-extensions x))
+      '(".aux" ".bbl" ".blg" ".exe"
+        ".log" ".meta" ".out" ".pdf"
+        ".synctex.gz" ".tdo" ".toc"
+        "-pkg.el" "-autoloads.el"
+        "Notes.bib" "auto/"))
+{% endhighlight %}
