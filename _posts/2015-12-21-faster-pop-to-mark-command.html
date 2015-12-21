@@ -1,0 +1,36 @@
+---
+title: "Faster pop-to-mark command"
+date: 2015-12-21
+layout: post
+tags: navigation convenience init.el
+---
+<p>
+Today’s tip is one I <a href="https://github.com/magnars/expand-region.el/issues/159#issuecomment-83538021">learned from Magnar</a>. A lot of Emacsers don’t know this, but
+most commands that move point large distances (like <code>isearch</code> or
+<code>end-of-buffer</code>) push the old position to the <a href="http://doc.endlessparentheses.com/Var/mark-ring"><code>mark-ring</code></a>. The advantage is that
+you can easily jump back through this history of positions by hitting <kbd>C-u
+C-SPC</kbd>.
+</p>
+
+<p>
+This is a hugely convenient take-me-back-to-that-last-place command. The only
+problem is that sometimes the ring gets filled with repeated entries, so you
+find yourself hitting <kbd>C-u C-SPC</kbd> 2 to 4 times in the same place. Of course,
+this is Emacs, so all it takes to solve our problem is one simple advice.
+</p>
+{% highlight cl %}
+;; When popping the mark, continue popping until the cursor
+;; actually moves
+(defadvice pop-to-mark-command (around ensure-new-position activate)
+  (let ((p (point)))
+    (dotimes (i 10)
+      (when (= p (point)) ad-do-it))))
+{% endhighlight %}
+
+<p>
+Finally, a simple <code>setq</code> ensures we can quickly pop the mark several times by
+typing <kbd>C-u C-SPC C-SPC</kbd>, instead of having to type <kbd>C-u C-SPC C-u C-SPC</kbd>.
+</p>
+{% highlight cl %}
+(setq set-mark-command-repeat-pop t)
+{% endhighlight %}
