@@ -1,0 +1,37 @@
+---
+title: "New in Emacs 25.1: Have prettify-symbols-mode reveal the symbol at point"
+date: 2015-12-28
+layout: post
+tags: emacs-25 news init.el
+series: "New in 25.1"
+---
+<p>
+I’ve written before about what <a href="http://doc.endlessparentheses.com/Fun/prettify-symbols-mode"><code>prettify-symbols-mode</code></a> can do for your buffers,
+ranging from <a href="/using-prettify-symbols-in-clojure-and-elisp-without-breaking-indentation.html">pure eye-candy</a> to <a href="/improving-latex-equations-with-font-lock.html">signficant readability improvements</a>. Simply put,
+this minor-mode “disguises” some strings in your buffer to look like something
+else. For instance, in <code>emacs-lisp-mode</code> it makes <code>lambda</code> be displayed as <code>λ</code>,
+and (for the next release) it’ll apply to a wide range of symbols in
+<code>(la)tex-mode</code> too.
+</p>
+
+<p>
+The only problem is that this (obviously) hides the symbol itself, and there’s
+no way of revealing it other than disabling the mode. That’s usually not a big
+deal, but it can get just a little annoying sometimes&#x2014;specially when a mode
+adds over 400 elements to <code>prettify-symbols-alist</code>.
+</p>
+
+<p>
+In Emacs 25.1, thanks to Tassilo Horn, there’s a new variable called
+<code>prettify-symbols-unprettify-at-point</code>. If you set it to <code>t</code>, <code>prettify-symbols</code>
+will “unprettify” a symbol as long as the cursor is inside it. So you can easily
+(and temporarily) reveal a symbol by just moving over to it.
+</p>
+
+<p>
+My preference is to set it to <code>right-edge</code> which also reveals the symbol if the
+point is immediately after it.
+</p>
+{% highlight cl %}
+(setq prettify-symbols-unprettify-at-point 'right-edge)
+{% endhighlight %}
