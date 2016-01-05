@@ -1,0 +1,101 @@
+---
+title: "Define context-aware keys in Emacs"
+date: 2016-01-05
+layout: post
+tags: org lisp keybind org-mode init.el
+---
+<p>
+What do you do if you want to override a key only in a certain context? Take
+this <a href="/prettify-your-quotation-marks.html">Quotation Marks</a> post as an example. We want to change the <kbd>"</kbd> key in
+general, but retain the regular behaviour if we’re inside a code-block. In this
+case the solution was to just call the old behaviour manually, but what if
+you’re writing a more general command and you don’t know what this “old
+behaviour” is?
+</p>
+
+<p>
+As it turns out, it’s a little-known feature of Emacs that you can specify
+filter functions to determine whether a keybind should be active. We use this
+quite a bit in <a href="https://github.com/vermiculus/sx.el">SX.el</a>. While the syntax is far from simple, it’s very easy to
+copy-paste and just fill in your predicate.
+</p>
+
+<p>
+First, we redefine <code>endless/round-quotes</code> without that ugly part that
+conditionally calls <code>self-insert-command</code> (previous version <a href="/prettify-your-quotation-marks.html">here</a>).
+</p>
+{% highlight cl %}
+(defun endless/round-quotes (italicize)
+  "Insert “” and leave point in the middle.
+With prefix argument ITALICIZE, insert /“”/ instead (meant
+for org-mode)."
+  (interactive "P")
+  (if (looking-at "”[/=_\\*]?")
+      (goto-char (match-end 0))
+    (when italicize
+      (if (derived-mode-p 'markdown-mode)
+          (insert "__")
+        (insert "//"))
+      (forward-char -1))
+    (insert "“”")
+    (forward-char -1)))
+{% endhighlight %}
+<p>
+Then, we define the same key as before, but instead of just passing the command
+we use a menu-item bound to <code>nil</code>. The fact that it’s a menu-item is irrelevant
+here, it behaves exactly like a key bound to <code>nil</code> (i.e., an empty keybind).
+However, this allows us to setup a filter that changes the keybind to
+<code>endless/round-quotes</code> if we’re <b>not</b> inside an org-src-block.
+</p>
+{% highlight cl %}
+(define-key org-mode-map "\""
+  '(menu-item "maybe-round-quotes" nil
+              :filter (lambda (&optional _)
+                        (unless (org-in-src-block-p)
+                          #'endless/round-quotes))))
+{% endhighlight %}
+
+<p>
+That <code>maybe-round-quotes</code> is just a useless name for the menu-item, and you can
+learn more about all of this on <a href="http://www.gnu.org/software/emacs/manual/html_node/elisp/Extended-Menu-Items.html#Extended-Menu-Items">this manual page</a>. For now, it suffices to say we
+deserve a more convenient way to use this feature.
+</p>
+
+<p>
+Of course, that’s nothing a good macro can’t fix.
+</p>
+{% highlight cl %}
+(defmacro endless/define-conditional-key (keymap key def
+                                                 &rest body)
+  "In KEYMAP, define key sequence KEY as DEF conditionally.
+This is like `define-key', except the definition
+\"disappears\" whenever BODY evaluates to nil."
+  (declare (indent 3)
+           (debug (form form form &rest sexp)))
+  `(define-key ,keymap ,key
+     '(menu-item
+       ,(format "maybe-%s" (or (car (cdr-safe def)) def))
+       nil
+       :filter (lambda (&optional _)
+                 (when ,(macroexp-progn body)
+                   ,def)))))
+{% endhighlight %}
+<p>
+Which leads to the much nicer syntax:
+</p>
+{% highlight cl %}
+(endless/define-conditional-key org-mode-map "\""
+                                #'endless/round-quotes
+  (not (org-in-src-block-p)))
+{% endhighlight %}
+
+<p>
+And a similar keybind for Markdown, which is a bit more of a mouth-full.
+</p>
+{% highlight cl %}
+(endless/define-conditional-key markdown-mode-map "\""
+                                #'endless/round-quotes
+  (not (or (markdown-code-at-point-p)
+           (memq 'markdown-pre-face
+                 (face-at-point nil 'mult)))))
+{% endhighlight %}
