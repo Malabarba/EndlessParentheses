@@ -31,11 +31,12 @@ With prefix P, create local abbrev. Otherwise it will
 be global."
   (interactive "P")
   (let (bef aft)
-    (while (progn
-             (backward-word)
-             (and (setq bef (thing-at-point 'word))
-                  (not (ispell-word nil 'quiet)))))
-    (setq aft (thing-at-point 'word))
+    (save-excursion
+      (while (progn
+               (backward-word)
+               (and (setq bef (thing-at-point 'word))
+                    (not (ispell-word nil 'quiet)))))
+      (setq aft (thing-at-point 'word)))
     (when (and aft bef (not (equal aft bef)))
       (setq aft (downcase aft))
       (setq bef (downcase bef))
