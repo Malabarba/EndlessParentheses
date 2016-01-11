@@ -30,20 +30,20 @@ Whenever I make a typo:
 With prefix P, create local abbrev. Otherwise it will
 be global."
   (interactive "P")
-  (let ((bef (downcase (or (thing-at-point 'word)
-                           "")))
-        aft)
-    (call-interactively 'ispell-word)
-    (setq aft (downcase
-               (or (thing-at-point 'word) "")))
-    (unless (or (string= aft bef)
-                (string= aft "")
-                (string= bef ""))
-      (message "\"%s\" now expands to \"%s\" %sally"
-               bef aft (if p "loc" "glob"))
+  (let (bef aft)
+    (while (progn
+             (backward-word)
+             (and (setq bef (thing-at-point 'word))
+                  (not (ispell-word nil 'quiet)))))
+    (setq aft (thing-at-point 'word))
+    (when (and aft bef (not (equal aft bef)))
+      (setq aft (downcase aft))
+      (setq bef (downcase bef))
       (define-abbrev
         (if p local-abbrev-table global-abbrev-table)
-        bef aft))))
+        bef aft)
+      (message "\"%s\" now expands to \"%s\" %sally"
+               bef aft (if p "loc" "glob")))))
 
 (setq save-abbrevs 'silently)
 (setq-default abbrev-mode t)
@@ -58,3 +58,13 @@ shorter bind, I'd been using it 30 times a day.
 Auto correction with abbrev is <a href="http://www.emacswiki.org/emacs/autocorrection_abbrev_defs">far from a new concept</a>. Do you use
 anything similar?
 </p>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;11 Jan 2016&gt;</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+The command now searches backward for the closest wrong word. So you can just
+hit <kbd>C-x C-i</kbd> even if the mistake happened several words ago.
+</p>
+</div>
+</div>
