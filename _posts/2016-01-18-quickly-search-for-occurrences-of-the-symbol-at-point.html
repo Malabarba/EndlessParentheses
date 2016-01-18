@@ -1,0 +1,50 @@
+---
+title: "Quickly search for occurrences of the symbol at point"
+date: 2016-01-18
+layout: post
+tags: convenience search init.el
+---
+<p>
+Isearch is one of Emacs’ most useful (and probably most used) features. Getting
+in the habit of quickly hitting <kbd>C-s</kbd> followed by 2&#x2013;4 letters will forever
+change the way you navigate buffers, and adding it to your repertoire is a
+tremendous productivity improvement. What, then, could we possibly improve on
+such a phenomenal command?
+</p>
+
+<p>
+One of the search actions I find myself doing a lot is to search forward for
+other occurrences of the symbol at point. You can do that in Isearch by typing
+<kbd>C-w</kbd> a few times (which copies the next word at point into the prompt) until
+you’ve got the entire symbol, and then you type <kbd>M-s _</kbd> to toggle symbol-search.
+</p>
+
+<p>
+However, this is a lot of keys, and it only works if the cursor is at the start
+of the symbol. Fortunately, it’s very easy to improve this because the action we
+want is already implemented as the <a href="http://doc.endlessparentheses.com/Fun/isearch-forward-symbol-at-point"><code>isearch-forward-symbol-at-point</code></a> command.
+</p>
+{% highlight cl %}
+(defun endless/isearch-symbol-with-prefix (p)
+  "Like isearch, unless prefix argument is provided.
+With a prefix argument P, isearch for the symbol at point."
+  (interactive "P")
+  (let ((current-prefix-arg nil))
+    (call-interactively
+     (if p #'isearch-forward-symbol-at-point
+       #'isearch-forward))))
+
+(global-set-key [remap isearch-forward]
+                #'endless/isearch-symbol-with-prefix)
+{% endhighlight %}
+<p>
+The result here is that <kbd>C-s</kbd> starts Isearch as usual, but if I type <kbd>C-u C-s</kbd>
+instead it’s going to search for other occurrences of the symbol at point&#x2014;a
+huge improvement over the 6+ keys of our previous option.
+</p>
+
+<p>
+Normally, calling Isearch with a prefix would start it in regexp-mode. That’s
+not something I’ve ever used, but you should be aware of it before you override
+it.
+</p>
