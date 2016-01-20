@@ -28,13 +28,23 @@ Whenever I make a typo:
 (defun endless/ispell-word-then-abbrev (p)
   "Call `ispell-word', then create an abbrev for it.
 With prefix P, create local abbrev. Otherwise it will
-be global."
+be global.
+If there's nothing wrong with the word at point, keep
+looking for a typo until the beginning of buffer. You can
+skip typos you don't want to fix with `SPC', and you can
+abort completely with `C-g'."
   (interactive "P")
   (let (bef aft)
     (save-excursion
-      (while (and (setq bef (thing-at-point 'word))
-                  (not (ispell-word nil 'quiet))
-                  (not (bobp)))
+      (while (if (setq bef (thing-at-point 'word))
+                 ;; Word was corrected or used quit.
+                 (if (ispell-word nil 'quiet)
+                     nil ; End the loop.
+                   ;; Also end if we reach `bob'.
+                   (not (bobp)))
+               ;; If there's no word at point, keep looking
+               ;; until `bob'.
+               (not (bobp)))
         (backward-word))
       (setq aft (thing-at-point 'word)))
     (if (and aft bef (not (equal aft bef)))
@@ -62,11 +72,19 @@ anything similar?
 </p>
 
 <div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;11 Jan 2016&gt;</span></span></h2>
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">11 Jan 2016</span></span></h2>
 <div class="outline-text-2" id="text-orgheadline1">
 <p>
 The command now searches backward for the closest wrong word. So you can just
 hit <kbd>C-x C-i</kbd> even if the mistake happened several words ago.
 </p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Update <span class="timestamp-wrapper"><span class="timestamp">20 Jan 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline2">
+<p>
+Fixed some corner-case issues with the previous update.</p>
 </div>
 </div>
