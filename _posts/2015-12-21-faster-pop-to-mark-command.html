@@ -21,10 +21,12 @@ this is Emacs, so all it takes to solve our problem is one simple advice.
 {% highlight cl %}
 ;; When popping the mark, continue popping until the cursor
 ;; actually moves
-(defadvice pop-to-mark-command (around ensure-new-position activate)
+(defadvice pop-to-mark-command
+    (around ensure-new-position activate)
   (let ((p (point)))
     (dotimes (i 10)
-      (when (= p (point)) ad-do-it))))
+      (when (= p (point))
+        ad-do-it))))
 {% endhighlight %}
 
 <p>
@@ -34,3 +36,23 @@ typing <kbd>C-u C-SPC C-SPC</kbd>, instead of having to type <kbd>C-u C-SPC C-u 
 {% highlight cl %}
 (setq set-mark-command-repeat-pop t)
 {% endhighlight %}
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">20 Jan 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+Kaushal Modi <a href="https://github.com/kaushalmodi/.emacs.d/blob/f2be887c9454b769fdd1236fc911bcfc5679d7d1/setup-files/setup-editing.el#L746-L753">provides us</a> with how this advice would look using the new
+<code>advice-add</code> interface.
+</p>
+{% highlight cl %}
+(defun modi/multi-pop-to-mark (orig-fun &rest args)
+  "Call ORIG-FUN until the cursor moves.
+Try the repeated popping up to 10 times."
+  (let ((p (point)))
+    (dotimes (i 10)
+      (when (= p (point))
+        (apply orig-fun args)))))
+(advice-add 'pop-to-mark-command :around
+            #'modi/multi-pop-to-mark)
+{% endhighlight %}
+</div>
+</div>
