@@ -12,6 +12,12 @@ some <a href="/automatically-configure-magit-to-access-github-prs.html">long-nam
 </p>
 
 <p>
+*If you’re reading this now, note that this code was written for an older Magit
+version. An up-to-date version of the code (working with latest Magit) can be
+found on this <a href="/create-github-prs-from-emacs-with-magit.html">other post</a>.*
+</p>
+
+<p>
 Because <a href="https://github.com/vermiculus/sx.el">sx.el</a> (a package which I really ought to blog about) was developed as a
 group effort, <a href="https://github.com/vermiculus">Sean</a> and I decided early on to use PRs for everything.
 Predictably, the need arose for a quick way to create them, and I promptly asked
@@ -22,7 +28,7 @@ Predictably, the need arose for a quick way to create them, and I promptly asked
   "Visit the current branch's PR on Github."
   (interactive)
   (browse-url
-   (format "https://github.com/%s/compare/%s"
+   (format "https://github.com/%s/pull/new/%s"
      (replace-regexp-in-string
       "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
       (magit-get "remote"
@@ -36,4 +42,5 @@ Predictably, the need arose for a quick way to create them, and I promptly asked
 {% endhighlight %}
 <p>
 After hitting <kbd>V</kbd>, you just need to press the big green button at the Github
-page.</p>
+page.
+</p>
