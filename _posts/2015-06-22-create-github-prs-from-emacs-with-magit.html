@@ -33,7 +33,8 @@ the new one.
                        "url"))
            (cdr (or (magit-get-remote-branch)
                     (user-error "No remote branch"))))))
-
+{% endhighlight %}
+{% highlight cl %}
 (eval-after-load 'magit
   '(define-key magit-mode-map "v"
      #'endless/visit-pull-request-url))
@@ -43,3 +44,30 @@ Note that I’ve changed the keybind to <kbd>v</kbd>. In Magit <code>2.1</code>,
 buffer overlays, not on the mode-map, which means we can just bind it in the map
 and we’ll get a semi “do-what-I-mean” functionality.
 </p>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">24 Jan 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+The latest Magit from Melpa deals with branches in a slightly different way, so
+the code above won’t quite work. If you run into that problem, the update below
+should work fine.
+</p>
+
+<p>
+#+BEGIN_SRC emacs-lisp
+(defun endless/visit-pull-request-url ()
+  "Visit the current branch's PR on Github."
+  (interactive)
+  (browse-url
+   (format "<a href="https://github.com/%s/pull/new/%s">https://github.com/%s/pull/new/%s</a>"
+           (replace-regexp-in-string
+            "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
+            (magit-get "remote"
+                       (magit-get-push-remote)
+                       "url"))
+           (magit-get-current-branch))))
+#+END_SRC emacs-lisp
+</p>
+</div>
+</div>
