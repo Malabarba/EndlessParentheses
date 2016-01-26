@@ -1,0 +1,40 @@
+---
+title: "New in Emacs 25.1: Round quotes in Help buffers"
+date: 2016-01-26
+layout: post
+tags: emacs-25
+series: "New in 25.1"
+---
+<p>
+Don’t be fooled by the apparent simplicity of this feature. Its implementation
+has been the most controversial addition to the upcoming Emacs release---<a href="https://twitter.com/AMalabarba/status/641598687467163648">to a
+comical degree</a>. This post, however, is not about arguments or implementation,
+it’s about Emacs 25. And this little nugget is all set for the next release.
+</p>
+
+<p>
+The feature is simple, next time you’re reading a docstring (maybe via <kbd>C-h f</kbd>
+or <kbd>C-h v</kbd>), instead of looking like this<br  />
+<a href="/images/help-buffer-grave-quote.png"><img src="/images/help-buffer-grave-quote.png" alt="help-buffer-grave-quote.png" /></a>
+it’ll look like this<br  />
+<a href="/images/help-buffer-round-quote.png"><img src="/images/help-buffer-round-quote.png" alt="help-buffer-round-quote.png" /></a>
+It’s a simple, but noticeable, improvement for user experience. 
+</p>
+
+<p>
+If you don’t like the change, it’s configurable via the new option:
+<code>text-quoting-style</code>.
+</p>
+
+<p>
+Note that these quotes are introduced directly in the <code>*Help*</code> buffer. The
+function that does this conversion is <a href="http://doc.endlessparentheses.com/Fun/substitute-command-keys"><code>substitute-command-keys</code></a>, so you can use
+it if you’d like the same effect for other purposes. You should still use
+`grave-and-straight' quotes when <i>writing</i> docstrings for your <code>defun</code>. 
+</p>
+
+<p>
+On the other hand, if you need to write a straight quote that <i>shouldn’t</i> be
+converted to a round quote when it’s printed in the <code>*Help*</code> buffer, you’ll need
+to write <code>\\=</code> before it.
+</p>
