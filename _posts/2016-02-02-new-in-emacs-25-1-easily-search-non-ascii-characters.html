@@ -1,0 +1,45 @@
+---
+title: "New in Emacs 25.1: Easily search for non-ASCII characters"
+date: 2016-02-02
+layout: post
+tags: search emacs-25
+series: "New in 25.1"
+---
+<p>
+Since <a href="/new-in-emacs-25-1-round-quotes-in-help-buffers.html">last week’s post</a> was about Unicode characters, it makes sense to continue
+that trend today. This feature might go unnoticed by a lot of people who live in
+an ASCII world, but it will probably jump out at everyone else at one point or
+another. The name, if a bit odd, is “character-folding search”.
+</p>
+
+<p>
+In Emacs 25, Isearch can find a wide range of Unicode characters (like á, ⓐ,
+or 𝒶) when you search for ASCII characters (<code>a</code> in this example). This first
+came up due to a new feature of a recent version of Texinfo, where some markup
+styles are exported in “round quotes” when generating the info manual. This is a
+nice improvement in readability, but when you’re trying to search for something
+with <kbd>C-s</kbd>, things can get a little difficult if your keyboard can’t type some
+of the characters.
+</p>
+
+<p>
+With char-folding, when you hit <kbd>C-s</kbd> and search for ", Emacs will also search
+for a variety of double quotes, from the aforementioned “” to many others like
+«» and ❝❞. The same goes for the single quote, and for pretty much any other
+ASCII character.
+</p>
+
+<p>
+You could always type any Unicode character by name with <kbd>C-x 8 RET</kbd>, and many
+of them even have their own shortcuts under <kbd>C-x 8</kbd>, but not <i>having</i> to type
+them can be a significant convenience when it comes up. As any Brazilian, I am a
+daily user of diacritical marks (ó, ã, ê, and the likes), and even though my
+keyboard <i>can</i> type these characters, I still enjoy the simplicity of not having
+to.
+</p>
+
+<p>
+Finally, if you’d like to disable this feature (and recover the simple Isearch
+behaviour), set the variable <code>search-default-regexp-mode</code> to <code>nil</code>. On the other
+hand, if you’d like to extend this feature to the <code>query-replace</code> command, set
+<code>replace-character-fold</code> to <code>t</code>.</p>
