@@ -1,0 +1,75 @@
+---
+title: "New in Emacs 25.1: EWW improvements"
+date: 2016-02-08
+layout: post
+tags: emacs-25
+series: "New in 25.1"
+---
+<p>
+In the upcoming version, EWW is getting a number of small improvements. This web
+browser, written by Lars Ingebrigtsen, is something of a new kid on the block,
+as it just came to life at the very end of the Emacs 24 cycle. Although it’s
+hard, if not impossible, to reliably render HTML inside an editor that’s 100%
+line-based, EWW tends to find a reasonable compromise and deserves at least a
+short post to cherish new features.
+</p>
+
+<blockquote>
+<p>
+HTML can now be rendered using variable-width fonts.
+</p>
+
+<p>
+A new command <kbd>F</kbd> (<code>eww-toggle-fonts</code>) can be used to toggle whether to use
+variable-pitch fonts or not.
+</p>
+</blockquote>
+<p>
+It goes without saying that this is very good, monospace fonts are not the most
+appropriate for reading webpages. It might sound like something simple, but
+this was probably the hardest feature to implement. Filling paragraphs in
+variable-width fonts is not something Emacs does by default.
+</p>
+
+<blockquote>
+<p>
+A new command <kbd>R</kbd> (<code>eww-readable</code>) will try do identify the main textual parts
+of a web page and display only that, leaving menus and the like off the page.
+</p>
+</blockquote>
+<p>
+I just tested this on <a href="/new-in-emacs-25-1-round-quotes-in-help-buffers.html">the round quotes post</a> and it worked well&#x2014;the buffer
+correctly hid everything but the post content. Unfortunately, it also hid images
+that were inside the post.
+</p>
+
+<blockquote>
+<p>
+https pages with valid certificates have headers marked in green, while invalid
+certificates are marked in red.
+</p>
+</blockquote>
+<p>
+Awareness about security is always a good thing.
+</p>
+
+<blockquote>
+<p>
+You can now use several eww buffers in parallel by renaming eww buffers you
+want to keep separate.
+</p>
+
+<p>
+Partial state of the eww buffers (the URIs and the titles of the pages visited)
+is now preserved in the desktop file.
+</p>
+
+<p>
+The new <kbd>S</kbd> command will list all eww buffers, and allow managing them.
+</p>
+</blockquote>
+<p>
+All of these contribute to giving EWW a more complete browser experience. While
+we don’t have actual tabs yet, you can have multiple open pages, manage them
+all with <kbd>S</kbd>, and even “remember open tabs” by enabling <code>desktop-mode</code>.
+</p>
