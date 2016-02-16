@@ -1,0 +1,19 @@
+---
+title: "New in Emacs 25.1: map.el library"
+date: 2016-02-16
+layout: post
+tags: emacs-25
+series: "New in 25.1"
+---
+<p>
+Another library by the productive Nicolas Petton. <code>map.el</code> is a cousin to
+<code>seq.el</code> (<a href="/new-on-elpa-and-in-emacs-25-1-seq-el.html">remember?</a>), but instead of manipulating plain sequences, it
+manipulates map-like collections (also known as dictionaries).
+</p>
+
+<p>
+The range of functions should include everything you expect, from <code>map-values</code>
+and <code>map-keys</code> to get a list of the values and keys (duh), to general getters
+and setters like <code>map-elt</code> and <code>map-put</code>. Inside it, you’ll even find some
+fancier stuff like <code>map-let</code>, <code>map-values-apply</code>, or <code>map-nested-elt</code>. For those
+who know what that means, it also comes with a <code>pcase</code> macro!</p>
