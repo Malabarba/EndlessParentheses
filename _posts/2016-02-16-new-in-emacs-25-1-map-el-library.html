@@ -16,4 +16,11 @@ The range of functions should include everything you expect, from <code>map-valu
 and <code>map-keys</code> to get a list of the values and keys (duh), to general getters
 and setters like <code>map-elt</code> and <code>map-put</code>. Inside it, you’ll even find some
 fancier stuff like <code>map-let</code>, <code>map-values-apply</code>, or <code>map-nested-elt</code>. For those
-who know what that means, it also comes with a <code>pcase</code> macro!</p>
+who know what that means, it also comes with a <code>pcase</code> macro!
+</p>
+
+<p>
+Note that this library does <b>not</b> introduce a new data structure. It simply
+provides a consistent and unified API for dealing with any map-like structure
+you need. This applies to alists, hash-maps, and even vectors (it treats the
+vector as a dictionary whose keys are all integers).</p>
