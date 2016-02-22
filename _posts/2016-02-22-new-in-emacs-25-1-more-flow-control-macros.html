@@ -1,0 +1,102 @@
+---
+title: "New in Emacs 25.1: More flow control macros"
+date: 2016-02-22
+layout: post
+tags: emacs-25
+series: "New in 25.1"
+---
+<p>
+One of my personal new additions to Emacs 25 is, in fact, completely invisible
+to most users. The new macros <code>if-let</code> and <code>when-let</code>, although simple in
+purpose, are a delight to use and are frequently finding their way into my code.
+The other two additions, <code>thread-first</code> and <code>thread-last</code>, are a bit more
+specific, and take a bit getting-used-to if you’ve never seen them before.
+</p>
+
+<p>
+The two <code>*-let</code> macros are easier to explain by just expanding them. All they do
+is summarize a very common situation for lisp programmers. Instead of writing
+this:
+</p>
+{% highlight cl %}
+(let ((x (some-func)))
+  (if x
+      do-then
+    do-else
+    do-else-2))
+{% endhighlight %}
+<p>
+you can write this:
+</p>
+{% highlight cl %}
+(if-let ((x (some-func)))
+    do-then
+  do-else
+  do-else-2)
+{% endhighlight %}
+<p>
+Seeing this example it shouldn’t be hard to understand <code>when-let</code> as well.
+</p>
+
+<p>
+As you can see, it’s not exactly a revolution &#x2014; you barely even save any
+typing. But that extra level of nesting you save, along with an added bit of
+clarity, for some reason makes me smile every time I get to use them.
+</p>
+
+<p>
+The threading macros are something you see all the time in Clojure (under a
+shorter name) but are probably not going to be as common in Emacs-Lisp &#x2014; your
+average Elisp code is far less functional than Clojure code. Still, they’re good
+to know as they can be a huge help in some situations. Explaining again by
+example:
+</p>
+{% highlight cl %}
+;; First
+(thread-first x
+  (concat y)
+  (format z))
+;; Expands to this:
+(format (concat x y) z)
+
+;; Last
+(thread-last x
+  (concat y)
+  (format z))
+;; Expands to this:
+(format z (concat y x))
+{% endhighlight %}
+
+<p>
+If the examples above don’t look too useful to you, that’s because they’re not.
+<code>thread-first</code> and <code>thread-last</code> are relatively short names by Elisp standards,
+but they’re still long enough that you’re almost always going to be typing
+<b>more</b>, instead of less, when you use these macros. Instead of saving space,
+their value lies in improving readability of some rather extreme scenarios
+(which are all too common in Elisp). For instance, which one of the forms below
+would you find easier to read?
+</p>
+{% highlight cl %}
+;; This?
+(thread-last some-string
+  (replace-regexp-in-string "regexp-1" "replace-1")
+  (replace-regexp-in-string "regexp-2" "replace-2")
+  (replace-regexp-in-string "regexp-3" "replace-3")
+  (replace-regexp-in-string "regexp-4" "replace-4")
+  (replace-regexp-in-string "regexp-5" "replace-5"))
+;; Or this?
+(replace-regexp-in-string
+ "regexp-5" "replace-5"
+ (replace-regexp-in-string
+  "regexp-4" "replace-4"
+  (replace-regexp-in-string
+   "regexp-3" "replace-3"
+   (replace-regexp-in-string
+    "regexp-2" "replace-2"
+    (replace-regexp-in-string
+     "regexp-1" "replace-1" some-string)))))
+{% endhighlight %}
+
+<p>
+Finally, for those of you who use my <a href="https://elpa.gnu.org/packages/sotlisp.html">speed-of-thought-lisp</a> package, it already
+has abbrevs for these macros under <code>il</code>, <code>wl</code>, <code>tf</code>, and <code>tl</code>.</p>
