@@ -1,9 +1,9 @@
 ---
 title: "clj-refactor &#x2014; Unleash your Clojure wizard."
 date: 2015-11-02
-redirect_from: "/clj-refactor-unleash-your-clojure-wizard-.html"
 layout: post
 tags: CIDER clojure programming init.el
+redirect_from: "/clj-refactor-unleash-your-clojure-wizard-.html"
 ---
 <p>
 When I first started learning Clojure, I was charmed by how well integrated
@@ -43,12 +43,12 @@ use these commands so frequently that I felt the need to shorten them to just 2
 or 3 keys.
 </p>
 {% highlight cl %}
-(require 'clj-refactor)
-(setq cljr-thread-all-but-last t)
-(define-key clj-refactor-map "\C-ctf" #'cljr-thread-first-all)
-(define-key clj-refactor-map "\C-ctl" #'cljr-thread-last-all)
-(define-key clj-refactor-map "\C-cu" #'cljr-unwind)
-(define-key clj-refactor-map "\C-cU" #'cljr-unwind-all)
+(with-eval-after-load 'clj-refactor
+  (setq cljr-thread-all-but-last t)
+  (define-key clj-refactor-map "\C-ctf" #'cljr-thread-first-all)
+  (define-key clj-refactor-map "\C-ctl" #'cljr-thread-last-all)
+  (define-key clj-refactor-map "\C-cu" #'cljr-unwind)
+  (define-key clj-refactor-map "\C-cU" #'cljr-unwind-all))
 {% endhighlight %}
 
 <p>
@@ -60,8 +60,9 @@ namespace by looking at other files in the same project. You can also define
 your preferences with the <code>cljr-magic-require-namespaces</code> variable.
 </p>
 {% highlight cl %}
-(add-to-list 'cljr-magic-require-namespaces
-             '("s"  . "clojure.string"))
+(with-eval-after-load 'clj-refactor
+  (add-to-list 'cljr-magic-require-namespaces
+               '("s"  . "clojure.string")))
 {% endhighlight %}
 
 <p>
@@ -71,7 +72,7 @@ Instead of specifying a custom key for this one, we’ll just let the package
 define all other keys for us.
 </p>
 {% highlight cl %}
-(ignore-errors
+(with-eval-after-load 'clj-refactor
   (cljr-add-keybindings-with-prefix "\C-cr"))
 {% endhighlight %}
 <p>
