@@ -1,0 +1,83 @@
+---
+title: "Commands to thread and unwind code in Emacs-Lisp"
+date: 2016-03-01
+layout: post
+tags: programming convenience init.el
+---
+<p>
+As <a href="/clj-refactor-unleash-your-clojure-wizard.html">you may remember</a>, one of the commands I like the most from the <code>clj-refactor</code>
+package are the ones that thread and unwind Clojure code forms for you. Now that
+Emacs is also getting <a href="/new-in-emacs-25-1-more-flow-control-macros.html">built-in threading macros</a>, I figured the best way to give
+them a fair chance in life is to also make them pretty convenient to use.
+</p>
+
+<p>
+The point here is that you can place point before a paren, invoke a command, and
+a regular code form gets transformed into a threading macro, or vice-versa. See
+the <a href="/new-in-emacs-25-1-more-flow-control-macros.html">linked post</a> for what that means. Instead of writing whole new commands for
+that, I had a fun time just hacking <code>clj-refactor</code> commands to work on
+<code>thread-first/last</code>.
+</p>
+
+<p>
+It should go without saying, you need <a href="https://github.com/clojure-emacs/clj-refactor.el#readme">clj-refactor</a> installed for this to work. 
+</p>
+{% highlight cl %}
+(define-key emacs-lisp-mode-map "\C-ctf"
+  #'endless/elisp-thread-first)
+(define-key emacs-lisp-mode-map "\C-ctl"
+  #'endless/elisp-thread-last)
+(define-key emacs-lisp-mode-map "\C-ctu"
+  #'endless/elisp-unwind)
+(define-key emacs-lisp-mode-map "\C-cta"
+  #'endless/elisp-unwind)
+
+(defun endless/elisp-thread-last ()
+  "Turn the form at point into a `thread-last' form."
+  (interactive)
+  (cljr-thread-last-all nil)
+  (save-excursion
+    (when (search-backward "->>" nil 'noerror)
+      (replace-match "thread-last"))))
+
+(defun endless/elisp-thread-first ()
+  "Turn the form at point into a `thread-first' form."
+  (interactive)
+  (cljr-thread-first-all nil)
+  (save-excursion
+    (when (search-backward "->" nil 'noerror)
+      (replace-match "thread-first"))))
+
+(defun endless/elisp-unwind ()
+  "Unwind thread at point or above point by one level.
+Return nil if there are no more levels to unwind."
+  (interactive)
+  (let ((p (point)))
+    ;; Find a thread above.
+    (when (save-excursion
+            (forward-sexp 1)
+            (and (search-backward-regexp "\\_<thread-\\(first\\|last\\)\\_>" nil 'noerror)
+                 ;; Ensure that it contains the original point.
+                 (save-match-data (forward-char -1)
+                                  (forward-sexp 1)
+                                  (> (point) p))))
+      (replace-match (if (string= (match-string 1) "first")
+                         "->" "->>"))
+      (let ((thread-beginnig (match-beginning 0)))
+        (prog1 (cljr-unwind)
+          (save-excursion
+            (goto-char thread-beginnig)
+            (when (looking-at "\\_<->>?\\_>")
+              (replace-match (if (string= (match-string 0) "->")
+                                 "thread-first" "thread-last")))))))))
+
+(defun endless/elisp-unwind-all ()
+  "Fully unwind thread at point or above point."
+  (interactive)
+  (while (endless/elisp-unwind)))
+{% endhighlight %}
+
+<p>
+Maybe just writing it from scratch would have made for shorter code (it would
+certainly be more robust). But such is life. I try not to dwell too much on
+quick hacks.</p>
