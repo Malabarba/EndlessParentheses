@@ -23,7 +23,7 @@ if it ever gets on my nerves.
   (when (cider-connected-p)
     (let ((cider-auto-select-test-report-buffer nil)
           (cider-test-show-report-on-success nil))
-      (cider-test-run-tests nil))))
+      (cider-test-run-ns-tests nil))))
 
 (define-minor-mode tdd-mode
   "Run all tests whenever a file is saved."
@@ -45,11 +45,19 @@ I also had to change the <code>cider-test-success-face</code> to something a lit
 {% endhighlight %}
 
 <div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;21 Nov 2015&gt;</span></span></h2>
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">21 Nov 2015</span></span></h2>
 <div class="outline-text-2" id="text-orgheadline1">
 <p>
 Made it a global mode, so it’s easy to disable everywhere, and set the initial
 value to <code>t</code>.
 </p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Update <span class="timestamp-wrapper"><span class="timestamp">04 Mar 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline2">
+<p>
+Fixed a function call to the new name.</p>
 </div>
 </div>
