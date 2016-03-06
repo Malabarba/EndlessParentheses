@@ -1,0 +1,55 @@
+---
+title: "Conditional breakpoints in the CIDER Debugger"
+date: 2016-03-07
+layout: post
+tags: debugging clojure
+---
+<p>
+<code>CIDER 0.11.0</code> has been out for less than week and already the snapshots are
+getting new features. This one comes from a gentleman called <a href="https://github.com/clojure-emacs/cider-nrepl/pull/303">Chris Perkins</a>. It
+provides an easy way to automatically skip some breakpoints during evaluation,
+and it even comes with 300 brand new lines of tests.
+</p>
+
+<p>
+The feature is very straightforward, and is already available on the snapshots
+of <code>0.12.0</code>. You’ve always been able to debug functions by adding a <code>#dbg</code> in
+before it and then reevaluating its definition.
+</p>
+{% highlight clojure %}
+#dbg
+(defn buggy-function []
+  (for [i (range 3000)]
+    (some (kinda complicated)
+          code (logic) i)))
+{% endhighlight %}
+<p>
+However, if you’re trying to debug a problem that only happens somewhere around
+<code>i = 1000</code>, then you’re going to have to step through the body of that <code>for</code> one
+thousand times before getting to where you need.
+</p>
+
+<p>
+This new feature lets you specify a condition, and the debugger will
+automatically skip all breakpoints as long as that condition is false. You
+specify it via the <code>:break/when</code> metadata. In the above example, that would be
+something like this.
+</p>
+{% highlight clojure %}
+#dbg
+(defn buggy-function []
+  (for [i (range 3000)]
+    ^{:break/when (> i 1000)}
+    (some (kinda complicated)
+          code (logic) i)))
+{% endhighlight %}
+<p>
+Thus, everything inside the <code>(some ...)</code> form would be skipped as long as <code>i ≤ 1000</code>.
+</p>
+
+<p>
+The debugger’s inner workings are not what I’d call simple, so it makes me happy
+to know I’ve made the code legible enough for people to understand without my
+help. Of course, it certainly helped that Chris is no average fellow. Did I
+mention he even wrote a DSL for the new tests?
+</p>
