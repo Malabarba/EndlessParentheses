@@ -870,3 +870,10 @@ kbd
     border-radius: 6px;
     /* width: 100%; */
 }
+
+/* For some reason, the pre-blocks generated are wrapped in a figure
+   class="highlight". */
+figure.highlight {
+    width: 95%;
+    margin: auto;
+}
