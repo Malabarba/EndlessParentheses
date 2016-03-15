@@ -875,5 +875,6 @@ kbd
    class="highlight". */
 figure.highlight {
     width: 95%;
-    margin: auto;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
 }
