@@ -1,0 +1,42 @@
+---
+title: "A small improvement to clj-refactor"
+date: 2016-03-15
+layout: post
+tags: CIDER clojure programming init.el
+---
+<p>
+I’ve said before that <a href="/clj-refactor-unleash-your-clojure-wizard.html">clj-refactor is a magical package</a>, and you wouldn’t catch
+me bad-mouthing it in a million release cycles, but it’s impossible to please
+everybody. 
+</p>
+
+<p>
+One consistent annoyance I have with it, is that I always have to type <kbd>Tab</kbd>
+twice after invoking <code>cljr-add-require-to-ns</code>. That’s because I only ever use
+requires of the form <code>[x.y :as y]</code>, so I always have to skip the first two
+“modes” offered by the snippet.
+</p>
+
+<p>
+As I was teaching a friend about this command last week, he immediately asked me
+if you couldn’t just write some Elisp to do that for you. Of course, the answer
+is yes. And that’s exactly what I did &#x2014; once I was done feeling embarrassed
+that I hadn’t thought of that before.
+</p>
+{% highlight cl %}
+(advice-add 'cljr-add-require-to-ns :after
+            (lambda (&rest _)
+              (yas-next-field)
+              (yas-next-field)))
+{% endhighlight %}
+<p>
+Note that this uses the new advice interface, which relies on Emacs 24.5. While
+this API in its entirety can be quite intimidating, you don’t need to learn it
+all in one go. You can go a long way (and make your life a lot easier) by just
+writing yourself a few <code>:before</code> and <code>:after</code> advices.
+</p>
+
+<p>
+Just remember to be responsible. Advices let you run code in places where
+packages don’t expect code to be run. So don’t be surprised if something else
+breaks.</p>
