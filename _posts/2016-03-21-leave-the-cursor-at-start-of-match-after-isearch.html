@@ -1,0 +1,44 @@
+---
+title: "Leave the cursor at start of match after isearch"
+date: 2016-03-21
+layout: post
+tags: search init.el
+---
+<p>
+Have you ever stopped to think about why isearch leaves point at the end of the
+match? It does make some intuitive sense to leave you after the characters you
+have just typed, but that doesn’t make it the most practical behaviour.
+</p>
+
+<p>
+This is something I’d never even given half a thought in the past, but it’s one
+of the first things a friend questioned me as he was diving into Emacs (yes, the
+same one as <a href="/a-small-improvement-to-clj-refactor.html">last week</a>). Why not leave the cursor at the start of the match,
+instead of the end?
+</p>
+
+<p>
+It’s great when someone’s fresh perspective shakes new ideas into my
+gradually-calcifying init file, so I immediately started looking for a way to do
+this. Fortunately, Google was quick to find me an answer, in <a href="https://github.com/thisirs/dotemacs/blob/master/lisp/init-isearch.el#L1">the dotfiles</a> of one
+Sylvain Rousseau. I should go through the entire file later to look for more
+snippets, but for the current purpose, the following is all we need.
+</p>
+{% highlight cl %}
+(add-hook 'isearch-mode-end-hook
+          #'endless/goto-match-beginning)
+(defun endless/goto-match-beginning ()
+  "Go to the start of current isearch match.
+Use in `isearch-mode-end-hook'."
+  (when (and isearch-forward
+             (number-or-marker-p isearch-other-end)
+             (not mark-active)
+             (not isearch-mode-end-hook-quit))
+    (goto-char isearch-other-end)))
+{% endhighlight %}
+
+<p>
+After using this for a few days, I’ve already ran into a couple of cases where I
+would have preferred the original behaviour. Still, the net balance has been
+positive so far so it’s probably going to stay.
+</p>
