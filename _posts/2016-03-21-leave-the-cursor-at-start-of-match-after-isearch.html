@@ -42,3 +42,23 @@ After using this for a few days, I’ve already ran into a couple of cases where
 would have preferred the original behaviour. Still, the net balance has been
 positive so far so it’s probably going to stay.
 </p>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">23 Mar 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+One alternative to the approach above is <a href="/leave-the-cursor-at-start-of-match-after-isearch.html#comment-2581635318%5D">cutejumper's suggestion</a> below, straight
+from the Emacs wiki. This will only leave point at the start of search if you
+exit the search with <kbd>C-↵</kbd> instead of <kbd>↵</kbd>.
+</p>
+{% highlight cl %}
+(define-key isearch-mode-map [(control return)]
+  #'isearch-exit-other-end)
+(defun isearch-exit-other-end ()
+  "Exit isearch, at the opposite end of the string."
+  (interactive)
+  (isearch-exit)
+  (goto-char isearch-other-end))
+{% endhighlight %}
+</div>
+</div>
