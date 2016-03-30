@@ -1,0 +1,69 @@
+---
+title: "Eval-result-overlays in Emacs-lisp"
+date: 2016-03-29
+layout: post
+tags: lisp programming init.el
+---
+<p>
+One of the things I like most in CIDER is how evaluation results are displayed
+by inline overlays. And yet, for some reason, it’s taken me almost a year to
+transfer that to Elisp.
+</p>
+
+
+<div class="figure">
+<p><a href="/images/elisp-inline-eval-result.png"><img src="/images/elisp-inline-eval-result.png" alt="elisp-inline-eval-result.png" /></a>
+</p>
+</div>
+
+<p>
+It’s the tiniest of changes &#x2014; you’re just taking something that would be
+displayed in the minibuffer and moving it up a dozen or so lines &#x2014; but the
+difference is palpable. By displaying the result inline, you display it where
+the user is looking, instead of forcing them to shift focus. The quick-feedback
+loop we all love in our lisps becomes even faster (something I would’ve thought
+impossible one year ago).
+</p>
+
+<p>
+Assuming you already have <a href="https://github.com/clojure-emacs/cider#installation">CIDER</a> installed, porting this feature to Elisp is
+almost trivial. We just define a small wrapper around the function that creates
+the overlay, and then advise the relevant elisp commands to call it.
+</p>
+{% highlight cl %}
+(autoload 'cider--make-result-overlay "cider-overlays")
+
+(defun endless/eval-overlay (value point)
+  (cider--make-result-overlay (format "%S" value)
+    :where point
+    :duration 'command)
+  ;; Preserve the return value.
+  value)
+
+(advice-add 'eval-region :around
+            (lambda (f beg end &rest r)
+              (endless/eval-overlay
+               (apply f beg end r)
+               end)))
+
+(advice-add 'eval-last-sexp :filter-return
+            (lambda (r)
+              (endless/eval-overlay r (point))))
+
+(advice-add 'eval-defun :filter-return
+            (lambda (r)
+              (endless/eval-overlay
+               r
+               (save-excursion
+                 (end-of-defun)
+                 (point)))))
+{% endhighlight %}
+<p>
+If I like this enough, I might implement it more properly and propose its
+addition to Emacs core. For now the advices are more than enough.
+</p>
+
+<p>
+If you don’t want to install CIDER, you can just <a href="https://github.com/clojure-emacs/cider/blob/master/cider-overlays.el#L121">copy that function</a> to your
+configs (you’ll also have to copy the functions above it in the same file).
+</p>
