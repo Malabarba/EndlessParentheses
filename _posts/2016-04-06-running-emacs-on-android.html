@@ -1,0 +1,242 @@
+---
+title: "Running Emacs on Android"
+date: 2016-04-06
+layout: post
+tags: android
+---
+<p>
+As Android phones rise in power, bluetooth keyboards become cheaper, and your
+addiction to Emacs grows, it’s only natural that you start thinking of combining
+the three. Fortunately for you, it’s not as hard as it used to be. In fact, it’s
+perfectly possible to reproduce (most of) your desktop config, if you know how
+to get past a few obstacles.
+</p>
+
+<p>
+I was going to precede these instructions with a short tale, but I got a little
+carried a way and it grew a little too large. Because of that, I’ll give you
+the instructions first and let you decide whether to read my self-indulgent
+delusions below.
+</p>
+
+<ol class="org-ol">
+<li>Install <a href="https://play.google.com/store/apps/details?id=com.termux">Termux</a> (and optionally <a href="https://play.google.com/store/apps/details?id=org.pocketworkstation.pckeyboard">Hacker’s keyboard</a>) from the Play store.</li>
+<li><p>
+Start it, and run:
+</p>
+{% highlight sh %}
+apt update
+apt install emacs
+{% endhighlight %}</li>
+<li>Copy your desktop’s <code>init.el</code> file to your phone (read below for a way to
+keep it synchronized).</li>
+<li>Run <code>emacs -q</code> (celebrate a little!) and visit the init file for editing.</li>
+<li><p>
+Add this to the init file:
+</p>
+{% highlight cl %}
+(setq temporary-file-directory "~/tmp/")
+{% endhighlight %}</li>
+<li>If the init file contains <code>(server-start)</code>, wrap it in a 
+<code>(ignore-errors ...)</code>.</li>
+<li>Close Emacs, and start it normally this time (no <code>-q</code>).
+<ul class="org-ul">
+<li>If Emacs spits a “void-function &#x2026;” error at you, comment out the relevant
+part of your init file and try again. See below for the explanation.</li>
+</ul></li>
+<li>Celebrate a lot!</li>
+</ol>
+
+<p>
+I was surprised how well this worked in the end. Even <a href="https://github.com/Malabarba/beacon">Beacon</a>, which is a largely
+graphical package, worked pretty well.
+</p>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">A tale of two thumbs</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+Last night, in a fit of boredom, far away from my laptop and from any physical
+keyboard, I did what any reasonable person would have done: decided to install
+Emacs on my phone. My last attempt at crossing this bridge was over a year ago,
+and resulted in nothing but absolute failure. Still&#x2026; Something felt different
+this time. Something felt right.
+</p>
+
+<p>
+My first stop was an obvious one. There’s an <a href="https://play.google.com/store/apps/details?id=com.zielm.emacs">Emacs app</a> on the play store
+claiming to do exactly what I needed. On my previous attempts, this app had
+given inconsistent results, crashing more often than running. This time,
+however, it wouldn’t even install. The Play Store just greeted me with a
+“Failure to install” error instead.
+</p>
+
+<p>
+Not all was lost, though. A <a href="https://play.google.com/store/apps/details?id=com.zielm.emacs&amp;reviewId=Z3A6QU9xcFRPSGQ2WG1fR1M3MlhacU13MmtWd2NlaGpza1k0czVkaVlVUm85QThiZ3V6RjRNQWU2bUFTcE0yWWVzM3VheG1ERkYxOVctbnhfWVJBeUZsc0E">generous comment</a> (with an less-than-generous rating)
+points me in a new direction.
+</p>
+
+<p>
+<a href="https://play.google.com/store/apps/details?id=com.termux">Termux</a>, my beacon of hope, is a robust app that claims to offer “powerful
+terminal emulation with an extensive Linux package collection”. After installing
+it, I am indeed greeted with a terminal emulator, but I’m not impressed. I’ve
+used terminal apps before. Tentatively, I run the commands (as instructed by the
+man-from-the-review).
+</p>
+
+{% highlight sh %}
+apt update
+apt install emacs
+{% endhighlight %}
+
+<div class="figure">
+<p><a href="/images/termux-emacs.png"><img src="/images/termux-emacs.png" alt="termux-emacs.png" /></a>
+</p>
+</div>
+
+<p>
+Surprisingly, it played out even better than expected. Installing Emacs would
+have been fine, but installing version 25 is exceptional! My init file is sure
+to be incompatible with Emacs 24, but now that we have 25&#x2026; Dare I even hope?
+Could I reproduce my entire setup on this minute device?
+</p>
+
+<p>
+Before proceeding, I hopped back over to the play store and installed the
+<a href="https://play.google.com/store/apps/details?id=org.pocketworkstation.pckeyboard">Hacker’s keyboard</a>, to get access to modifier keys. Then, starting <code>emacs</code> from the
+terminal worked as expected, if a bit slowly, but my streak of good fortune was
+about to end. 
+</p>
+
+<p>
+The first command I issued <kbd>M-x</kbd> <code>list-packages</code> failed with a cryptic message
+about nonexistent file in <code>/tmp/asdlij198h1</code>. The package menu displayed, but
+refused to refresh. So I <kbd>C-z</kbd> out of Emacs, and try <code>mkdir /tmp/</code>.
+</p>
+{% highlight text %}
+Permission denied
+{% endhighlight %}
+<p>
+Ok, I should have expected that. <code>sudo</code> doesn’t work either, so I issue <code>fg</code> to
+go back to Emacs and try a different approach.
+</p>
+{% highlight cl %}
+(setq temporary-file-directory "~/tmp/")
+{% endhighlight %}
+<p>
+Now <code>list-packages</code> again, and it works! I try to install <code>company</code> from the
+<code>gnu</code> repository, and it works too! In fact, everything works. I run <kbd>M-x</kbd>
+<code>global-company-mode</code> and it’s all there, popup menu and everything.
+</p>
+
+<p>
+At this point I’m probably way more satisfied with myself than I should for such
+a senseless pursuit, but I’m too high to realize. 
+</p>
+
+<p>
+Next step is to port over my real init file. Fortunately, I keep it sync’d via
+Dropbox, so it’s easy to make available on the phone. Just open the Dropbox app,
+find my <code>init.el</code>, and mark it to be “Available offline”. Same thing for my
+<code>init.org</code>. Dropbox saves the files somewhere deep inside its own data
+directory, and automatically syncs them up when you make local changes (though
+you have to manually ask it to pull down remote changes).
+</p>
+
+<p>
+Back on Termux, I send Emacs to the background again with <kbd>C-z</kbd>, and 
+</p>
+{% highlight sh %}
+cd ~/.emacs.d
+ln -s /sdcard/Android/data/com.dropbox.android/files/SOME_GIBBERISH/.emacs.d/init.el
+ln -s /sdcard/Android/data/com.dropbox.android/files/SOME_GIBBERISH/.emacs.d/init.org
+{% endhighlight %}
+<p>
+Actually finding the file took a bit of trial and error. After getting to the
+<code>files</code> directory I had to tab-complete my way through several gibberish
+directory names before finding the right one. <code>fg</code> and we’re back in Emacs.
+</p>
+
+<p>
+The next obstacle are the packages. I know my init file is not going to load
+before I install the necessary packages. Sadly, I didn’t never had the foresight
+of rewriting my configuration in something like <code>use-package</code>, but there’s
+something almost as good. Like I’ve mentioned before, Emacs 25
+<a href="/new-in-package-el-in-emacs-25-1-user-selected-packages.html">keeps track of user-selected packages</a>, so I was able to go into my
+<code>custom-set-variables</code> and find a sizeable list under
+<code>package-selected-packages</code>. With no further ceremony, I just evaluate the whole
+thing with <kbd>C-M-x</kbd>, and issue <kbd>M-x</kbd> <code>package-install-selected-packages</code>.
+</p>
+
+<p>
+This takes a while&#x2026; 
+</p>
+
+<p>
+This is a good moment to find out if Termux works well in the background. Switch
+to the Youtube app, watch a couple of videos, switch back&#x2026; And it worked!
+</p>
+
+<p>
+This is it now &#x2014; the moment of truth. I’m still feeling high and mighty after
+all this success, but I have to respect the odds. My init file has 4 thousand
+lines of Elisp and involves over 100 packages. That’s a whole lot of
+could-go-wrong potential. 
+</p>
+
+<p>
+I take a deep breath and mentally try to lower my expectations. I <kbd>C-x C-c</kbd> back
+to the terminal, and then carefully type <code>emacs</code> followed by <kbd>↵</kbd>, only to plunge
+head-first into an error. 
+</p>
+
+<p>
+Something about the <code>tmp</code> directory again. Haven’t I solved this one? A bit more
+digging reveals it’s being triggered by <code>(server-start)</code>, because
+<code>server-socket-dir</code> is bound to ~"/tmp/emacs1000"~. The comments above the
+variable explain why.
+</p>
+{% highlight cl %}
+;; We do not use `temporary-file-directory' here,
+;; because emacsclient does not read the init file.
+(defvar server-socket-dir
+  ...)
+{% endhighlight %}
+<p>
+That’s understandable, but it doesn’t help me. Impatiently, I just wrap the call
+to <code>server-start</code> in <code>ignore-errors</code> and try again&#x2026;
+</p>
+
+<p>
+Another error. This time it’s complaining that <code>set-fringe-mode</code> is a void
+function. That’s a lot easier to understand. The Emacs binary provided in Termux
+is compiled for terminal (why wouldn’t it be?), so many graphical functions
+aren’t defined at all. It’s also easy to solve. Just add a conditional around
+the function call.
+</p>
+{% highlight cl %}
+(when (fboundp 'set-fringe-mode)
+  (set-fringe-mode '(nil . 0)))
+{% endhighlight %}
+
+<p>
+A third time. <kbd>C-x C-c</kbd> <code>emacs</code> <kbd>↵</kbd>&#x2026; And it works! No more errors. Not even a
+warning! My beloved <code>darktooth</code> theme is unrecognizable, but all the other
+indicative signs of my Emacs setup are there. <a href="https://github.com/Malabarba/smart-mode-line">Smart-mode-line</a> discretely smiles
+at me from the bottom of the screen. <a href="https://github.com/Malabarba/beacon/">Beacon</a> eagerly blinks at me as soon as I
+start scrolling. And the unmistakable coziness of my personal keybinds reach me
+even through the limited interface of a touchscreen-keyboard.
+</p>
+
+<p>
+As we get to this point, a lesser person might feel an anticlimax &#x2014; a hint of
+of a “what for?”, perhaps. But not me. I just feel safe and reassured, knowing
+that, wherever I am and whenever I need it, Emacs will always be sitting in my
+pocket.
+</p>
+
+<p>
+Now I just need to get myself one of those bluetooth keyboards I mentioned&#x2026;
+</p>
+</div>
+</div>
