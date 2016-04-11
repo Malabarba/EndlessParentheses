@@ -30,16 +30,7 @@ apt install emacs
 {% endhighlight %}</li>
 <li>Copy your desktop’s <code>init.el</code> file to your phone (read below for a way to
 keep it synchronized).</li>
-<li>Run <code>emacs -q</code> (celebrate a little!) and visit the init file for editing.</li>
-<li><p>
-Add this to the init file:
-</p>
-{% highlight cl %}
-(setq temporary-file-directory "~/tmp/")
-{% endhighlight %}</li>
-<li>If the init file contains <code>(server-start)</code>, wrap it in a
-<code>(ignore-errors ...)</code>.</li>
-<li>Close Emacs, and start it normally this time (no <code>-q</code>).
+<li>Run <code>emacs</code> (celebrate a little!).
 <ul class="org-ul">
 <li>If Emacs spits a “void-function &#x2026;” error at you, comment out the relevant
 part of your init file and try again. See below for the explanation.</li>
@@ -59,8 +50,17 @@ largely graphical package, worked out of the box (if a bit laggy).
 </p>
 
 <div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1">A tale of two thumbs</h2>
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">11 Apr 2016</span></span></h2>
 <div class="outline-text-2" id="text-orgheadline1">
+<p>
+Fredrik Fornwall has patched the Emacs package on Termux to no longer require
+the <code>tmp</code> dir workarounds. So now it’s easy as pie to get Emacs on your Android.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">A tale of two thumbs</h2>
+<div class="outline-text-2" id="text-orgheadline2">
 <p>
 Last night, in a fit of boredom, far away from my laptop and from any physical
 keyboard, I did what any reasonable person would have done: decided to install
@@ -116,8 +116,9 @@ about to end.
 
 <p>
 The first command I issued (<kbd>M-x</kbd> <code>list-packages</code>) failed with a cryptic message
-about nonexistent file in <code>/tmp/asdlij198h1</code>. The package menu displayed, but
-refused to refresh. So I <kbd>C-z</kbd> out of Emacs, and try <code>mkdir /tmp/</code>.
+about nonexistent file in <code>/tmp/asdlij198h1</code> (/this should not happen to you
+thanks to Fredrik’s patch). The package menu displayed, but refused to refresh.
+So I <kbd>C-z</kbd> out of Emacs, and try <code>mkdir /tmp/</code>.
 </p>
 {% highlight text %}
 Permission denied
