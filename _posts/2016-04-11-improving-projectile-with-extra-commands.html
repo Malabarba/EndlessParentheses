@@ -1,0 +1,121 @@
+---
+title: "Improving Projectile with extra commands"
+date: 2016-04-11
+layout: post
+tags: project init.el
+---
+<p>
+Admittedly, I’m a very late passenger in this boat &#x2014; only after 4 years of
+using Emacs did I decide to try a project manager. Nowadays I can’t even
+remember my daily workflow without <a href="https://github.com/bbatsov/projectile">Projectile</a>. This package mostly stays out of
+your way, and provides a series of useful commands for dealing with a project
+(which are aware of a lot of languages out-of-the-box). As usual, you can find
+details in <a href="https://github.com/bbatsov/projectile#synopsis">the readme</a>, and we’ll jump straight into useful configurations.
+</p>
+
+{% highlight cl %}
+(setq projectile-keymap-prefix (kbd "C-x p"))
+{% endhighlight %}
+<p>
+This places all Projectile keybinds under <kbd>C-x p</kbd> and requires no explanation.
+<a href="/launcher-keymap-for-standalone-features.html">Mnemonic</a> <a href="/the-toggle-map-and-wizardry.html">keymaps</a> <a href="/emacs-narrow-or-widen-dwim.html">are</a> <a href="/keymap-for-launching-external-applications-and-websites.html">the</a> <a href="/multiple-cursors-keybinds.html">best</a>. Most used
+commands are <kbd>C-x p f</kbd> to find a file, and <kbd>C-x p p</kbd> to <code>switch-project</code> and
+bring up the commander menu (see below)
+</p>
+
+{% highlight cl %}
+(setq projectile-create-missing-test-files t)
+{% endhighlight %}
+<p>
+<kbd>C-x p t</kbd> creates test files for me.
+</p>
+
+{% highlight cl %}
+(setq projectile-switch-project-action
+      #'projectile-commander)
+{% endhighlight %}
+<p>
+By default, Projectile brings up the file-finder when you switch project with
+<kbd>C-x p p</kbd>. That’s a reasonable default, but I find a lot of times I’m also looking for 
+<code>magit-status</code> or a shell buffer. Using <code>projectile-commander</code> means I have to
+hit an extra key, but it always gets me where I want.
+</p>
+
+<p>
+Furthermore, the menu of alternatives presented by <code>projectile-commander</code> is
+very customizable, so we can add anything we want in there. 
+</p>
+{% highlight cl %}
+(def-projectile-commander-method ?s
+  "Open a *shell* buffer for the project."
+  (shell (get-buffer-create
+          (format "*shell %s*"
+                  (projectile-project-name)))))
+
+(def-projectile-commander-method ?c
+  "Run `compile' in the project."
+  (call-interactively #'compile))
+{% endhighlight %}
+<p>
+The first of those brings up a shell buffer in the project root and the second
+runs <kbd>M-x</kbd> <code>compile</code>. Both are super duper convenient for quickly running builds
+or custom commands, and which one you use is entirely up to situational
+preference.
+</p>
+
+{% highlight cl %}
+(def-projectile-commander-method ?\C-?
+  "Go back to project selection."
+  (projectile-switch-project))
+{% endhighlight %}
+<p>
+The <kbd>s</kbd> key would normally be bound to project-switching. Since we’ve changed that
+above, it’s useful to make <kbd>Backspace</kbd> take that role. This makes sense to me.
+It’s like I’m “backing out” of the commander menu.
+</p>
+
+{% highlight cl %}
+(def-projectile-commander-method ?d
+  "Open project root in dired."
+  (projectile-dired))
+{% endhighlight %}
+<p>
+By default <kbd>d</kbd> would be bound to <code>projectile-find-dir</code>, but that’s something I
+never use. <code>projectile-dired</code> takes you to the root directory instead, which I
+find more useful.
+</p>
+
+{% highlight cl %}
+(def-projectile-commander-method ?F
+  "Git fetch."
+  (magit-status)
+  (call-interactively #'magit-fetch-current))
+
+(def-projectile-commander-method ?j
+  "Jack-in."
+  (let* ((opts (projectile-current-project-files))
+         (file (ido-completing-read
+                "Find file: "
+                opts
+                nil nil nil nil
+                (car (cl-member-if
+                      (lambda (f)
+                        (string-match "core\\.clj\\'" f))
+                      opts)))))
+    (find-file (expand-file-name
+                file (projectile-project-root)))
+    (run-hooks 'projectile-find-file-hook)
+    (cider-jack-in)))
+{% endhighlight %}
+<p>
+These two are more situational, but I’ve found I use them a lot. Whenever I sit
+down to work, there’s a good chance I’m either going to start a REPL (<kbd>j</kbd>) or
+fetch git remotes (<kbd>F</kbd>).
+</p>
+
+<p>
+And last but not nearly least.
+</p>
+{% highlight cl %}
+(projectile-global-mode)
+{% endhighlight %}
