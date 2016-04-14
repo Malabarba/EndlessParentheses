@@ -46,15 +46,15 @@ Furthermore, the menu of alternatives presented by <code>projectile-commander</c
 very customizable, so we can add anything we want in there. 
 </p>
 {% highlight cl %}
+(require 'projectile)
 (def-projectile-commander-method ?s
   "Open a *shell* buffer for the project."
-  (shell (get-buffer-create
-          (format "*shell %s*"
-                  (projectile-project-name)))))
+  ;; This requires a snapshot version of Projectile.
+  (projectile-run-shell))
 
 (def-projectile-commander-method ?c
   "Run `compile' in the project."
-  (call-interactively #'compile))
+  (projectile-compile-project nil))
 {% endhighlight %}
 <p>
 The first of those brings up a shell buffer in the project root and the second
@@ -119,3 +119,12 @@ And last but not nearly least.
 {% highlight cl %}
 (projectile-global-mode)
 {% endhighlight %}
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">14 Apr 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+Used Projectile’s built-in <code>shell</code> and <code>compile</code> commands.
+</p>
+</div>
+</div>
