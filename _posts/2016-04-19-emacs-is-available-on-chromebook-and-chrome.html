@@ -1,0 +1,49 @@
+---
+title: "Emacs is available on Chromebook and Chrome"
+date: 2016-04-19
+layout: post
+tags: chrome
+series: "Emacs Ports"
+---
+<p>
+Are you a Chromebook user or thinking of becoming one? Are you a die-hard
+Emacser who needs to see it run even in your browser for no good reason (no
+judgement)? Either way, Emacs has you covered. Thanks to the efforts of Pete
+Williamson (and friends), there is now an Emacs port for Chromebook and Chrome.
+</p>
+
+<p>
+If that spikes your interest, you should read <a href="https://plus.google.com/u/0/118416397954909331171/posts/8dt2sM8YeeM">his post about it</a> on Google Plus,
+which provides installation instructions, a <a href="https://docs.google.com/document/d/1gEUBUkVDQR1oDx18ZSM39PlbQBvlmNMwOQBhbSm_9mc">list of known issues</a>, and some tips
+on how to make the most of it. In short:
+</p>
+
+<ol class="org-ol">
+<li>Enable Chrome’s <a href="chrome://flags/#enable-nacl">Native Client flag</a>.</li>
+<li>Install the <a href="https://chrome.google.com/webstore/detail/nacl-development-environm/aljpgkjeipgnmdpikaajmnepbcfkglfa">NaCl Development Environment</a> from the Chrome web store.</li>
+<li>Launch the app and wait for it finish setting everything up. YMMV, but I had
+to restart the app at this point.</li>
+<li>Run <code>emacs</code> at the terminal you’re given (and celebrate!).</li>
+</ol>
+
+<p>
+Again, <a href="https://plus.google.com/u/0/118416397954909331171/posts/8dt2sM8YeeM">his post</a> contains a lot more information, including his email so you can
+report bugs or file suggestions. Although I did run into a couple of small bumps
+with the DevEnv app, the Emacs executable ran just fine and performed admirably.
+</p>
+
+<p>
+Pete has been doing this as his 20% project &#x2014; in which Google employees take
+20% of their time to work on something else. If you follow the steps above, you
+may notice that it uses Emacs 24.3, already two minor versions behind the latest
+stable. That’s because 24.3 was the latest release back when he started this
+endeavour. 
+</p>
+
+<p>
+If you’re wondering how hard it was, he talked about it on FOSDEM last year and
+you can have a glance at the <a href="https://fosdem.org/2015/schedule/event/emacs_and_elisp_on_the_chromebook/attachments/slides/797/export/events/attachments/emacs_and_elisp_on_the_chromebook/slides/797/FOSDEM_Building_Emacs_with_NaCl.pdf">slides</a> for this talk. It was harder than I would
+have expected and clearly took some patience. Of course, all of the code is
+publicly available under the <a href="https://chromium.googlesource.com/webports/+/master/ports/emacs/">webports project</a>. It’s basically a shell script and
+a patch file, so it’s worth a look if you’re curious.
+</p>
