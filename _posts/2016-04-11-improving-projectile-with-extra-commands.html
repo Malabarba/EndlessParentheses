@@ -89,7 +89,9 @@ find more useful.
 (def-projectile-commander-method ?F
   "Git fetch."
   (magit-status)
-  (call-interactively #'magit-fetch-current))
+  (if (fboundp 'magit-fetch-from-upstream)
+      (call-interactively #'magit-fetch-from-upstream)
+    (call-interactively #'magit-fetch-current)))
 
 (def-projectile-commander-method ?j
   "Jack-in."
