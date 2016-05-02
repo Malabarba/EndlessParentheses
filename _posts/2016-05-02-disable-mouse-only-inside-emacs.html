@@ -1,0 +1,54 @@
+---
+title: "Disable Mouse only inside Emacs"
+date: 2016-05-02
+layout: post
+tags: keybind init.el
+---
+<p>
+As laptop touchpads seem to be steadily increasing in size, one unfortunate
+consequence is that it becomes increasingly harder to avoid touching them by
+accident while you type. Most systems have safeguards in place that disable the
+touchpad as you’re typing, but they always seem to fall short for me when it
+comes to Emacs. While in Emacs, my hands are permanently resting on the keyboard
+(and over the touchpad), so even if I stop typing for several seconds I don’t
+want the touchpad to reactivate.
+</p>
+
+<p>
+There are ways to permanently deactivate the touchpad with a hotkey, but, so
+far, the solution that best fits my use-style is to disable it only inside
+Emacs.
+</p>
+{% highlight cl %}
+(define-minor-mode disable-mouse-mode
+  "A minor-mode that disables all mouse keybinds."
+  :global t
+  :lighter " 🐭"
+  :keymap (make-sparse-keymap))
+
+(dolist (type '(mouse down-mouse drag-mouse
+                      double-mouse triple-mouse))
+  (dolist (prefix '("" C- M- S- M-S- C-M- C-S- C-M-S-))
+    ;; Yes, I actually HAD to go up to 7 here.
+    (dotimes (n 7)
+      (let ((k (format "%s%s-%s" prefix type n)))
+        (define-key disable-mouse-mode-map
+          (vector (intern k)) #'ignore)))))
+{% endhighlight %}
+<p>
+All we do here is define a minor-mode that binds all mouse-related keys to
+<code>ignore</code>. This is a slight improvement over the code on <a href="http://stackoverflow.com/questions/4906534/disable-mouse-clicks-in-emacs/4906698#4906698">this StackOverflow
+answer</a>. Of course, let’s not forget to enable this.
+</p>
+{% highlight cl %}
+(disable-mouse-mode 1)
+{% endhighlight %}
+<p>
+Two relevant limitations:
+</p>
+<ul class="org-ul">
+<li>This doesn’t distinguish between a touchpad an an actual mouse.</li>
+<li>It is still possible for modes to define specific buttons that interact with
+the mouse, but that’s not a huge problem because these buttons take a small
+portion of the screen so it’s fairly difficult to touch them by accident.</li>
+</ul>
