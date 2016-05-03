@@ -20,22 +20,23 @@ also need the <a href="/fixing-org-in-src-block-p.html">endless/inside-org-code-
 {% highlight cl %}
 (defun narrow-or-widen-dwim (p)
   "Widen if buffer is narrowed, narrow-dwim otherwise.
-Dwim means: region, org-src-block, org-subtree, or defun,
-whichever applies first. Narrowing to org-src-block actually
-calls `org-edit-src-code'.
+Dwim means: region, org-src-block, org-subtree, or
+defun, whichever applies first. Narrowing to
+org-src-block actually calls `org-edit-src-code'.
 
-With prefix P, don't widen, just narrow even if buffer is
-already narrowed."
+With prefix P, don't widen, just narrow even if buffer
+is already narrowed."
   (interactive "P")
   (declare (interactive-only))
   (cond ((and (buffer-narrowed-p) (not p)) (widen))
         ((region-active-p)
-         (narrow-to-region (region-beginning) (region-end)))
+         (narrow-to-region (region-beginning)
+                           (region-end)))
         ((derived-mode-p 'org-mode)
          ;; `org-edit-src-code' is not a real narrowing
-         ;; command. Remove this first conditional if you
-         ;; don't want it.
-         (cond ((ignore-errors (org-edit-src-code))
+         ;; command. Remove this first conditional if
+         ;; you don't want it.
+         (cond ((ignore-errors (org-edit-src-code) t)
                 (delete-other-windows))
                ((ignore-errors (org-narrow-to-block) t))
                (t (org-narrow-to-subtree))))
@@ -43,13 +44,16 @@ already narrowed."
          (LaTeX-narrow-to-environment))
         (t (narrow-to-defun))))
 
-(define-key endless/toggle-map "n" #'narrow-or-widen-dwim)
+(define-key endless/toggle-map "n"
+  #'narrow-or-widen-dwim)
 ;; This line actually replaces Emacs' entire narrowing
-;; keymap, that's how much I like this command. Only copy it
-;; if that's what you want.
+;; keymap, that's how much I like this command. Only
+;; copy it if that's what you want.
 (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
 (add-hook 'LaTeX-mode-hook
-          (lambda () (define-key LaTeX-mode-map "\C-xn" nil)))
+          (lambda ()
+            (define-key LaTeX-mode-map "\C-xn"
+              nil)))
 {% endhighlight %}
 <p>
 If you’re the kind of person who knows how to use <a href="http://doc.endlessparentheses.com/Fun/narrow-to-page"><code>narrow-to-page</code></a>,
@@ -57,7 +61,7 @@ this command might not be for you. Meanwhile, for us mortals, it more
 than fits the bill.
 </p>
 <div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1"><a id="ID-629511b6-fc25-4a8e-914d-939d5908a801"></a>Update <span class="timestamp-wrapper"><span class="timestamp">&lt;05 Sep 2014&gt;</span></span></h2>
+<h2 id="orgheadline1"><a id="ID-629511b6-fc25-4a8e-914d-939d5908a801"></a>Update <span class="timestamp-wrapper"><span class="timestamp">05 Sep 2014</span></span></h2>
 <div class="outline-text-2" id="text-orgheadline1">
 <p>
 Sacha Chua’s comment below gave me a glimpse of inspiration. 
@@ -85,7 +89,7 @@ blocks, I also need a better key to finish editing code blocks, and
 </div>
 </div>
 <div id="outline-container-orgheadline2" class="outline-2">
-<h2 id="orgheadline2"><a id="ID-3ca97e87-2b3e-4b1e-8550-205341585b65"></a>Update <span class="timestamp-wrapper"><span class="timestamp">&lt;23 Sep 2014&gt;</span></span></h2>
+<h2 id="orgheadline2"><a id="ID-3ca97e87-2b3e-4b1e-8550-205341585b65"></a>Update <span class="timestamp-wrapper"><span class="timestamp">23 Sep 2014</span></span></h2>
 <div class="outline-text-2" id="text-orgheadline2">
 <p>
 I’ve updated it to no longer use the <a href="http://doc.endlessparentheses.com/Fun/org-in-src-block-p"><code>org-in-src-block-p</code></a> function and
@@ -96,7 +100,7 @@ has proven quite unreliable.
 </div>
 
 <div id="outline-container-orgheadline3" class="outline-2">
-<h2 id="orgheadline3">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;05 Dec 2015&gt;</span></span></h2>
+<h2 id="orgheadline3">Update <span class="timestamp-wrapper"><span class="timestamp">05 Dec 2015</span></span></h2>
 <div class="outline-text-2" id="text-orgheadline3">
 <p>
 Now it should also work with any type of org-block supported by
@@ -106,7 +110,7 @@ Now it should also work with any type of org-block supported by
 </div>
 
 <div id="outline-container-orgheadline4" class="outline-2">
-<h2 id="orgheadline4">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;07 Dec 2015&gt;</span></span></h2>
+<h2 id="orgheadline4">Update <span class="timestamp-wrapper"><span class="timestamp">07 Dec 2015</span></span></h2>
 <div class="outline-text-2" id="text-orgheadline4">
 <p>
 Use <code>LaTeX-mode-hook</code> instead of <code>eval-after-load</code>, as suggested by Omar in the
