@@ -1,0 +1,59 @@
+---
+title: "validate.el: Schema validation for Emacs-Lisp"
+date: 2016-05-10
+layout: post
+tags: package elpa
+---
+<p>
+Emacs’ customizable variables (a.k.a., <code>defcustom</code>) are allowed to specify a
+<code>:type</code> parameter for setting its custom-type. The customize interface uses this
+information to produce a sophisticated menu for the user to customize that
+variable. However, a large fraction of users use <code>setq</code> to directly edit custom
+variables, and even some packages programmatically change the value of other
+package’s custom variables. Ultimately, there are no guarantees that the value
+in question matches the <code>:type</code> specified in the variable. 
+</p>
+
+<p>
+<code>validate.el</code> tries to address that by offering a small set of functions and
+macros to validate that a value matches a <code>:type</code> schema, throwing an error when
+it doesn’t. Most importantly, in case of error it provides very informative
+messages about what part of the value failed to validate. So, instead of getting
+some obscure <code>wrong-type-argument</code> error deep down in the code, you’ll get a
+message like the following as soon as the variable is used:
+</p>
+
+{% highlight text %}
+Looking for ‘(repeat (choice string number))’ in ‘("aa" 90 la)’ failed because:
+Looking for ‘(choice string number)’ in ‘la’ failed because:
+  all of the options failed
+    Looking for ‘string’ in ‘la’ failed because:
+      not a string
+    Looking for ‘number’ in ‘la’ failed because:
+      not a number
+{% endhighlight %}
+
+<p>
+There are 3 main use-cases for this:
+</p>
+<ol class="org-ol">
+<li>As an end-user of a package, you can use <code>validate-setq</code> instead of <code>setq</code>
+for editing variables. This will ensure the configuration you provide matches
+the schema specified by the developer, and thus prevents you from
+misconfiguring stuff.</li>
+<li>As a developer, when using a variable, use <code>(validate-variable 'var-name)</code>.
+This will be identical to just using <code>var-name</code> if the value passes
+validation, but will immediately throw an error if it doesn’t.</li>
+<li>Also as a developer, you can call <code>(validate-mark-safe-local 'var-name)</code>
+which will create a safe-local predicate for the variable whenever the local
+value satisfies its schema.</li>
+</ol>
+
+<p>
+<code>validate.el</code> is available on <a href="https://elpa.gnu.org/packages/validate.html">GNU Elpa</a>, so you can install it from the
+package-menu or add it as a dependency in your package.
+</p>
+
+{% highlight cl %}
+;; Package-Requires: ((validate "0.3"))
+{% endhighlight %}
