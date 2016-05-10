@@ -37,10 +37,17 @@ Looking for ‘(choice string number)’ in ‘la’ failed because:
 There are 3 main use-cases for this:
 </p>
 <ol class="org-ol">
-<li>As an end-user of a package, you can use <code>validate-setq</code> instead of <code>setq</code>
+<li><p>
+As an end-user of a package, you can use <code>validate-setq</code> instead of <code>setq</code>
 for editing variables. This will ensure the configuration you provide matches
 the schema specified by the developer, and thus prevents you from
-misconfiguring stuff.</li>
+misconfiguring stuff.
+</p>
+
+<p>
+Also note that this works on any <code>defcustom</code> defined with a <code>:type</code>. That is,
+it doesn’t matter if the package itself uses <code>validate.el</code>.
+</p></li>
 <li>As a developer, when using a variable, use <code>(validate-variable 'var-name)</code>.
 This will be identical to just using <code>var-name</code> if the value passes
 validation, but will immediately throw an error if it doesn’t.</li>
