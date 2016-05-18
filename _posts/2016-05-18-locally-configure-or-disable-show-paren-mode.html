@@ -1,0 +1,49 @@
+---
+title: "Locally configure or disable show-paren-mode"
+date: 2016-05-18
+layout: post
+tags: init.el
+---
+<p>
+<code>show-paren-mode</code> is a minor-mode that highlights the bracket at point (be it
+round, square, or curly) as well as its corresponding open/close counterpart. I
+find it a must-have for Elisp and Clojure programming. On the other hand, when
+editing Ruby code, it also highlights whole block delimiters, like <code>def</code>, <code>do</code>,
+<code>if</code>, and <code>end</code>, and all that must-haviness quickly turns into
+in-your-faceviness.
+</p>
+
+<p>
+The catch here is that <code>show-paren-mode</code> is a global minor-mode. So you can’t
+just enable it locally in <code>lisp-mode-hook</code>, and if you try to do
+<code>(show-paren-mode -1)</code> in <code>ruby-mode-hook</code> you’re going to disable it globally
+every time you visit a ruby file.
+</p>
+
+<p>
+Fortunately, <code>show-paren-function</code> checks the value of the variable
+<code>show-paren-mode</code>, so we can pseudo-disable it by setting this variable locally.
+</p>
+{% highlight cl %}
+(show-paren-mode 1)
+
+(defun endless/locally-disable-show-paren ()
+  (interactive)
+  (setq-local show-paren-mode nil))
+
+(add-hook 'ruby-mode-hook
+          #'endless/locally-disable-show-paren)
+{% endhighlight %}
+<p>
+With this, the mode will still be active in <code>ruby-mode</code> buffers, but it won’t
+actually do anything.
+</p>
+
+<p>
+Alternatively, you could reset <code>show-paren-data-function</code> to its original value
+(also inside <code>ruby-mode-hook</code>). This will keep only the basic bracket
+highlighting.
+</p>
+{% highlight cl %}
+(setq-local show-paren-data-function #'show-paren--default)
+{% endhighlight %}
