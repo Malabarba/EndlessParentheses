@@ -1,0 +1,39 @@
+---
+title: "Fill and unfill paragraphs with a single key"
+date: 2016-05-31
+layout: post
+tags: keybind convenience init.el
+---
+<p>
+<a href="http://doc.endlessparentheses.com/Fun/fill-paragraph"><code>fill-paragraph</code></a> is probably among the most underappreciated Emacs commands. I
+use it dozens of times a day, and never stop to think of just how awesome and
+practical it is. Still, we can make it a little bit better. Every once in a
+while I need to “unfill” (or “unwrap”) a paragraph that’s broken over many
+lines.
+</p>
+
+<p>
+By being clever enough, we can make this into a <a href="/hungry-delete-mode.html">free feature</a>. There’s never any
+reason to hit <kbd>M-q</kbd> twice on the same paragraph, so we can use that as our
+keybind for the “unfill” command.
+</p>
+{% highlight cl %}
+(defun endless/fill-or-unfill ()
+  "Like `fill-paragraph', but unfill if used twice."
+  (interactive)
+  (let ((fill-column
+         (if (eq last-command 'endless/fill-or-unfill)
+             (progn (setq this-command nil)
+                    (point-max))
+           fill-column)))
+    (call-interactively #'fill-paragraph)))
+
+(global-set-key [remap fill-paragraph]
+                #'endless/fill-or-unfill)
+{% endhighlight %}
+
+<p>
+With this, <kbd>M-q</kbd> will act as a toggle. Hitting it once will do its usual thing
+(even if the paragraph is already filled), but hitting it twice will completely
+unwrap the current paragraph into a single line.
+</p>
