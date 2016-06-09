@@ -1,0 +1,63 @@
+---
+title: "Provide input to the compilation buffer"
+date: 2016-06-09
+layout: post
+tags: compilation programming init.el
+---
+<p>
+The Emacs <a href="http://doc.endlessparentheses.com/Fun/compile"><code>compile</code></a> command is a severely underused tool. It allows you to run
+any build tool under the sun and provides error-highlighting and jump-to-error
+functionality for dozens of programming languages, but many an Emacser is still
+in the habit of switching to a terminal in order to run <code>make</code>, <code>lein test</code>, or
+<code>bundle exec</code>. It does have one limitation, though. The compilation buffer is
+not a real shell, so if the command being run asks for user input (even a simple
+<code>y/n</code> confirmation) there’s no way to provide it.
+</p>
+
+<p>
+Fortunately, that’s not hard to fix. The snippet below defines two commands. The
+first one prompts you for input and then sends it to the underlying terminal
+followed by a newline, designed for use with prompts and momentary REPLs. The
+second is a command that simply sends the key that was pressed to invoke it,
+designed for easily replying to <code>y/n</code> questions or quickly quitting REPLs with
+<kbd>C-d</kbd> or <kbd>C-j</kbd>.
+</p>
+{% highlight cl %}
+(defun endless/send-input (input &optional nl)
+  "Send INPUT to the current process.
+Interactively also sends a terminating newline."
+  (interactive "MInput: \nd")
+  (let ((string (concat input (if nl "\n"))))
+    ;; This is just for visual feedback.
+    (let ((inhibit-read-only t))
+      (insert-before-markers string))
+    ;; This is the important part.
+    (process-send-string
+     (get-buffer-process (current-buffer))
+     string)))
+
+(defun endless/send-self ()
+  "Send the pressed key to the current process."
+  (interactive)
+  (endless/send-input
+   (apply #'string
+          (append (this-command-keys-vector) nil))))
+
+(define-key compilation-mode-map (kbd "C-c i")
+  #'endless/send-input)
+
+(dolist (key '("\C-d" "\C-j" "y" "n"))
+  (define-key compilation-mode-map key
+    #'endless/send-self))
+{% endhighlight %}
+<p>
+This is something I’ve run into for years, but I finally decided to fix it
+because it meant I couldn’t run Ruby’s <code>rspec</code> in the compilation buffer if my
+code contained a <code>binding.pry</code> (which spawns a REPL). Now I can actually interact
+with this REPL via <kbd>C-c i</kbd> or just quickly get rid of it with <kbd>C-d</kbd>. If you run
+into the same situation, you should also set the following option in your
+<code>.pryrc</code> file.
+</p>
+{% highlight ruby %}
+Pry.config.pager = false if ENV["INSIDE_EMACS"]
+{% endhighlight %}
