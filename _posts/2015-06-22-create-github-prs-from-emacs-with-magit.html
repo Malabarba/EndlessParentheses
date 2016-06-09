@@ -8,8 +8,8 @@ series: "GitHub Integration"
 <p>
 I don’t usually dedicate an entire post to something I’ve already done in a
 previous one, but this nugget is so useful it deserves the attention. Remember
-how you can <a href="/easily-create-github-prs-from-magit.html">create Github PRs</a> straight from Magit? Magit <code>2.1.0</code> is barely <a href="https://twitter.com/magit_emacs/status/611204423906426880">two
-weeks away</a>, and it brings so many (awesome) changes that our little snippet is
+how you can <a href="/easily-create-github-prs-from-magit.html">create Github PRs</a> straight from Magit? Magit <code>2.1.0</code> is barely
+<a href="https://twitter.com/magit_emacs/status/611204423906426880">two weeks away</a>, and it brings so many (awesome) changes that our little snippet is
 going to break.
 </p>
 
@@ -34,6 +34,7 @@ the new one.
            (cdr (or (magit-get-remote-branch)
                     (user-error "No remote branch"))))))
 {% endhighlight %}
+
 {% highlight cl %}
 (eval-after-load 'magit
   '(define-key magit-mode-map "v"
@@ -54,20 +55,18 @@ the code above won’t quite work. If you run into that problem, the update belo
 should work fine.
 </p>
 
-<p>
-#+BEGIN_SRC emacs-lisp
+{% highlight cl %}
 (defun endless/visit-pull-request-url ()
   "Visit the current branch's PR on Github."
   (interactive)
   (browse-url
-   (format "<a href="https://github.com/%s/pull/new/%s">https://github.com/%s/pull/new/%s</a>"
+   (format "https://github.com/%s/pull/new/%s"
            (replace-regexp-in-string
             "\\`.+github\\.com:\\(.+\\)\\.git\\'" "\\1"
             (magit-get "remote"
                        (magit-get-push-remote)
                        "url"))
            (magit-get-current-branch))))
-#+END_SRC emacs-lisp
-</p>
+{% endhighlight %}
 </div>
 </div>
