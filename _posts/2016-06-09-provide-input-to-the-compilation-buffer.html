@@ -15,6 +15,11 @@ not a real shell, so if the command being run asks for user input (even a simple
 </p>
 
 <p>
+<i>(Since posting this, I’ve learned that part of it is mildly futile. Read the
+update below for more information.)</i>
+</p>
+
+<p>
 Fortunately, that’s not hard to fix. The snippet below defines two commands. The
 first one prompts you for input and then sends it to the underlying terminal
 followed by a newline, designed for use with prompts and momentary REPLs. The
@@ -43,9 +48,6 @@ Interactively also sends a terminating newline."
    (apply #'string
           (append (this-command-keys-vector) nil))))
 
-(define-key compilation-mode-map (kbd "C-c i")
-  #'endless/send-input)
-
 (dolist (key '("\C-d" "\C-j" "y" "n"))
   (define-key compilation-mode-map key
     #'endless/send-self))
@@ -61,3 +63,55 @@ into the same situation, you should also set the following option in your
 {% highlight ruby %}
 Pry.config.pager = false if ENV["INSIDE_EMACS"]
 {% endhighlight %}
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">17 Jun 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+As Clément points out in the comments, you can run compilation commands in
+<code>comint-mode</code> by providing the <kbd>C-u</kbd> prefix to <kbd>M-x</kbd> <code>compile</code>. You still have
+all of the usual <code>compilation-mode</code> features (like <code>next/previous-error</code>), with
+the additional benefit that the buffer accepts input like a regular shell does.
+</p>
+
+<p>
+The only caveat is that, since the buffer is modifiable, you lose some
+convenience keys like <kbd>q</kbd> to quit the buffer or <kbd>g</kbd> to recompile, so you’ll need
+to bind them somewhere else
+</p>
+{% highlight cl %}
+(define-key compilation-minor-mode-map (kbd "<f5>")
+  #'recompile)
+(define-key compilation-minor-mode-map (kbd "<f9>")
+  #'quit-window)
+
+(define-key compilation-shell-minor-mode-map (kbd "<f5>")
+  #'recompile)
+(define-key compilation-shell-minor-mode-map (kbd "<f9>")
+  #'quit-window)
+{% endhighlight %}
+
+<p>
+I still like it that the previous solution gives me quick access to <kbd>C-d</kbd> and
+<kbd>y/n</kbd> for those cases when I forget to use <code>comint-mode</code>, but the solution I had
+for inputting long strings is definitely redundant now. Instead, we can have a
+key that restarts the current compilation in <code>comint-mode</code>.
+</p>
+{% highlight cl %}
+(require 'cl-lib)
+(defun endless/toggle-comint-compilation ()
+  "Restart compilation with (or without) `comint-mode'."
+  (interactive)
+  (cl-callf (lambda (mode) (if (eq mode t) nil t))
+      (elt compilation-arguments 1))
+  (recompile))
+
+(define-key compilation-mode-map (kbd "C-c i")
+  #'endless/toggle-comint-compilation)
+(define-key compilation-minor-mode-map (kbd "C-c i")
+  #'endless/toggle-comint-compilation)
+(define-key compilation-shell-minor-mode-map (kbd "C-c i")
+  #'endless/toggle-comint-compilation)
+{% endhighlight %}
+</div>
+</div>
