@@ -24,32 +24,46 @@ predetermined size and ensures that point will follow the output.
 ;; Don't stop on info or warnings.
 (setq compilation-skip-threshold 2)
 
-(defcustom endless/compile-window-size 60
-  "Width given to the compilation window."
+(defcustom endless/compile-window-size 105
+  "Width given to the non-compilation window."
   :type 'integer
   :group 'endless)
 
-(defun endless/compile-please ()
-  "Compile without confirmation."
-  (interactive)
+(defun endless/compile-please (comint)
+  "Compile without confirmation.
+With a prefix argument, use comint-mode."
+  (interactive "P")
   ;; Do the command without a prompt.
   (save-window-excursion
-    (compile compile-command))
+    (compile (eval compile-command) (and comint t)))
   ;; Create a compile window of the desired width.
   (pop-to-buffer (get-buffer "*compilation*"))
   (enlarge-window
-   (- endless/compile-window-size (window-width))
+   (- (frame-width)
+      endless/compile-window-size
+      (window-width))
    'horizontal))
 {% endhighlight %}
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Update <span class="timestamp-wrapper"><span class="timestamp">&lt;2015-06-16 Tue&gt;</span></span></h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">16 Jun 2015</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline1">
 <p>
 Thanks to Clément and abo-abo for the variable suggestions, which also led me to
 find the <a href="http://doc.endlessparentheses.com/Var/compilation-skip-threshold"><code>compilation-skip-threshold</code></a> variable. Warnings are important to fix,
 but in some languages it’s common to have warnings you can’t fix, so it’s nice
 for the compilation buffer to not stop scrolling on them.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Update <span class="timestamp-wrapper"><span class="timestamp">17 Jun 2016</span></span></h2>
+<div class="outline-text-2" id="text-orgheadline2">
+<p>
+The command now propagates the prefix argument to the <code>compile</code> function, so
+that you can start the buffer in <code>comint-mode</code>. See the update on <a href="/provide-input-to-the-compilation-buffer.html">this post</a> for
+more information.
 </p>
 </div>
 </div>
