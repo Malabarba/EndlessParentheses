@@ -1,0 +1,35 @@
+---
+title: "A few paredit keys that take over the world"
+date: 2016-06-29
+layout: post
+tags: writing programming keybind init.el
+---
+<p>
+Once you learn paredit, you really can’t go back. Even when you’re not editing
+lisp you crave for the ease of manipulating everything as balanced sexps.
+Although that’s (sadly) not always possible, you can still hack your way into a
+bit of guilty paren-pleasure in pretty much any editing session.
+</p>
+
+<p>
+While not all programming languages are lisps, most of them do have brackets and
+quotes. And paredit should have no problem moving you forward-up out of a C
+string, wrapping curly brackets around a work in LaTeX, or even splicing out a
+pair of parenthesis in plain prose.
+</p>
+
+<p>
+Below are a few keys I find useful pretty much everywhere, so I’ve allowed them
+to take over the global keymap.
+</p>
+{% highlight cl %}
+(global-set-key (kbd "C-M-u") #'paredit-backward-up)
+(global-set-key (kbd "C-M-n") #'paredit-forward-up)
+;; This one's surpisingly useful for writing prose.
+(global-set-key "\M-S"
+  #'paredit-splice-sexp-killing-backward)
+(global-set-key "\M-R" #'paredit-raise-sexp)
+(global-set-key "\M-(" #'paredit-wrap-round)
+(global-set-key "\M-[" #'paredit-wrap-square)
+(global-set-key "\M-{" #'paredit-wrap-curly)
+{% endhighlight %}
