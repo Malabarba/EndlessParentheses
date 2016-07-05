@@ -1,0 +1,46 @@
+---
+title: "A quick guide to directory-local (or project-specific) variables"
+date: 2016-07-05
+layout: post
+tags: convenience project
+meta_title: "A quick guide to directory-local (or project-specific) variables in Emacs"
+---
+<p>
+One of the questions we get most often about CIDER is “can I configure X on a
+per-project basis?”. Occasionally, you find someone suggesting (or even
+implementing) some sophisticated configurable variable trying to account for
+multiple simultaneous use-cases. Fortunately that’s one effort we don’t need to
+make. Emacs already has that built-in in the form of directory-local variables
+(dir-local for short).
+</p>
+
+<p>
+As the name implies, dir-local variable values (can) apply to all files inside a
+given directory (also applying recursively to its sub-directories), though you
+can also restrict them by major-mode or by subdirectory. To configure it:
+</p>
+<ol class="org-ol">
+<li>Invoke <kbd>M-x</kbd> <a href="http://doc.endlessparentheses.com/Fun/add-dir-local-variable"><code>add-dir-local-variable</code></a>.</li>
+<li>This will prompt you for a major-mode, then a variable name, and finally a variable value.</li>
+<li>Finally, it will drop you in a (newly-created) file called <code>.dir-locals.el</code> in the current directory. Just save this file and you’re done!</li>
+</ol>
+
+<p>
+By doing this, you have configured the given variable to always have the
+provided value anywhere inside the <b>current directory</b>, so make sure you’re at
+the root of your project when you call the command. If you use <a href="https://github.com/bbatsov/projectile">Projectile</a>,
+there’s the <code>projectile-edit-dir-locals</code> command for doing just that.
+</p>
+
+<p>
+Also worth noting:
+</p>
+<ul class="org-ul">
+<li>If you type <code>nil</code> for the major-mode, it applies to all major-modes.</li>
+<li>There is (of course) tab-completion in the variable-name prompt.</li>
+<li>If you answer <code>eval</code> for the variable name, it will prompt you for a lisp
+expression, instead of a value. This expression will be saved and will be
+evaluated every time a file is visited.</li>
+<li>After doing this, call <a href="http://doc.endlessparentheses.com/Fun/revert-buffer"><code>revert-buffer</code></a> on any previously-open files to
+apply the new value.</li>
+</ul>
