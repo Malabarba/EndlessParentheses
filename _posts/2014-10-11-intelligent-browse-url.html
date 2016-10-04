@@ -6,13 +6,13 @@ tags: browse-url integration init.el
 ---
 <p>
 When you have more than one browser installed, you must choose which
-one’s the default. The OS will then proceed to open all URLs in the
+one's the default. The OS will then proceed to open all URLs in the
 default browser, even if it happens to be closed while another one
 happens to be running.
 </p>
 
 <p>
-At least in Emacs we can fix that behaviour. The following code
+At least in Emacs we can fix that behavior. The following code
 configures Emacs to use whatever browser happens to be open right now,
 instead of always defaulting to the same one.
 </p>
@@ -37,19 +37,21 @@ instead of always defaulting to the same one.
 {% endhighlight %}
 
 <p>
-Here we configure our preferences through the <code>endless/browser-list</code>
+Here we configure our preferences through the <kbd>endless/browser-list</kbd>
 variable. Its value is a list of cons cells, each representing a
-browser. The <code>car</code> is a regexp to match the name of the browser’s
-process (used to determine whether the browser is running), and the <code>cdr</code> 
+browser. The <kbd>car</kbd> is a regexp to match the name of the browser's
+process (used to determine whether the browser is running), and the <kbd>cdr</kbd>
 is the name of the executable.
 </p>
 {% highlight cl %}
 (defcustom endless/browser-list
   '(("xulrunner\\|conkeror" . "conkeror.sh")
+    ("xulrunner\\|conkeror" . "conkeror")
     "conkeror.exe" ;; This works if it's in your $PATH
     "luakit"
     ("chrome$" . "google-chrome-stable")
     "chromium"
+    "chromium-browser"
     ("firefox\\|mozilla" . "firefox")
     ;; This works regardless of your $PATH
     ("firefox.exe" .
@@ -112,5 +114,5 @@ processes and finding a browser in there.
 {% endhighlight %}
 
 <p>
-I’ve tested it on Windows and a couple of Linux distros. Could a Mac
+I've tested it on Windows and a couple of Linux distros. Could a Mac
 user test it for me as well?</p>
