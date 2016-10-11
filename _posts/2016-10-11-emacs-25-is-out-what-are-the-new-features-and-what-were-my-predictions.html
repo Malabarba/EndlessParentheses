@@ -1,0 +1,127 @@
+---
+title: "Emacs 25 is out! What are the new features and what were my predictions"
+date: 2016-10-11
+layout: post
+tags: news emacs-25
+---
+<p>
+Four Saturdays ago, on September 17, <a href="https://lists.gnu.org/archive/html/emacs-devel/2016-09/msg00451.html">Emacs 25 was finally released</a>. Almost two
+years before that, I wrote a post predicting a few <a href="/big-things-to-expect-from-emacs-25.html">Big things to expect from
+Emacs 25</a>. Throughout the months since then, I’ve also been reporting interesting
+new features as they arrived on the dev builds. Today, we compile a list of all
+of those news posts, and review which predictions I actually got right.
+</p>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">News posts</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+For the convenience of those looking for actually practical information, I feel
+we should start with a list of the posts. I must strive to be clear that this
+is <b>not a comprehensive list</b> of new features. Not by a mile! If you want
+everything, you can have a look at the news file that ships with Emacs,
+<code>/etc/NEWS</code>, or you can read Mickey Petersen’s <a href="https://www.masteringemacs.org/article/whats-new-in-emacs-25-1">commented version</a>.
+</p>
+
+<p>
+The list below merely sums up most (not even all) of the features that piqued
+my interest over the last couple of years.
+</p>
+
+<ol class="org-ol">
+<li><a href="/new-in-emacs-25-1-easily-search-non-ascii-characters.html">Easily search for non-ASCII characters</a> (char-folding search)</li>
+<li><a href="/new-in-emacs-25-1-round-quotes-in-help-buffers.html">Round quotes in Help buffers</a></li>
+<li><a href="/new-in-emacs-25-1-query-replace-history-is-enhanced.html">Query-replace history is enhanced</a></li>
+<li><a href="/new-in-emacs-25-1-comment-line.html">The <code>comment-line</code> command</a></li>
+<li><a href="/new-on-elpa-and-in-emacs-25-1-seq-el.html">The <code>seq.el</code> library</a></li>
+<li><a href="/new-on-elpa-and-in-emacs-25-1-let-alist.html">The <code>let-alist</code> library</a></li>
+<li><a href="/new-in-emacs-25-1-map-el-library.html">The <code>map.el</code> library</a></li>
+<li><a href="/new-in-emacs-25-1-have-prettify-symbols-mode-reveal-the-symbol-at-point.html">Have prettify-symbols-mode reveal the symbol at point</a></li>
+<li><a href="/new-in-emacs-25-1-more-flow-control-macros.html">More flow control macros</a></li>
+<li><a href="/new-in-emacs-25-1-eww-improvements.html">EWW improvements</a></li>
+<li><a href="/new-in-emacs-25-1-easily-install-multifile-package-from-a-directory.html">Easily install multifile package from a directory</a></li>
+<li><a href="/new-in-emacs-25-1-better-rectangles.html">Better Rectangles</a></li>
+<li><a href="/new-in-package-el-in-emacs-25-1-better-dependency-management.html">Better dependency management</a></li>
+<li><a href="/new-in-package-el-in-emacs-25-1-user-selected-packages.html">User-selected packages</a></li>
+<li><a href="/new-in-emacs-25-1-asynchronous-package-menu.html">Asynchronous Package Menu</a></li>
+<li><a href="/new-in-emacs-25-1-filtering-by-status-and-archive.html">Filtering by status and archive</a></li>
+<li><a href="/new-in-emacs-25-1-archive-priorities-and-downgrading-packages.html">Archive priorities and downgrading packages</a></li>
+</ol>
+
+<p>
+If you’re short on time, I personally recommend checking out char-folding
+search (1), archive priorities (17), and the <code>comment-line</code> command (4), which are all
+features you might not realize are there. The round-quotes in Help buffers (2) and
+the improved query-replace history (3) are also among my favorites, but you don’t
+need to do anything special to see them in action.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Reviewing predictions</h2>
+<div class="outline-text-2" id="text-orgheadline2">
+<p>
+Now, for the indulgence of those looking for more than just practical
+information. On the <a href="/big-things-to-expect-from-emacs-25.html">aforementioned post</a>, I talked about 6 things I hoped to see
+by the time Emacs 25 came out.
+</p>
+
+<dl class="org-dl">
+<dt>Moving the code base to git</dt><dd>This one even had a schedule date when I wrote
+the post, so it obviously doesn’t count as a prediction. Still, I’m
+extremely glad it happened as I would never have contributed myself if not
+for this change.</dd>
+
+<dt>Dynamic library loading</dt><dd><p>
+Now <i>this</i> is exciting. I originally wrote it was
+<i>“looking almost in shape for release”</i>, but I have no idea what led me to
+say that. This feature actually almost didn’t make it into release. It only
+got merged to the <code>emacs-25</code> branch more than one year later, <a href="https://lists.gnu.org/archive/html/emacs-devel/2015-11/msg01697.html">after the
+feature-freeze took place</a>!
+</p>
+
+<p>
+Nonetheless, it’s finally out and about, and I’m eager to see what comes
+out of it. If you’re interested, it’s actually very easy to get started
+(well&#x2026; easy by C-coding standards). Aurélien Aptel has a <a href="http://diobla.info/blog-archive/modules-tut.html">super short
+tutorial</a> on how to write, compile, and use a dynamic module in Emacs.
+</p></dd>
+
+<dt>Concurrency in Elisp</dt><dd>I’ll count this as a half point. We don’t have proper
+concurrency in Elisp yet, and whether that’s something we want is still an
+<a href="https://lists.gnu.org/archive/html/emacs-devel/2016-10/msg00200.html">ongoing discussion</a>. Still, most of the points in my rant have already been
+addressed. The packages list does <a href="/new-in-emacs-25-1-asynchronous-package-menu.html">refresh asynchronously</a> now (despite the
+lack of concurrency), and several optimizations have been made which speed
+up the actual rendering of the list.</dd>
+
+<dt>A Better Package Menu</dt><dd>I shouldn’t have to say much here. The last 5 links on
+list above are all improvements to the package menu. While there’s still
+room for improvement, it’s quite ahead of where it was 2 years ago. Better
+dependency management, asynchronous refreshing, and more filtering options
+were all much needed improvements. Meanwhile, archive priorities are a nice
+cherry to top of it all off.</dd>
+
+<dt>A More Robust Customize Interface</dt><dd>Out of the two issues that led me to
+write this point, one of them has been fixed (<code>custom-theme-load-path</code> is no
+longer a <code>defcustom</code>). Still, I’m counting this as a miss. Over the last
+couple of years I’ve seen other fundamental issues with the Customize
+interface be reported, and there’s still quite a bit of work to be done here.</dd>
+
+<dt>Namespaces</dt><dd>Well, OK. We still don’t have namespaces. Honestly, though, it
+doesn’t bother me anymore. I’ve released two packages, <a href="https://github.com/Malabarba/names">Names</a> and <a href="https://github.com/Malabarba/nameless">Nameless</a>,
+which are available on Elpa and help mitigate the the lack of namespaces. I
+use Nameless for all my Elisp coding now and that’s the end of the story
+for me.</dd>
+</dl>
+
+<p>
+Summarizing, even if we exclude the Git point (which wasn’t really a
+prediction), it’s a 2½ out of 5 (or 3½ if we count namespaces). That’s a
+pretty good outcome considering I had never even made a single contribution to
+Emacs core when I wrote that post. I’d love to write another one of those, but
+I’m not nearly as involved in the news as I was 2 years ago. Maybe in a couple
+of months I’ll manage to catch up.
+</p>
+</div>
+</div>
