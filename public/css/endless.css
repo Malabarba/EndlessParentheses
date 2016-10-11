@@ -448,6 +448,10 @@ a.author:focus {
     text-align: justify;
 }
 
+.post-with-comments dd {
+    text-align: justify;
+}
+
 .post, .page {
     width:inherit;
     margin-bottom:2.5rem;
