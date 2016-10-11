@@ -2,7 +2,7 @@
 title: "New in Emacs 25.1: Easily search for non-ASCII characters"
 date: 2016-02-02
 layout: post
-tags: search emacs-25
+tags: emacs-25 search init.el
 series: "New in 25.1"
 ---
 <p>
@@ -15,8 +15,12 @@ another. The name, if a bit odd, is “character-folding search”.
 <p>
 In Emacs 25, Isearch can find a wide range of Unicode characters (like á, ⓐ, or
 𝒶) when you search for ASCII characters (<code>a</code> in this example). To enable this
-feature, set the variable <code>search-default-mode</code> to <code>character-fold-to-regexp</code>.
+feature, set the variable <code>search-default-mode</code> to <code>char-fold-to-regexp</code>.
 </p>
+
+{% highlight cl %}
+(setq search-default-mode #'char-fold-to-regexp)
+{% endhighlight %}
 
 <p>
 This first came up due to a new feature of a recent version of Texinfo, where
@@ -43,5 +47,10 @@ to.
 </p>
 
 <p>
-Finally, if you’d like to extend this feature to the <code>query-replace</code> command,
-set <code>replace-character-fold</code> to <code>t</code>.</p>
+Finally, you can extend this feature to the <code>query-replace</code> command, which is
+also as easy as setting a variable.
+</p>
+
+{% highlight cl %}
+(setq replace-char-fold t)
+{% endhighlight %}
