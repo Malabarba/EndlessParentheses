@@ -142,6 +142,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
   line-height: 1.25;
   color: #222;
+  letter-spacing: 1px;
 }
 h1 {
   font-size: 1.7rem;
