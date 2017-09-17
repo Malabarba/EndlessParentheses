@@ -9,18 +9,18 @@
   
   <!-- CSS -->
   {% if (page.title == "Home-test") %}
-  <link rel="stylesheet" href="{{ site.baseurl }}public/css/test-endless.css">
+  <link rel="stylesheet" href="/public/css/test-endless.css">
   {% else %}
-  <link rel="stylesheet" href="{{ site.baseurl }}public/css/endless.css">
+  <link rel="stylesheet" href="/public/css/endless.css">
   {% endif %}
   <link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="{{ site.baseurl }}public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
 
   {% include meta_icons.html %}
 
   <!-- RSS -->
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ site.baseurl }}atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
   
   {% if paginator.page > 1 %}{% include no_index.html %}{% endif %}{% if page.noIndex %}{% include no_index.html %}{% endif %}
 </head>
