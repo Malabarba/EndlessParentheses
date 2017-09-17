@@ -1,0 +1,148 @@
+---
+title: "Keep your Slack distractions under control with Emacs"
+date: 2017-09-18 00:00:00
+layout: post
+categories: 
+tags: 
+- productivity 
+- alert 
+- slack 
+- init.el
+published: true
+comments: 
+---
+<p>
+There’s no denying slack is a useful tool for intrateam communication, but it’s
+also a powerful source of distractions. Though I can’t just turn it off all
+day, I can certainly keep the spam in check.
+</p>
+
+<p>
+Slack’s Webapp does allow you to partially mute certain channels, but that’s
+about as far as it goes. On the other hand, with the power of Emacs and the
+<a href="https://github.com/jwiegley/alert">Alert</a> package, we can perfectly filter out anything we don’t care about.
+</p>
+
+<p>
+Start by installing the <a href="https://github.com/yuya373/emacs-slack">Slack</a> package from Melpa. It takes a bit of effort to
+get it set up, but once you’re done <a href="https://github.com/yuya373/emacs-slack#how-to-get-token">following the instructions</a> you should have a
+(surprisingly featureful) Slack client running inside Emacs.
+</p>
+
+<p>
+I’ll probably write further posts on how you can perfect your workflow with this
+package, but for now we can just go over some basic keybinds.
+</p>
+
+{% highlight emacs-lisp %}
+;;; Big QOL changes.
+(setq slack-completing-read-function
+      #'ido-completing-read)
+(setq slack-buffer-function #'switch-to-buffer)
+(setq slack-prefer-current-team t)
+(setq slack-display-team-name nil)
+
+;;; Go to any channel with `C-x j'.
+(define-key ctl-x-map "j" #'slack-select-rooms)
+;;; Quick 'n dirty way of opening the most recent link
+;;; in the current chat room.
+(define-key slack-mode-map (kbd "M-o")
+  (kbd "<backtab> RET M->"))
+;;; I thumbs-up a lot. Don't judge me.
+(define-key slack-mode-map (kbd "C-;") ":+1:")
+;;; Bring up the mentions menu with `@', and insert a
+;;; space afterwards.
+(define-key slack-mode-map "@"
+  (defun endless/slack-message-embed-mention ()
+    (interactive)
+    (call-interactively #'slack-message-embed-mention)
+    (insert " ")))
+
+;;; Pretty straightforward.
+(define-key slack-mode-map (kbd "C-c C-d")
+  #'slack-message-delete)
+(define-key slack-mode-map (kbd "C-c C-e")
+  #'slack-message-edit)
+(define-key slack-mode-map (kbd "C-c C-k")
+  #'slack-channel-leave)
+{% endhighlight %}
+
+<p>
+Now you might think I’ve got it all backwards. Connecting Emacs with Slack could
+only bring the distractions closer to me. But that’s where Alert comes in.
+The Slack package automatically uses Alert for sending notifications, so you
+have full control over them by customizing <code>alert-user-configuration</code>.
+</p>
+
+<p>
+That’s super easy to do via the customization interface (<kbd>M-x</kbd>
+<code>customize-variable</code>). But the examples below use plain Elisp. Just keep in mind
+that the first element is an alist determining which messages to match, and the
+second element is a symbol specifying what to do (the third is not important
+here).
+</p>
+
+<p>
+For instance, let’s start by telling alert <b>not</b> to notify anything. Sounds
+blissful, doesn’t it?
+</p>
+{% highlight emacs-lisp %}
+(add-to-list 'alert-user-configuration
+             '(((:category . "slack")) ignore nil))
+{% endhighlight %}
+
+<p>
+There are a couple of important channels I’d like to be notified about
+anything, so add a rule for them.
+</p>
+{% highlight emacs-lisp %}
+(add-to-list
+ 'alert-user-configuration
+ '(((:title . "\\(bigchannel\\|hugechannel\\)") 
+    (:category . "slack"))
+   libnotify nil))
+{% endhighlight %}
+<p>
+Then there are a few channels where I only need to pay attention if explicitly
+mentioned.
+</p>
+{% highlight emacs-lisp %}
+(add-to-list
+ 'alert-user-configuration
+ '(((:message . "@artur\\|Artur")
+    (:title . "\\(okchannel\\|sosochannel\\)")
+    (:category . "slack"))
+   libnotify nil))
+{% endhighlight %}
+<p>
+Both of the rules above are more-or-less supported by Slack already (although
+you can’t <b>really</b> mute channels completely without leaving them). Below is one
+example where Alert really shines.
+</p>
+
+<p>
+We use Rollbar for exception tracking, and I like being notified whenever
+something explodes in the server. However, it makes no sense to notify me
+whenever someone resolves an issue. That can be resolved with two short rules.
+</p>
+{% highlight emacs-lisp %}
+(add-to-list 'alert-user-configuration
+             '(((:title . "rollbar")
+                (:category . "slack"))
+               libnotify nil))
+(add-to-list 'alert-user-configuration
+             '(((:message . "Resolved by")
+                (:title . "rollbar")
+                (:category . "slack"))
+               ignore nil))
+{% endhighlight %}
+
+<p>
+I have 4 other rules similar to this one. This kind of fine-grained control is
+great for reducing spam while staying aware of what matters.
+</p>
+
+<p>
+Overall, I’m really happy with the setup I’ve got, and I’ll try to post about
+other aspects of it.
+</p>
