@@ -58,7 +58,7 @@ body {
   margin: 0;
   padding: 0;
   color: #222;
-  background-color: #F1EED9;
+  background-color: #F8ECC2;
 }
 
 @media (min-width: 38em) {
@@ -141,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: .5rem;
   font-weight: bold;
   line-height: 1.25;
-  color: #313131;
+  color: #222;
 }
 h1 {
   font-size: 1.7rem;
