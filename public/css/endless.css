@@ -678,10 +678,13 @@ a.pagination-item:hover {
   border-bottom-right-radius: 0;
 }
 
-.twitter-follow {
+.twitter-follow,
+.github-follow {
   height: 28px;
   width: 157px;
+  margin: 0.5em 0;
 }
+
 .gad {
   width: 100%;
   height: 100px;
@@ -689,24 +692,20 @@ a.pagination-item:hover {
 .bottom {
   position:absolute;
   bottom:3rem;
-  /* right:0; */
-  /* background-color: green; */
 }
 
 .se-flair {
-  /* height: 50px; */
-  /* width: 100%; */
   padding: 0;
   margin: 0;
-  margin-top: 10px;
 }
-.gratipay {
-  /* padding-top: 3px; */
-  width: 95%;
+
+.gratipay-button {
+  margin: 0.5em 0;
+}
+.gratipay-button img {
+  height: 26.5px;
   padding: 0;
   margin: 0;
-  margin-top: 10px;
-  /* background-color: blue; */
 }
 .centered-image {
   margin-left: auto;

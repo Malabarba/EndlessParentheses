@@ -19,19 +19,18 @@
         {% comment %} <li>{% include search-box.html %}</li> {% endcomment %}
         </ul>
 
-        {% include twitter_follow.html %}
-        {% comment %} {% include sidebar_ad.html %} {% endcomment %}
+        <div class="bottom">
+          {% include github_follow.html %}
+          {% include twitter_follow.html %}
+          {% include gratipay.html %}
+          {% include stack_exchange.html %}
+        </div>
       </div>
 
       <div class="post-with-comments">{{ content }}
         {% include copyright.html %}</div>
       <div class="right-sidebar">
         {% include sidebar_entries.html %}
-        <div class="bottom">
-            {% include gratipay.html %}
-            <!-- { include github_follow.html } -->
-            {% include stack_exchange.html %}
-        </div>
       </div>
     </div>
   </body>
