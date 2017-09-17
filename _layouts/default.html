@@ -8,15 +8,15 @@
     <div class="container content">
 
       <div class="masthead">
-        <h3 class="masthead-title">
+        <h3 class="title">
           <a href="{{ site.url }}" title="Home">{{ site.title }}</a>
         </h3>
-        <h3 class="masthead-tagline"><small>{{ site.tagline }}</small></h3>
-        <ul class="masthead-links">
+        <h3 class="tagline"><small>{{ site.tagline }}</small></h3>
+        <ul class="links">
           {% for page in site.pages_list %}
-            <li><a href="{{ page[1][0]  }}"><img src="{{ page[1][1]  }}" class="masthead-icon" /><span class="link-name">{{page[0]}}</span></a></li>
+          <li><a href="{{ page[1][0]  }}"><img src="{{ page[1][1]  }}" class="icon" /><span class="link-name">{{page[0]}}</span></a></li>
           {% endfor %}
-        {% comment %} <li>{% include search-box.html %}</li> {% endcomment %}
+          <li>{% include search-box.html %}</li>
         </ul>
 
         <div class="bottom">

@@ -363,18 +363,18 @@ tbody tr:nth-child(odd) td,
   /* text-align: right; */
 }
 
-.masthead-title {
+.masthead .title {
   line-height: 93%;
   font-size: 200%;
 }
 
-ul.masthead-links {
+.masthead .links {
   list-style: none;
   padding-left: 0;
   padding-right: 1rem;
   width:inherit;
 }
-.masthead-icon {
+.masthead .links img.icon {
   width: 1.1em;
   display:inline;
   margin:0 .5em 0 0;
@@ -382,26 +382,26 @@ ul.masthead-links {
   position:relative;
   bottom:-0.15em;
 }
-.masthead-links li {
+.masthead .links li {
   font-family: "Droid Sans Mono", Helvetica, sans-serif;
   font-size:120%;
   width: inherit;
   margin-top:.8em;
 }
 
-.masthead-links form,
-.masthead-links input {
+.masthead .links form,
+.masthead .links input {
   font-size:inherit;
   width: 90%;
 }
-.masthead-title, .masthead-tagline,
-.masthead-links {
+.masthead .title, .masthead .tagline,
+.masthead .links {
   margin-top: 0;
   margin-bottom: 0;
   color: #505050;
 }
 
-.masthead-links {
+.masthead .links {
   margin-top: 1rem;
 }
 .masthead a {
