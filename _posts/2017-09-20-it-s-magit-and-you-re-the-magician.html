@@ -1,0 +1,105 @@
+---
+title: "It’s Magit! And you’re the magician!"
+date: 2017-09-20 22:38:00
+layout: post
+categories: 
+tags: 
+- github 
+- package 
+- magit
+published: true
+comments: 
+---
+<p>
+There’s nothing I can praise about <a href="https://magit.vc/">Magit</a> that hasn’t been written in a dozen
+blogs already, but since Jonas started a <a href="https://www.kickstarter.com/projects/1681258897/its-magit-the-magical-git-client">kickstarter campaign</a> for it I knew I
+had to say something. If you use Magit, you already know the greatness of it.
+And if you don’t, hopefully I can convince you to try it in time to back the
+campaign.
+</p>
+
+<p>
+I could go on and on about the virtues of this gem. It’s probably the package
+that most saves me time, and has taught me more about git than I learned reading
+a whole book on it. But that’s all just sparks and glitter on top of the real
+show. For Magit is a magic show, and its real feature is making <i>you</i> the
+magician.
+</p>
+
+<p>
+Controlling Magit feels like putting on a performance. Move your fingers quickly
+enough, and you’ll be rebasing faster than the eye can see. But if your crowd is
+not impressed yet, you move on to tagging, cherry-picking, rewriting, reflogging
+until they’re left staring unblinkingly at your monitor, their jaws unknowingly
+open in awe.
+</p>
+
+<p>
+But, if you’re one of those that only cares about practical benefits, then here
+are few Magit commands I use just about everyday.
+</p>
+
+<dl class="org-dl">
+<dt><kbd>f a</kbd> Fetch all remotes</dt><dd>Usually how I start my day. Updates information
+about all remote branches, without messing with your local branch. Really
+helps that it’s a one-handed combo, so I can do it while sipping the
+morning coffee.</dd>
+<dt><kbd>r u</kbd> Rebase upstream</dt><dd>Upstream usually means <code>origin/master</code>. If fetch-all
+indicates that my local branch is out of date with upstream, this will
+quickly bring it up to date. If I don’t want to rebase this branch, I can
+<kbd>m m</kbd> and merge instead. Since fetch-all has already done all of the slow
+networking, both merge and rebase are super quick.</dd>
+<dt><kbd>b s</kbd> Branch spin-off</dt><dd>Creates and checks out a new branch, while carrying
+over any ongoing (and possibly committed) changes. It even undoes the
+commits on the previous branch. Super useful if you realise you forgot to
+branch-off from master before starting to work.</dd>
+<dt><kbd>b c</kbd> Branch create</dt><dd>Over time I’ve been gradually using less <kbd>b s</kbd> and
+more <kbd>b c</kbd>. When I need a new working branch, instead of having to switch
+to master, pull origin, and then spin-off, I simply <kbd>b c</kbd> straight from
+<code>origin/master</code> (it never really matters if my local <code>master</code> is outdated).</dd>
+<dt><kbd>P …</kbd> Push!</dt><dd>Feels silly that pushing is so far down my list, but here you
+go. <kbd>P p</kbd> is 95% of my usage, but <kbd>P t</kbd> is also useful and
+you’ll occasionally need a <kbd>-f</kbd> in there.</dd>
+<dt><kbd>c …</kbd> Commit powers</dt><dd><kbd>c c</kbd> is your basic commit. But I couldn’t live without
+<kbd>c w</kbd> (for quickly fixing a commit message) or <kbd>c e</kbd> (for throwing more
+changes into the last commit).</dd>
+<dt><kbd>l l</kbd> Log current</dt><dd>Magit is pretty good at keeping you informed of the
+commit difference between local and remote, but <kbd>l l</kbd> is a quick way to get
+your bearings if you ever feel lost.</dd>
+<dt><kbd>y</kbd> Branch viewer</dt><dd>Concise list of all refs. Great for finding and removing
+old branches with <kbd>k</kbd> (both local and remote). Magit even warns if you try
+to delete a branch that isn’t merged.</dd>
+</dl>
+
+<p>
+And a few commands I don’t really use everyday, but rather eagerly look forward
+to the next chance to use them.
+</p>
+
+<dl class="org-dl">
+<dt><kbd>l r</kbd> Reflog</dt><dd>Don’t know what reflog is? Neither did I! Magit taught me
+about reflog without saying a word, and you should learn it
+too (it feels like a superpower).</dd>
+<dt><kbd>r s</kbd> Rebase subset</dt><dd>At work, when I need to hotfix something I branch-off
+from <code>origin/production</code> instead of <code>origin/master</code>. Occasionally though,
+I’ll forget to do that, commit my hotfix, only to realise my branch is now
+100 commits ahead of production. Rebase subset solves this is a blink, by
+taking only the commit I want and placing it on top of another branch.</dd>
+<dt><kbd>r i</kbd> Rebase interactively</dt><dd>I admit, I was a little scared when I first tried
+this feature. I had no idea what it did, but that “interactively” menu
+option had been teasing me for months. If I explain it here I feel like I’d
+be robing you of the discovery, so I’ll just describe it as “omnipotence
+over history”.</dd>
+</dl>
+
+<p>
+All of this arsenal combines into some fast and powerful git manipulation. Just
+yesterday a colleague asked for help on one of his branches. The whole checkout,
+edit, commit, push process took less than 30 seconds. One more <kbd>b b</kbd> and I was
+back in my branch doing my own stuff.
+</p>
+
+<p>
+What’s more, it all <i>feels</i> right. My editor is where I manipulate the source
+code, that’s where I ought to be changing branches, not alt-tabbing to a terminal.
+</p>
