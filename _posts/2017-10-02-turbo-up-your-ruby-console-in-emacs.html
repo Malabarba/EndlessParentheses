@@ -1,0 +1,66 @@
+---
+title: "Turbo up your Ruby console in Emacs"
+date: 2017-10-02 20:57:00
+layout: post
+categories: 
+tags: 
+- console 
+- ruby 
+- programming 
+- init.el
+published: true
+comments: 
+---
+<p>
+Keeping a REPL (or a console) always by your side is never a bad habit, and if
+you use an IDE-package (like <a href="https://github.com/dgutov/robe">Robe</a> for Ruby, or <a href="https://github.com/clojure-emacs/cider/">Cider</a> for Clojure) it’s nigh
+unavoidable. Being an essential part of your environment, it would be ridiculous
+not to invest some time optimizing it.
+</p>
+
+<p>
+One obvious optimization is to bind a key to your “start console” command, but
+that’s just the start. You pretty much never need two running consoles for the
+same project, so why not have the same key switch to it if it’s already running?
+</p>
+
+<p>
+But we can go a bit farther with very little work. I have a file where I define
+a lot of small helper methods for my Ruby console, so let’s require it
+automatically whenever a new console is started.
+</p>
+
+{% highlight emacs-lisp %}
+(defcustom endless/ruby-extensions-file
+  "../console_extensions.rb"
+  "File loaded when a ruby console is started.
+Name is relative to the project root.")
+
+(defun endless/run-ruby ()
+  (interactive)
+  (require 'inf-ruby)
+  (let ((default-directory (projectile-project-root))
+        (was-running (get-buffer-process inf-ruby-buffer)))
+    ;; Skip annoying ENV prompt in case of rails.
+    (cl-letf (((symbol-function 'inf-ruby-console-rails-env)
+               (lambda () "development")))
+      (inf-ruby-console-auto))
+    (when (and (not was-running)
+               (get-buffer-process (current-buffer))
+               (file-readable-p endless/ruby-extensions-file))
+      ;; If this brand new buffer has lots of lines then
+      ;; some exception probably happened.
+      (send-string
+       (get-buffer-process (current-buffer))
+       (concat "require '" endless/ruby-extensions-file
+               "'\n")))))
+
+;; CIDER users might recognize this key.
+(define-key ruby-mode-map (kbd "C-c M-j")
+  #'endless/run-ruby)
+{% endhighlight %}
+
+<p>
+If you use Projectile and want to go even faster, check out the <kbd>j</kbd> key 
+on <a href="/improving-projectile-with-extra-commands.html">my post about Projectile</a>.
+</p>
