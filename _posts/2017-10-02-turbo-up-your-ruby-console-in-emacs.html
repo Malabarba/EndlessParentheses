@@ -36,15 +36,17 @@ automatically whenever a new console is started.
   "File loaded when a ruby console is started.
 Name is relative to the project root.")
 
+;; Skip ENV prompt that shows up in some cases.
+(setq inf-ruby-console-environment "development")
+
 (defun endless/run-ruby ()
   (interactive)
   (require 'inf-ruby)
   (let ((default-directory (projectile-project-root))
         (was-running (get-buffer-process inf-ruby-buffer)))
-    ;; Skip annoying ENV prompt in case of rails.
-    (cl-letf (((symbol-function 'inf-ruby-console-rails-env)
-               (lambda () "development")))
-      (inf-ruby-console-auto))
+    ;; This function automatically decides between starting
+    ;; a new console or visiting an existing one.
+    (inf-ruby-console-auto)
     (when (and (not was-running)
                (get-buffer-process (current-buffer))
                (file-readable-p endless/ruby-extensions-file))
