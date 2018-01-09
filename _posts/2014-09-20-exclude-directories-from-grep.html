@@ -1,15 +1,19 @@
 ---
 title: "Exclude Directories from Grep"
-date: 2014-09-20
+date: 2014-09-20 00:00:00
 layout: post
-tags: init.el
+categories: 
+tags: 
+- init.el
+published: true
+comments: 
 meta_title: "Exclude Directories from Grep in Emacs"
 ---
 <p>
 I keep a couple of subdirectories inside my <i>“.emacs.d/”</i> for the
 purpose of organization, so <a href="http://doc.endlessparentheses.com/Fun/rgrep"><code>rgrep</code></a>'ing is tremendously useful for
 finding where a variable is being changed. By default, that will also
-search inside <i>“elpa/”</i>, which slows the search and pollutes the
+search inside <i>“elpa</i>”/, which slows the search and pollutes the
 results page.
 </p>
 
@@ -17,13 +21,17 @@ results page.
 We can make grep more selective and, while we're at it, enable line
 truncation.
 </p>
-{% highlight cl %}
+{% highlight emacs-lisp %}
 (eval-after-load 'grep
   '(progn
+     (add-to-list 'grep-find-ignored-directories "tmp")
+     (add-to-list 'grep-find-ignored-directories "node_modules")
+     (add-to-list 'grep-find-ignored-directories ".bundle")
      (add-to-list 'grep-find-ignored-directories "auto")
      (add-to-list 'grep-find-ignored-directories "elpa")))
+(setq wgrep-enable-key "")
 (add-hook 'grep-mode-hook (lambda () (toggle-truncate-lines 1)))
 {% endhighlight %}
 <p>
-And don't forget to bind <code>rgrep</code> to your <a href="/launcher-keymap-for-standalone-features.html">Launcher Keymap</a>!
+And don't forget to bind <kbd>rgrep</kbd> to your <a href="/launcher-keymap-for-standalone-features.html">Launcher Keymap</a>!
 </p>
