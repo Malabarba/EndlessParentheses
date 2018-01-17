@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   {% include meta_tags.html %}
-  
+
+  <meta name="google-site-verification" content="_dOU4s1BHS2oS0tU0wE1rntcFEhNPVU1RrJCFS_zEPI" />
   <!-- CSS -->
   {% if (page.title == "Home-test") %}
   <link rel="stylesheet" href="/public/css/test-endless.css">
@@ -21,6 +22,6 @@
 
   <!-- RSS -->
   <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
-  
+
   {% if paginator.page > 1 %}{% include no_index.html %}{% endif %}{% if page.noIndex %}{% include no_index.html %}{% endif %}
 </head>
