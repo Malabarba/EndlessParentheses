@@ -7,8 +7,8 @@ series: "Common-Lisp in Emacs"
 ---
 <p>
 On today's episode, we again find ourselves admiring the <code>cl</code> package
-and focus on a very little-known feature of Emacs, <a href="http://doc.endlessparentheses.com/Fun/psetq"><code>psetq</code></a>. Short for
-<i>“parallel-setq”</i>, it takes the same syntax as <a href="http://doc.endlessparentheses.com/Fun/setq"><code>setq</code></a>, but saves all
+and focus on a very little-known feature of Emacs, <a href="https://doc.endlessparentheses.com/Fun/psetq"><code>psetq</code></a>. Short for
+<i>“parallel-setq”</i>, it takes the same syntax as <a href="https://doc.endlessparentheses.com/Fun/setq"><code>setq</code></a>, but saves all
 values before assigning.
 </p>
 
@@ -21,7 +21,7 @@ assuming you've required <code>cl-lib</code>, you can simply do the following.
           new old)
 {% endhighlight %}
 <p>
-And, of course, it has also been generalized to <a href="http://doc.endlessparentheses.com/Fun/psetf"><code>psetf</code></a> for assigning
+And, of course, it has also been generalized to <a href="https://doc.endlessparentheses.com/Fun/psetf"><code>psetf</code></a> for assigning
 generalized places.
 </p>
 
@@ -31,7 +31,7 @@ generalized places.
 <p>
 Truth be told, <code>psetq</code> is more useful when your demands are more
 sophisticated. When all you need is to swap two variables (or places),
-the <a href="http://www.reddit.com/r/emacs/comments/2fq2u5/swaping_variables_with_cllib/ckc43f2">nice</a> and <a href="https://plus.google.com/103652929131043355278/posts/MpLBUF6NKZS">quick</a> solution is <a href="http://doc.endlessparentheses.com/Fun/cl-rotatef"><code>cl-rotatef</code></a>.
+the <a href="https://www.reddit.com/r/emacs/comments/2fq2u5/swaping_variables_with_cllib/ckc43f2">nice</a> and <a href="https://plus.google.com/103652929131043355278/posts/MpLBUF6NKZS">quick</a> solution is <a href="https://doc.endlessparentheses.com/Fun/cl-rotatef"><code>cl-rotatef</code></a>.
 </p>
 {% highlight cl %}
 (cl-rotatef old new)

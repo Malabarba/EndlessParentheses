@@ -20,7 +20,7 @@ permalink:        none
 # Setup
 title:            Endless Parentheses
 tagline:          'Concise ramblings on Emacs productivity.'
-url:              'http://endlessparentheses.com'
+url:              'https://endlessparentheses.com'
 paginate:         15
 
 baseurl:          /
@@ -84,7 +84,7 @@ projects:
     url: 'https://github.com/Malabarba/emacs-google-this/'
     description: 'Commands and keybinds for Googling at point.'
   # Emacs Online Doc:
-  #   url: 'http://doc.endlessparentheses.com/'
+  #   url: 'https://doc.endlessparentheses.com/'
   #   description: 'An up-to-date online documentation of ALL Emacs functions and variables.'
   # Emacs Archive Tracker:
   #   url: 'http://tracker.endlessparentheses.com/'
