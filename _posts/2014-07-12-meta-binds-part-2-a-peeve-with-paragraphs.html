@@ -7,8 +7,8 @@ series: "Meta Binds"
 ---
 <p>
 Emacs is an intelligent editor in more ways than one. Instead of
-hardcoding its movement functions (such as <a href="https://doc.endlessparentheses.com/Fun/end-of-defun"><code>end-of-defun</code></a> or
-<a href="https://doc.endlessparentheses.com/Fun/forward-paragraph"><code>forward-paragraph</code></a>), they're implemented in terms of delimiters which
+hardcoding its movement functions (such as <a href="http://doc.endlessparentheses.com/Fun/end-of-defun"><code>end-of-defun</code></a> or
+<a href="http://doc.endlessparentheses.com/Fun/forward-paragraph"><code>forward-paragraph</code></a>), they're implemented in terms of delimiters which
 are configured by each major-mode. It works beautifully for functions,
 but it feels like a stone in my shoe for paragraphs.
 </p>
@@ -20,15 +20,17 @@ Whichever mode I'm in, that's where I expect to go when I hit
 major-mode changes that.
 </p>
 {% highlight cl %}
-(global-set-key "\M-a" 'endless/backward-paragraph)
-(global-set-key "\M-e" 'endless/forward-paragraph)
+(global-set-key (kbd "M-a") 'endless/backward-paragraph)
+(global-set-key (kbd "M-e") 'endless/forward-paragraph)
 
 (defun endless/forward-paragraph (&optional n)
   "Advance just past next blank line."
   (interactive "p")
   (let ((para-commands
-         '(endless/forward-paragraph endless/backward-paragraph)))
-    ;; Only push mark if it's not active and we're not repeating.
+         '(endless/forward-paragraph
+           endless/backward-paragraph)))
+    ;; Only push mark if it's not active and we're not
+    ;; repeating.
     (or (use-region-p)
         (not (member this-command para-commands))
         (member last-command para-commands)
@@ -39,9 +41,11 @@ major-mode changes that.
           (skip-chars-forward "\n[:blank:]")
         (skip-chars-backward "\n[:blank:]"))
       (if (search-forward-regexp
-           "\n[[:blank:]]*\n[[:blank:]]*" nil t (cl-signum n))
+           "\n[[:blank:]]*\n[[:blank:]]*"
+           nil t (cl-signum n))
           (goto-char (match-end 0))
-        (goto-char (if (> n 0) (point-max) (point-min)))))))
+        (goto-char
+         (if (> n 0) (point-max) (point-min)))))))
 
 (defun endless/backward-paragraph (&optional n)
   "Go back up to previous blank line."
@@ -50,8 +54,8 @@ major-mode changes that.
 {% endhighlight %}
 <p>
 By no means am I the first to be bothered by this. Both <a href="http://ergoemacs.org/emacs/emacs_move_by_paragraph.html">Xah Lee</a> and
-<a href="https://whattheemacsd.com/setup-html-mode.el-01.html">Magnar Sveen</a>, for instance, also complain about this in <a href="https://doc.endlessparentheses.com/Fun/html-mode"><code>html-mode</code></a>
-(I'm more bothered by <a href="http://malabarba.github.io/emacs-online-documentation/Fun/LaTeX-mode"><code>LaTeX-mode</code></a>). Had I the bravery to delve into the mailing lists, I'd no doubt
+<a href="http://whattheemacsd.com/setup-html-mode.el-01.html">Magnar Sveen</a>, for instance, also complain about this in <a href="http://doc.endlessparentheses.com/Fun/html-mode"><code>html-mode</code></a>
+(I'm more bothered by <a href="http://doc.endlessparentheses.com/Fun/LaTeX-mode"><code>LaTeX-mode</code></a>). Had I the bravery to delve into the mailing lists, I'd no doubt
 find posts on this that are older than me.
 </p>
 
