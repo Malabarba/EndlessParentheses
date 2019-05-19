@@ -90,6 +90,7 @@ projects:
   #   url: 'http://tracker.endlessparentheses.com/'
   #   description: 'Statistics on the growth of Emacs package repositories.'
 
-gems:
+plugins:
   - jekyll-sitemap
   - jekyll-redirect-from
+  - jekyll-paginate
