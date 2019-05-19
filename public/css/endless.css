@@ -152,8 +152,9 @@ h1 {
 }
 
 .post-with-comments h2 {
-  margin-top: 1.7rem;
-  font-size: 1.25rem;
+  margin-top: 2.7rem;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .post-with-comments h3,
@@ -497,7 +498,7 @@ a.author:focus {
 .post-date {
   display: block;
   margin-top: -.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.3rem;
 }
 .post-date .comment-link {
   float:right;
