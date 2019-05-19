@@ -300,7 +300,7 @@ th {
   border: 1px solid #e5e5e5;
 }
 tbody tr:nth-child(odd) td,
-         tbody tr:nth-child(odd) th {
+tbody tr:nth-child(odd) th {
   background-color: #F1EED9;
 }
 
@@ -341,7 +341,7 @@ tbody tr:nth-child(odd) td,
 
 .container {
   /* position:relative; */
-  max-width: 31rem;
+  max-width: 35rem;
   padding-left: 0;
   padding-right: 0;
   margin-left: auto;
@@ -436,11 +436,11 @@ a.author:focus {
  */
 
 .post-with-comments {
-  font-size: 105%;
+  font-size: 120%;
   margin:0;
   margin-left: 0.3rem;
   margin-right: 0.3rem;
-  max-width: 32rem;
+  max-width: 36rem;
   /* padding-left: 0; */
   /* padding-right:0; */
   /* margin-left:  auto; */
@@ -782,7 +782,7 @@ a.pagination-item:hover {
 
   .container {
     /* overflow:hidden; */
-    max-width: 52rem;
+    max-width: 56rem;
     /* width:34rem; */
     margin-left:  auto;
     margin-right: auto;
@@ -813,7 +813,7 @@ a.pagination-item:hover {
 @media (min-width: 1110px) {
   .container {
     /* overflow:hidden; */
-    max-width: 33rem;
+    max-width: 37rem;
     /* width:34rem; */
     margin-left:  auto;
     margin-right: auto;
