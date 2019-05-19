@@ -1,0 +1,177 @@
+---
+title: "What tests you shouldn’t write: an essay on negative tests"
+date: 2019-05-19
+layout: post
+tags: testing essays
+meta_title: "What tests you shouldn’t write for your software -- An essay on negative tests"
+---
+<p>
+Software tests are great! I’m fortunate enough to have only worked with
+code-bases with reasonable-to-excellent test coverage, and I wouldn’t want to
+work in a world without tests. In fact, a thoroughly tested system is nothing
+short of liberating.
+</p>
+
+<p>
+That said, tests are not free. I’m not talking about CI time, that is a cost but
+it’s usually reducible. Nor am I referring to the effort it takes to write the
+test, that’s a very real cost, but people are usually very mindful of that (it’s
+easy to take it into account the very real effort you’re having right now).
+</p>
+
+<p>
+The cost that people tend to underestimate is the time wasted with false
+failures.
+</p>
+
+<p>
+Let’s get the basics right. Tests are designed to fail. A test that never fails
+under any circumstance is a useless test. But there are good failures and bad
+failures. Which gets me to the entire point of this post.
+</p>
+
+<div id="outline-container-org77d9622" class="outline-2">
+<h2 id="org77d9622">Write tests with real failures</h2>
+<div class="outline-text-2" id="text-org77d9622">
+<p>
+Real failures are good, false failures are bad.<br />
+You want a test to fail when you break functionality, not when you harmlessly
+change code. 
+</p>
+
+<p>
+Let’s start with a quick Ruby example. Consider a model with an attribute called
+<code>value</code>. It wouldn’t be surprising to see a test like this for such a model.
+</p>
+{% highlight ruby %}
+it { is_expected.to respond_to(:value) }
+{% endhighlight %}
+<p>
+If you don’t know Rspec, this is roughly testing that you can call <code>.value</code> on
+the model.
+</p>
+
+<p>
+But when will this test ever fail?<br />
+Under any reasonable condition, this will only fail if you rename the column in
+the database. Nobody will ever do that by accident!
+</p>
+
+<p>
+What’s worse, this failure will never carry any useful information. It doesn’t
+tell the developer that this change is unexpectedly breaking something. All it
+ever does is give us yet another piece of code to fix while in the middle of an
+already long refactoring.
+</p>
+
+<p>
+And how do we fix it? By editing the test to use the new name.
+</p>
+
+<p>
+<b>A false failure is one that you fix by editing the test, while a real failure
+is one you fix by editing the code.</b>
+</p>
+
+<p>
+False failures are unavoidable. Every test is exposed to them, and every time they
+happen the developer wastes some amount of time identifying and fixing the
+failure. That is a negative cost that every test carries and not everyone takes
+into account.
+</p>
+
+<p>
+For most cases, we happily pay this cost because not having a test is way worse
+than having to fix it. Because one real failure preventing a bug from going live
+outweighs several false failures, adding up to a positive net effect.
+</p>
+
+<p>
+But some tests (such as the example above) virtually never have real failures.
+Without any positive upside to them, they are strictly <b>negative tests</b>.
+</p>
+
+<p>
+And how do we avoid negative tests?
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfa6806d" class="outline-2">
+<h2 id="orgfa6806d">Test function, not code</h2>
+<div class="outline-text-2" id="text-orgfa6806d">
+<p>
+Let’s expand on our previous example.<br />
+Rails provides a helpful one-liner to validate the presence of a mandatory
+attribute.
+</p>
+{% highlight ruby %}
+validates :value, presence: true
+{% endhighlight %}
+<p>
+That’s fine and good. The problem is when you see a similar one-liner testing
+that validation.
+</p>
+{% highlight ruby %}
+it { is_expected.to validate_presence_of(:value) }
+{% endhighlight %}
+
+<p>
+Pause on that for a moment. We’ve written a spec to test a single line of code.
+</p>
+
+<p>
+The only way that can fail is if we rename the attribute or remove the
+validation. Again, nobody is ever going to do that by accident. We’re not <i>really</i>
+testing that a specific functionality works as it should, we’re just testing that
+a particular line of code is written in a particular way.
+</p>
+
+<p>
+<b>That is a code test, not a function test, and code tests are negative tests.</b>
+</p>
+
+<p>
+A function test is one that verifies non-trivial functionality, functionality that
+could be <i>accidentally</i> broken by a number of reasons. 
+</p>
+
+<p>
+Testing the interface of a service, for instance, is basically always good. As
+there’s usually at least a few branching code paths inside it where one could
+inadvertently break a branch while editing another or while adding functionality.
+</p>
+
+<p>
+Unit tests for simple functions and methods, in my opinion, are <i>not</i>
+no-brainers. People like to go nuts with them, because they’re easy to write and
+quick to run (so “why not?”), but a lot of them fall under the category of
+negative tests.
+</p>
+
+<p>
+Unit tests are good when testing some reasonably complicated algorithm, as
+someone could actually break an edge case while trying to optimize the
+implementation. And even then, you shouldn’t just write a couple of mindless tests,
+as they will probably be negative. You should put some effort into figuring out
+the edge cases and testing them specifically.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfc11689" class="outline-2">
+<h2 id="orgfc11689">Think before you test</h2>
+<div class="outline-text-2" id="text-orgfc11689">
+<p>
+Hopefully, you started thinking well before you wrote that first line of code,
+so there’s no reason to stop now just because you changed from the <code>app/</code> to the
+<code>specs/</code> directory.
+</p>
+
+<p>
+Thinking and being mindful of what you’re testing will not only help you avoid
+negative tests, but will go a long way to making your positive tests more
+effective at catching the bugs they’re supposed to catch.
+</p>
+</div>
+</div>
