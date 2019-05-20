@@ -19,7 +19,7 @@ permalink:        none
 
 # Setup
 title:            Endless Parentheses
-tagline:          'Concise ramblings on Emacs productivity.'
+tagline:          'Ramblings on productivity and technical subjects.'
 url:              'https://endlessparentheses.com'
 paginate:         15
 
@@ -51,7 +51,7 @@ pages_list:
 
 media_list:
   Twitter:
-    url: 'https://twitter.com/intent/tweet?via=AMalabarba&hashtags=emacs&url='
+    url: 'https://twitter.com/intent/tweet?via=AMalabarba&url='
     icon: '/icons/twitter-black.png'
     title: '&text='
   Facebook:
