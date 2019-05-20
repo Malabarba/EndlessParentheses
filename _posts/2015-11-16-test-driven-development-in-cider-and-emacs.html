@@ -1,8 +1,8 @@
 ---
 title: "Test-Driven-Development in CIDER and Emacs"
-date: 2015-11-16
+date: 2015-11-15
 layout: post
-tags: CIDER clojure programming init.el
+tags: testing CIDER clojure programming init.el
 ---
 <p>
 As I was catching up on a few <a href="http://www.parens-of-the-dead.com/">Parens of the Dead</a> episodes this weekend, I was
@@ -23,11 +23,11 @@ if it ever gets on my nerves.
   (when (cider-connected-p)
     (let ((cider-auto-select-test-report-buffer nil)
           (cider-test-show-report-on-success nil))
-      (cider-test-run-ns-tests nil))))
+      (cider-test-run-ns-tests nil 'soft))))
 
 (define-minor-mode tdd-mode
-  "Run all tests whenever a file is saved."
-  t nil nil
+  "Run all tests whenever a file is loaded."
+  nil nil nil
   :global t
   (if tdd-mode
       (add-hook 'cider-file-loaded-hook #'tdd-test)
@@ -44,9 +44,9 @@ I also had to change the <code>cider-test-success-face</code> to something a lit
    ((t (:foreground "green" :background nil)))))
 {% endhighlight %}
 
-<div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1">Update <span class="timestamp-wrapper"><span class="timestamp">21 Nov 2015</span></span></h2>
-<div class="outline-text-2" id="text-orgheadline1">
+<div id="outline-container-org770db58" class="outline-2">
+<h2 id="org770db58">Update <span class="timestamp-wrapper"><span class="timestamp">21 nov 2015</span></span></h2>
+<div class="outline-text-2" id="text-org770db58">
 <p>
 Made it a global mode, so it’s easy to disable everywhere, and set the initial
 value to <code>t</code>.
@@ -54,9 +54,9 @@ value to <code>t</code>.
 </div>
 </div>
 
-<div id="outline-container-orgheadline2" class="outline-2">
-<h2 id="orgheadline2">Update <span class="timestamp-wrapper"><span class="timestamp">04 Mar 2016</span></span></h2>
-<div class="outline-text-2" id="text-orgheadline2">
+<div id="outline-container-org0ada69c" class="outline-2">
+<h2 id="org0ada69c">Update <span class="timestamp-wrapper"><span class="timestamp">04 mar 2016</span></span></h2>
+<div class="outline-text-2" id="text-org0ada69c">
 <p>
 Fixed a function call to the new name.</p>
 </div>
